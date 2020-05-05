@@ -1,0 +1,21 @@
+.iconfont {
+  font-size: 1.2rem;
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+if (hexo-config('fireworks')) {
+  .fireworks {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: $fireworks-z-index;
+    pointer-events: none;
+  }
+}
