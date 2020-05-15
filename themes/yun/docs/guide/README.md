@@ -18,6 +18,8 @@ hexo server
 
 你也可以加入 [QQ 群](https://shang.qq.com/wpa/qunwpa?idkey=3bd19a05aaccb2b60c396295c8617b3a9e667821a495e8cd7e1698ff95ab61c6)（389401003）进行反馈与讨论。
 
+- [更新日志](https://github.com/YunYouJun/hexo-theme-yun/releases)
+
 ## 快速开始
 
 ::: tip 渲染器
@@ -39,6 +41,8 @@ yarn add hexo-render-pug hexo-renderer-stylus
 ### 安装主题
 
 进入您的 Hexo 博客根目录，克隆或下载 `hexo-theme-yun` 主题，置于 `themes/yun`。
+
+> 你也可以考虑加上 `--depth 1` 的参数来只克隆当前版本（体积更下，速度更快）。
 
 ```sh
 git clone -b master https://github.com/YunYouJun/hexo-theme-yun themes/yun
@@ -70,6 +74,9 @@ theme: yun
 在 Hexo 工作目录下新建 `source/_data/yun.yml`。（若 `source/_data` 目录不存在，请新建。）
 
 采用约定大于配置的方式，您仅需在 `yun.yml` 中自定义您想要覆盖的配置，其余将自动与主题默认配置合并。（这样做也更方便日后的升级）
+
+> 你可以参考我的配置文件 [yun.yml - yunyoujun.github.io](https://github.com/YunYouJun/yunyoujun.github.io/blob/hexo/source/_data/yun.yml)，是不是很短。  
+> 这勉强也算本主题的一个优化功能，当然你选择全部覆盖也是没问题的。
 
 ::: tip
 如：
@@ -104,7 +111,7 @@ git pull
 如果您修改了主题的 `themes/yun/_config.yml` 配置文件，那么您升级时可能会遭遇冲突，需要自行调整。
 
 ::: danger
-请最好不要对主题的任何文件进行修改，除非你确认你拥有一定的开发能力且此后将不会对主题进行升级。
+请最好不要对主题的任何文件进行修改，除非你确认你拥有一定的开发能力或此后将不会对主题进行升级。
 :::
 
 如果你想对主题进行一些定制，你可以在 `head` 配置项中引入你的资源。
@@ -136,9 +143,9 @@ document.addEventListener("DOMContentLoaded", function() {
         name: "name",
         artist: "artist",
         url: "url.mp3",
-        cover: "cover.jpg"
-      }
-    ]
+        cover: "cover.jpg",
+      },
+    ],
   });
 });
 ```
@@ -153,4 +160,22 @@ head:
     defer:
       aplayer: https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js
       loadAplayer: /js/load-aplayer.js
+```
+
+### 自动升级
+
+你想要完全自动更新，时刻保持最新主题，可以采用持续集成（如 GitHub Actions, [Travis](https://travis-ci.com/) 等）。
+
+你可以参考我的 GitHub Action 配置文件 [gh-pages.yml](https://github.com/YunYouJun/yunyoujun.github.io/blob/hexo/.github/workflows/gh-pages.yml)。(照抄配置，放在对应文件夹下即可，GitHub Actions 为 GitHub 自带的服务。)
+若你没有使用 `algolia_search`，请删除 `algolia` 相关部分。
+
+> 我采用的是这种做法，但我从良心上并不推荐你也如此，因为这是我自己的主题，自然对潜在的 BUG 拥有一定的容忍度。  
+> 时刻保持与仓库版本相同，可能会遇到新引入的 BUG。  
+> 当然你愿意当小白鼠的话，可以一试。顺便给咱反馈问题。个人角度上，是十分欢迎的。
+
+如果你想要克隆稳定版本的主题，你可以自行 fork，然后修改源项目地址为你 fork 后的项目地址即可。
+
+```yml
+run: |
+  git clone -b dev https://github.com/YunYouJun/hexo-theme-yun.git themes/yun
 ```

@@ -1,7 +1,7 @@
 footer#footer.sidebar-translate
   if theme.footer.beian.enable
     .beian
-      a(rel='noopener' href='http://www.beian.miit.gov.cn' target='_blank') #{theme.footer.beian.icp}
+      a(rel='noopener' href='https://www.beian.miit.gov.cn' target='_blank') #{theme.footer.beian.icp}
 
   .copyright
     - var nowYear = date(Date.now(), "YYYY")
@@ -49,7 +49,7 @@ footer#footer.sidebar-translate
   if theme.busuanzi.enable
     include ../_third-party/analytics/busuanzi.pug
 
-  if theme.valine.enable && theme.valine.visitor
+  if theme.valine.enable
     include ../_third-party/analytics/valine-visitor.pug
 
   if theme.footer.custom_text

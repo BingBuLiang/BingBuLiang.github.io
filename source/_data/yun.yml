@@ -1,2 +1,250 @@
+# 主题颜色
+mode: auto # now only light
+
+# Theme color for customize
+# Notice: color value must in double quotes: "#000000"
 colors:
-  primary: "#000000"
+  primary: "#6200ee"
+  # bg: "#F5F5F5"
+  selection_bg: "#8e71c1" # 选取文字时的背景色
+  # 标签云中标签的起始色和结束色
+  # tag_start_color:
+  # tag_end_color:
+   
+
+# 头
+head:
+  css:
+    # 引入字体
+    fonts: https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&display=swap
+    font:
+      cdn:
+        enable: true
+        lib:
+          - https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&family=Source+Code+Pro&display=swap
+      serif:
+        family: "'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif"
+        weight: 900
+      sans_serif:
+        family: "'PingFang SC', 'Microsoft YaHei', Roboto, Arial, sans-serif"
+        weight: 300
+      monospace:
+        family: "'Source Code Pro', 'Courier New', Courier, Consolas, Monaco, monospace"
+
+# 图片背景
+bg_image:
+  enable: true
+  #url: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg
+  url: /images/背景.jpg
+  # blur: 30px # 设置背景模糊程度
+  opacity: 0.8
+# 搜索背景
+ 
+# 头像    
+avatar:
+  enable: true
+  url: /images/头像.jpg
+  rounded: true
+  opacity: 1
+  mickey_mouse: false
+
+reward_settings:
+  enable: true
+  comment: 我很可爱，请给我钱
+
+valine:
+  enable: true
+  appId: 4J2q14OebwHcyrf7Cl4vz9I9-gzGzoHsz # your leancloud application appid
+  appKey: i5EyTSTvpTrOhvAYtLSrdIHy # your leancloud application appkey
+  # https://github.com/DesertsP/Valine-Admin
+  # https://valine.yunyoujun.cn
+  placeholder: 大佬求指教&nbsp_(:з」∠)_ （填写邮箱可以收到回复通知～）
+  visitor: true
+  recordIP: true
+  enableQQ: true
+  visitor_index: false
+
+
+# 首页的名字展示
+banner:
+  enable: true
+  title: 冰不良の小站
+  src: /js/ui/banner.js
+  cloud: true
+  go_down:
+    enable: true
+    icon: icon-arrow-down-s-line
+# 公告 它将显示在所有文章卡片的最上方，标语的下方
+notice:
+  enable: true
+  content: 陌上人如玉,君子世无双.
+
+
+footer:
+  since: 2016
+  beian:
+    enable: true
+    icp: 苏ICP备17038157号阿斯达发
+  custom_text: <a style="display:inline-block" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="blank" title="又拍云"><img height="30" src="https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/logo/upyun-logo.png" alt="upyun"/></a>
+  # ...
+
+engine_search:
+  enable: false
+
+algolia_search:
+  enable: false
+  # ...
+
+google_adsense:
+  enable: true
+  client: ca-pub-2245427233262012
+
+google_analytics:
+  enable: true
+  id: UA-121354150-1
+
+post_edit:
+  enable: true
+  url: https://github.com/YunYouJun/yunyoujun.github.io/tree/hexo/source/
+
+albums:
+  enable: true
+
+girls:
+  enable: true
+
+tags:
+  动画: crimson
+  漫画: orange
+  Parcel: "#21374b"
+  学习: saddlebrown
+  MAD: crimson
+  教程: royalblue
+  笔记: dimgray
+  分享: blue
+  随笔: mediumpurple
+  Blender: "#d04d2d"
+  Linux: "#2577b1"
+  中传: "#ccb44b"
+  部落: "#DD306A"
+  科幻: midnightblue
+
+
+categories:
+  云游的小视频: "#FB7299"
+  
+
+pages:
+  - name: 我的小伙伴们
+    url: /links/
+    icon: icon-genderless-line
+    color: dodgerblue
+  - name: 喜欢的女孩子
+    url: /girls/
+    icon: icon-women-line
+    color: hotpink
+
+dns_prefetch:
+  - https://cos.yunyoujun.cn
+# cdn:
+#   pre: https://cdn.jsdelivr.net/gh/YunYouJun/yunyoujun.github.io@latest
+
+menu:
+  home:
+    path: /
+    icon: icon-home-4-line
+  archives:
+    path: /archives
+    icon: icon-archive-line
+  tags:
+    path: /tags
+    icon: icon-price-tag-3-line
+  categories:
+    path: /categories
+    icon: icon-folder-2-line
+  custom:
+    title: 留言板
+    path: /about/#comment
+    icon: icon-clipboard-line
+
+cursor:
+  enable: true
+
+baidu_push: true
+
+
+# 版权
+creative_commons:
+  license: by-nc-sa
+  post: true
+  language: deed.zh
+  
+# 图片懒加载
+lazyload:
+  enable: true
+  
+# 打赏
+reward_settings:
+  enable: true
+  icon: icon-hand-coin-line
+  comment: I'm so cute. Please give me money.
+  # 你的打赏链接（当你开启打赏链接时，将自动跳转你的外部链接而不是展开二维码）
+  # url: https://github.com/YunYouJun/yunyoujun.github.io/issues/96
+  
+reward:
+  - name: 支付宝
+    # path: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/alipay-qrcode.jpg
+    color: "#00A3EE"
+    icon: icon-alipay-line
+  - name: QQ 支付
+    # path: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/qqpay-qrcode.png
+    color: "#12B7F5"
+    icon: icon-qq-line
+  - name: 微信
+    # path: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/wechatpay-qrcode.jpg
+    color: "#2DC100"
+    icon: icon-wechat-pay-line
+  # - name: paypal
+  #   link: https://paypal.com
+  #   path: https://www.paypalobjects.com/images/shared/paypal-logo-129x32.svg
+  #   color: "#2D70B5"
+  #   icon: icon-paypal-line
+  
+  
+  
+# 页脚
+footer:
+  since: 2020-02-02
+  icon:
+    name: icon-cloud-line
+    animated: true
+    color: "#0078E7"
+  powered:
+    enable: true
+  ## 备案
+  beian:
+    enable: true
+    icp: 
+  ## 运行时间
+  live_time:
+    enable: true
+    prefix: 本博客已萌萌哒地运行
+    suffix: (●'◡'●)
+    start_time: "2020-02-02T00:00:00"
+    
+# 默哀
+mourn:
+  enable: true
+  days:
+    - "4-4"
+    
+    
+# 第三方支持    
+
+#评论    
+comment:
+  enable: true
+  tips:
+    - 若您无 GitHub 账号，可直接在下方匿名评论。
+    - 若您想及时得到回复提醒，建议跳转 GitHub Issues 评论。
+    - 若没有本文 Issue，您可以使用 Comment 模版新建。    

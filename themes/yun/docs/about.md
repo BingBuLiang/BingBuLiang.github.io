@@ -38,6 +38,8 @@
 
 在大部分浏览器已经支持的情况下，优先使用最新的 API。（可以减少冗余代码，提高速度。）
 
+> IE: 你们都看我干嘛？
+
 ### 速度
 
 谷歌 [PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/)
@@ -67,7 +69,19 @@
 > 患有散光的人（根据各种数据显示：大约 50%的人）觉得，在黑色背景上的文字，比在白色背景上的黑色文字更难感知，这部分与光线水平有关。在明亮的显示屏（白色背景）下，虹膜会稍微闭合一些，减少了「变形的」透镜的影响；在暗色的显示屏（黑色背景）下，虹膜就会打开，接收到更多的光线，镜头的变形会使眼睛的焦距更加模糊。  
 > 因此，如果界面上有大量的文本，而且需要用户进行长时间阅读，那么使用浅色背景会让用户觉得更加友好。
 
-## Inspiration
+### 排版
+
+尽可能遵循 [中文文案排版指北](https://github.com/sparanoid/chinese-copywriting-guidelines)
+
+## Thanks
+
+### Project
+
+- [jsDelivr – Open Source CDN](https://www.jsdelivr.com/)
+- [Hexo](https://github.com/hexojs/hexo)
+- [RemixIcon](https://github.com/Remix-Design/remixicon)
+- [iconfont](https://www.iconfont.cn/)
+- [lightgallery.js](https://github.com/sachinchoolur/lightgallery.js/)
 
 ### Theme
 

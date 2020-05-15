@@ -1,11 +1,8 @@
 extends _partial/layout.pug
 
-prepend title
-  | #{page.title} | 
-
 block content
   #page
-    include _partial/page/page-header.pug
+    +page_header(page.title)
     if page.links
       .links
         ul.link-items

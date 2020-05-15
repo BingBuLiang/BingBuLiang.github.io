@@ -15,11 +15,13 @@
 
 ## 自查通用问题解决方案
 
+检查文件或仓库命名是否错误。
+
 检查 `Hexo` 工作目录下 `_config.yml` 中 `url` 是否设置正确。（此部分为 Hexo 初始化时自动生成）
 
 ```yml
-# URL
-## If your site is put in a subdirectory, set url as 'https://yoursite.com/child' and root as '/child/'
+# If your site is put in a subdirectory
+# set url as 'https://yoursite.com/child' and root as '/child/'
 url: https://www.yunyoujun.cn
 root: /
 ```
@@ -29,7 +31,7 @@ root: /
 
 - `hexo clean`：清除本地缓存
 - `hexo g`：生成新的静态文件
-- `hexo s`：本地查看效果
+- `hexo s`：本地查看效果（如果正常，使用 `hexo d` 重新部署）
 
 检查是否已强制刷新本地浏览器缓存（Windows: `Ctrl + F5`，Mac: `Shift + Cmd + R`）。
 
@@ -39,7 +41,7 @@ root: /
 
 > [与远程仓库建立关联](https://www.yunyoujun.cn/share/how-to-build-your-site/#与远程仓库建立关联)
 
-使用 GitHub 源文件地址到群内提问。
+使用 GitHub 源文件地址到群（389401003）内提问，或发起 [ISSUE](https://github.com/YunYouJun/hexo-theme-yun/issues)。
 
 ## `hexo server` 文章只渲染部分内容 <Badge text="dev"/>
 

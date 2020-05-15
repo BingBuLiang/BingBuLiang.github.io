@@ -5,8 +5,8 @@ mode: light # now only light
 # Theme color for customize
 # Notice: color value must in double quotes: "#000000"
 colors:
-  #primary: "#0078E7"
-   primary: "#6200ee"
+  primary: "#0078E7"
+  # primary: "#6200ee"
   # bg: "#EEEEEE"
   selection_bg: "#8e71c1"
   # tag_start_color:
@@ -14,7 +14,7 @@ colors:
 
 # Favicon
 # ---------------
-favicon: /yun-favicon.ico
+favicon: /yun.svg
 
 # ---------------------------------------------------------------
 # Sidebar Settings
@@ -24,6 +24,12 @@ favicon: /yun-favicon.ico
 sidebar:
   bg_image: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-1.jpg
   bg_position: bottom 1rem center
+
+toc:
+  list_number: true
+  max_depth: 6
+  min_depth: 1
+  # placeholder: 很遗憾，咱没写啥目录
 
 # Social Links.
 social:
@@ -103,13 +109,13 @@ pages:
 # friend
 anonymous_image: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg
 
+albums:
+  enable: false
+  icon: icon-gallery-line
+  src: /js/gallery-decrypt.js
+
 girls:
   enable: false
-
-banner:
-  enable: true
-  title: 云游君的小站
-  src: /js/ui/banner.js
 
 # Sidebar Avatar
 avatar:
@@ -144,10 +150,16 @@ menu:
 archive:
   last_word: 没有更多的黑历史了_(:з」∠)_
 
+# https://github.com/MikeCoder/hexo-tag-cloud
+tag_cloud:
+  enable: false
+  width: 300
+  height: 300
+
 # You can set color for every tag or category.
 tags:
   Vue: "#4fc08d"
-  Hexo: "0E834D"
+  Hexo: "#0E83CD"
   CSS: "#5298d1"
   Node.js: "#026E00"
   Git: "#F14E32"
@@ -202,7 +214,6 @@ preload:
   style:
     - /css/hexo-theme-yun.css
   script:
-    - /js/utils.js
     - /js/hexo-theme-yun.js
 
 prefetch:
@@ -222,13 +233,16 @@ preconnect:
 lazyload:
   enable: true
 
+# pjax
+pjax:
+  enable: true
+
 # stylesheets loaded in the <head>
 css:
   - /css/hexo-theme-yun.css
 
 # scripts loaded in the end of the body
 js:
-  - /js/utils.js
   - /js/hexo-theme-yun.js
 
 # custom your assets in head
@@ -244,9 +258,7 @@ cdn:
   pre: ""
   # pre: https://cdn.jsdelivr.net/gh/YunYouJun/yunyoujun.github.io
   css:
-  # font
-  # font: https://fonts.googleapis.com/css?family=Open+Sans:300&display=swap
-  # font: https://fonts.loli.net/css?family=Montserrat
+  # Todo:
   # icon
   # material-design-icons: https://fonts.googleapis.com/icon?family=Material+Icons+Outlined
   # markdown
@@ -256,7 +268,7 @@ cdn:
   js:
     base:
     async:
-      iconfont: //at.alicdn.com/t/font_1140697_9juba7x0cw.js
+      iconfont: //at.alicdn.com/t/font_1140697_rtqh36oinzl.js
     defer:
 
 # cdn for third-party library (alternative include)
@@ -265,6 +277,7 @@ vendors:
   instant_search: https://cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js
   anime: https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js
   valine_js: https://cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js
+  minivaline_js: https://cdn.jsdelivr.net/npm/minivaline/dist/MiniValine.min.js
   scrollreveal: https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js
   katex:
     js: https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js
@@ -277,12 +290,43 @@ vendors:
     css: https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css
     js: https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js
     meting: https://cdn.jsdelivr.net/npm/meting@1/dist/Meting.min.js
+  trianglify: https://cdn.jsdelivr.net/npm/trianglify@latest/dist/trianglify.min.js
+  lightgallery:
+    css: https://cdn.jsdelivr.net/npm/lightgallery.js@latest/dist/css/lightgallery.min.css
+    js: https://cdn.jsdelivr.net/npm/lightgallery.js@latest/dist/js/lightgallery.min.js
+  pjax: https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js
+  crypto_js:
+    all: https://cdn.jsdelivr.net/npm/crypto-js@latest/crypto-js.js
   fireworks: /js/ui/fireworks.js
   search: /js/search/index.js
   sidebar: /js/sidebar.js
 
 # UI
-# custom your color in colors
+banner:
+  enable: true
+  title: 云游君的小站
+  src: /js/ui/banner.js
+  cloud: true
+  go_down:
+    enable: true
+    icon: icon-arrow-down-s-line
+
+# You can import the font you want in the head.
+font:
+  cdn:
+    enable: true
+    lib:
+      - https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&family=Source+Code+Pro&display=swap
+  serif:
+    family: "'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif"
+    weight: 900
+  sans_serif:
+    family: "'PingFang SC', 'Microsoft YaHei', Roboto, Arial, sans-serif"
+    weight: 300
+  monospace:
+    family: "'Source Code Pro', 'Courier New', Courier, Consolas, Monaco, monospace"
+
+# custom your color in fireworks
 fireworks:
   enable: true
   colors:
@@ -291,6 +335,21 @@ fireworks:
     - "33, 78, 194"
     # - '3, 28, 95'
     # - '0, 8, 55'
+
+# https://github.com/qrohlf/trianglify
+trianglify:
+  enable: false
+  cell_size: 75
+  width: 800
+  height: 600
+  palette: '["YlGnBu", "GnBu", "Purples", "Blues"]'
+  opacity: 0.5
+
+cursor:
+  enable: false
+  default: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/pointer.cur
+  pointer: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/link.cur
+  text: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/text.cur
 
 smoothScroll: true
 
@@ -369,8 +428,6 @@ footer:
   powered:
     # Hexo link (Powered by Hexo).
     enable: true
-    # Version info of Hexo after Hexo link (vX.X.X).
-    version: true
 
   # Beian icp information for Chinese users. In China, every legal website should have a beian icp in website footer.
   # http://www.beian.miit.gov.cn
@@ -421,27 +478,7 @@ say:
 # you can new JSON file in your blog root folder
 # example: source/data/sentences.json
 # then set say.api: /data/sentences.json
-# https://say.elpsy.cn
-# [
-#   {
-#     "content": "Hello, World!",
-#     "author": "Brian Kernighan",
-#     "from": "The C Programming Language"
-#   },
-#   {
-#     "content": "我们一日日度过的所谓日常，实际上可能是接连不断的奇迹。",
-#     "from": "日常"
-#   },
-#   {
-#     "content": "是啊，我所爱的，即非群星，也非银河。",
-#     "author": "云游君",
-#     "from": "yunyoujun.cn"
-#   },
-#   {
-#     "content": "隐约雷鸣 阴霾天空 但盼风雨来 能留你在此",
-#     "from": "万叶集·雷神短歌"
-#   }
-# ]
+# Example: https://say.elpsy.cn/sentences.json
 
 # Comments
 # -------
@@ -463,19 +500,50 @@ github_issues:
 # Valine
 # You can get your appid and appkey from https://leancloud.cn
 # More info available at https://valine.js.org
+# extend: https://github.com/DesertsP/Valine-Admin
 valine:
   enable: false
   appId: # your leancloud application appid
   appKey: # your leancloud application appkey
-  serverURLs:
-  # another choice: https://github.com/DesertsP/Valine-Admin
-  notify: false # mail notifier, See: https://github.com/xCss/Valine/wiki
-  verify: false # Verification code
-  placeholder: Just go go # comment box placeholder
+  # placeholder: Just go go # comment box placeholder
   avatar: # gravatar style
-  meta: nick,mail,link # custom comment header
-  pageSize: 10 # pagination size
-  visitor: true
+  # meta:
+  #   - nick
+  #   - mail
+  #   - link
+  # pageSize: 10 # pagination size
+  # lang: zh-CN
+  visitor: false
+  visitor_index: false
+  # highlight: true
+  # recordIP: false
+  # serverURLs:
+  # Emoji See: https://valine.js.org/emoji.html
+  # emojiCDN: //i0.hdslb.com/bfs/emote/
+  # emojiMaps:
+  #   tv_doge: 6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png
+  #   more...
+  # enableQQ: false
+  # requiredFields:
+  #   - nick
+  #   - mail
+
+# MiniValine
+# You can get your appid and appkey from https://leancloud.cn
+# More info available at https://github.com/MiniValine/MiniValine
+minivaline:
+  enable: false
+  appId: # Your leancloud application appid
+  appKey: # Your leancloud application appkey
+  placeholder: Write a Comment # Comment box placeholder
+  adminEmailMd5: # The MD5 of Admin Email to show Admin Flag.
+  math: true # Support MathJax.
+  md: true # Support Markdown.
+  # MiniValine's display language depends on user's browser or system environment
+  # If you want everyone visiting your site to see a uniform language, you can set a force language value
+  # Available values: en  | zh-CN | (and many more)
+  # More i18n info: https://github.com/MiniValine/minivaline-i18n
+  lang:
 
 # Show Views / Visitors of the website / page with busuanzi.
 # Get more information on http://ibruce.info/2015/04/04/busuanzi
@@ -502,8 +570,10 @@ search:
   # placeholder: 想要搜些什么？
 
 engine_search:
-  enable: true
+  enable: false
   href: "https://www.google.com/search?q=site:"
+  # href: "https://www.baidu.com/s?wd=site:"
+  # href: "https://www.bing.com/search?q=site:"
   domain: yunyoujun.cn
 
 # https://github.com/wzpan/hexo-generator-search
@@ -540,6 +610,7 @@ katex:
 # plugins
 aplayer:
   global: false
+  meting: true
 
 # special
 mourn:
@@ -547,3 +618,7 @@ mourn:
   days:
     - "4-4"
     - "9-18"
+
+# SEO
+# https://ziyuan.baidu.com/linksubmit/index
+baidu_push: false

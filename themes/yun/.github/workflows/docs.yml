@@ -2,7 +2,6 @@ name: Docs
 on:
   push:
     branches:
-      - master
       - dev
 jobs:
   deploy:
@@ -14,6 +13,16 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
+
+      - name: trigger yunyoujun.github.io
+        run: |
+          curl --location --request POST 'https://api.github.com/repos/YunYouJun/yunyoujun.github.io/dispatches' \
+          --header 'Content-Type: application/json' \
+          --header 'Authorization: Bearer ${{ secrets.PERSONAL_ACCESS_TOKEN }}' \
+          --header 'Content-Type: application/json' \
+          --data-raw '{
+            "event_type": "on-demand-test"
+          }'
 
       - run: yarn install
       - run: yarn docs:build

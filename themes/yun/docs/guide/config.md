@@ -9,7 +9,7 @@
 
 如未特殊说明，皆默认在 `yun.yml` 文件中配置。
 
-请最好不要对主题的任何文件进行修改，除非你确认你拥有一定的开发能力且此后将不会对主题进行升级。
+请最好不要对主题的任何文件进行修改，除非你确认你拥有一定的开发能力或此后将不会对主题进行升级。
 :::
 
 ## 语言
@@ -41,7 +41,7 @@ colors:
 ```yml
 tags:
   Vue: "#4fc08d"
-  Hexo: "0E834D"
+  Hexo: "#0E834D"
   CSS: "#5298d1"
   Node.js: "#026E00"
   Git: "#F14E32"
@@ -93,6 +93,34 @@ head:
 favicon: /favicon.ico
 ```
 
+现在的 Yun Logo 可以根据浏览器的亮暗主题，采用对应的相反色。
+
+譬如：亮色浏览器 LOGO 为黑色描边，暗色浏览器 LOGO 为白色描边。
+
+你的图标须为 `svg` 文件，并为其添加对应样式。
+
+> 你可以参考我的 LOGO SVG 代码。[yun.svg](https://github.com/YunYouJun/hexo-theme-yun/blob/dev/source/yun.svg)
+
+Example:
+
+```html
+<svg id="yun-logo">
+  <style>
+    #yun-logo {
+      stroke: black;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #yun-logo {
+        stroke: white;
+      }
+    }
+  </style>
+</svg>
+```
+
+> [Dark Mode Favicons](https://css-tricks.com/dark-mode-favicons/)
+
 ## CDN
 
 Content Delivery Network，统一加载网络资源，有利于提高网页加载速度。
@@ -123,7 +151,7 @@ cdn:
 
 > 注意将 `https://cdn.jsdelivr.net/gh/` 后替换为你的 GitHub 用户名和仓库名（也可以添加所在分支，譬如 `@master`）。  
 > `@latest` 为使用最新版本（但它仍然会被缓存，**且需要 12 h 才能更新**，如果你需要强制刷新，请参考 [Purge cache](https://github.com/jsdelivr/jsdelivr#purge-cache)）
-> 此外，请确保你的头像图片链接使用 `/images/xxx.jpg` 而非 `https://xxx/xxx.jpg` 的形式。
+> ~~请记住，白嫖是有代价的~~
 
 ```yml
 cdn:
@@ -175,7 +203,6 @@ preload:
   style:
     - /css/hexo-theme-yun.css
   script:
-    - /js/utils.js
     - /js/hexo-theme-yun.js
 
 prefetch:
@@ -309,7 +336,7 @@ head:
 ## 社交图标
 
 默认提供以下几种社交图标，您可以通过在[头部](#head-头部资源)引入自定义图标资源来获取更多图标。
-为了更好的展示效果，会显示我的默认链接。
+为了更好的展示效果，会显示我的默认链接，作为你设置图标的参考。
 
 - `name`: 链接名称
 - `link`: 链接
@@ -365,6 +392,22 @@ social:
     link: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/about/white-qrcode-and-search.jpg
     icon: icon-wechat-2-line
     color: "#1AAD19"
+  - name: Twitter
+    link: https://twitter.com/YunYouJun
+    icon: icon-twitter-line
+    color: "#1da1f2"
+  - name: Telegram
+    link: https://t.me/YunYouJun
+    icon: icon-telegram-line
+    color: "#0088CC"
+  - name: Telegram Channel
+    link: https://t.me/elpsycn
+    icon: icon-telegram-fill
+    color: "#0088CC"
+  - name: Travelling
+    link: https://travellings.now.sh/
+    icon: icon-send-plane-2-line
+    color: black
 ```
 
 您只需要在 `yun.yml` 中设置 `social` 来覆盖即可（这时即可只显示你的邮箱图标，而没有其他图标）：
@@ -396,12 +439,18 @@ social:
 
 - `enable`: 是否开启
 - `title`: 设置文字内容
+- `cloud`: 在首页下方显示流动的云
+- `go_down`: 向下箭头按钮（点击翻页）
 
 ```yml
 banner:
   enable: true
   title: 云游君的小站
   src: /js/ui/banner.js
+  cloud: true
+  go_down:
+    enable: true
+    icon: icon-arrow-down-s-line
 ```
 
 ### 公告
@@ -417,7 +466,54 @@ notice:
 
 ## UI
 
-### 背景
+### 字体
+
+你可以设置你的自定义字体，并调节为你喜欢的自重。
+
+:::tip
+如果你使用了非系统自带字体，你还需要前往 [head](#head-头部资源) 处引入。
+
+譬如引入字重 900 的 `Noto Serif SC` 字体。
+
+> 本主题为了保证足够轻量，默认不引入任何字体，均使用系统自带的默认字体。你可以自行决定是否引入。
+
+```yml
+head:
+  css:
+    fonts: https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&display=swap
+```
+
+:::
+
+本主题的字体主要分为以下三大类。
+
+> 你可以仅覆盖你想覆盖的字体族。
+
+- 衬线字体（Serif）：较粗表强调，通常用于首页标语（Banner）、Say、站点与文章标题（以及 links、girls 等页面的作品名称）等处。
+- 无衬线字体（Sans Serif）：较细以营造轻盈之感，通常为普通文本内容。（如果你的字体显示较粗，可能是你在 Windows 系统上安装了 `PingFang SC` 字体，却没有安装对应字重。）
+- 等宽字体（monospace）：字符均具有相同宽度，通常用于需要相同宽度以对齐之处（如日期、序号）。
+
+将 `font.cdn.enable` 设置为 `false` 以全部使用系统默认字体，达到最佳访问速度。（默认开启时，使用 `media="none" onload="this.media='all'"` 实现 css 样式的异步加载。）
+
+> 代码处的等宽字体始终使用 prism.css 设置的字体 `Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace`。
+
+```yml
+font:
+  cdn:
+    enable: true
+    lib:
+      - https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&family=Source+Code+Pro&display=swap
+  serif:
+    family: "'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif"
+    weight: 900
+  sans_serif:
+    family: "'PingFang SC', 'Microsoft YaHei', Roboto, Arial, sans-serif"
+    weight: 300
+  monospace:
+    family: "'Source Code Pro', 'Courier New', Courier, Consolas, Monaco, monospace"
+```
+
+### 图片背景
 
 - `opacity`: 背景透明度
 
@@ -439,6 +535,7 @@ bg_image:
 ```
 
 > 如果你想要使用自定义的图片背景，你只需要将其置于 `source/images` 文件夹下，并用 `/images/xxx.jpg` 来引入它。
+> 注意：如果你使用子目录来放置你的博客，如 `xxx.github.io/blog/`，你的图片链接需要设置为 `/blog/xxx`，或者直接使用图床。
 
 #### 搜索背景
 
@@ -451,6 +548,27 @@ search:
 ```
 
 > 更多搜索设置参见：[搜索 - 第三方支持](/guide/third-party-support.html#搜索)
+
+### 随机多边形背景
+
+> [trianglify - GitHub](https://github.com/qrohlf/trianglify)
+
+- `enable`: 默认关闭
+- `cell_size`: 多边形网格尺寸
+- `palette`: 调色盘，请参考文档配置
+- `opacity`: 透明度
+
+> 因为背景采用拉伸，更大的 `width` 与 `height` 会获得更高的清晰度。（请与性能进行取舍）
+
+```yml
+trianglify:
+  enable: false
+  cell_size: 75
+  width: 800
+  height: 600
+  palette: '["YlGnBu", "GnBu", "Purples", "Blues"]'
+  opacity: 0.5
+```
 
 ### 烟花
 
@@ -478,6 +596,23 @@ fireworks:
 scrollreveal: true
 ```
 
+### Cursor 光标
+
+替换鼠标光标，默认关闭。开启时默认使用 [Material Design Cursors](https://www.deviantart.com/rosea92/art/Material-Design-Cursors-Dark-756850032)。
+
+你也可以使用你喜欢的图标来替代。
+
+- `default`: 默认状态下图标。
+- `pointer`: 指针（即链接状态下）图标。
+
+```yml
+cursor:
+  enable: false
+  default: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/pointer.cur
+  pointer: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/link.cur
+  text: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/text.cur
+```
+
 ## 侧边栏
 
 ### 侧边栏背景
@@ -487,6 +622,8 @@ sidebar:
   bg_image: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-1.jpg
   bg_position: bottom 3rem center
 ```
+
+> 注意：如果你使用子目录来放置你的博客，如 `xxx.github.io/blog/`，你的图片链接需要设置为 `/blog/xxx`，或者直接使用图床。
 
 `bottom 3rem center` 代表居中并且距离底部 `3rem`。
 
@@ -576,7 +713,7 @@ categories:
 
 例如：
 
-> [主题页面](/guide/page.html#友链-links)
+> [页面配置](/guide/page.html#友链-links)
 
 ```yml
 pages:
@@ -683,20 +820,38 @@ Hexo 主题 Yun
 
 你可以在文章头部添加 `hide` 属性，来临时隐藏某篇文章。
 
-```md
+- `hide`:
+  - `index`: 设置为 `index` 时，将只在首页隐藏，归档中仍然展示。（譬如放一些没有必要放在首页的笔记，并在归档中方便自己查看。）
+  - `true`: 当设置为 `true` 时，该文章仍然会被渲染，你自己可以直接访问链接进行查看。但不会被显示在展示的文章卡片与归档中。
+
+> 什么你想完全不渲染不显示，那你为何不将其放在 `_drafts` 文件夹下，或干脆不提交这篇文章。
+
+```yml {3}
 ---
 title: xxx
 hide: true
+# hide: index
+sitemap: false
+indexing: false
 ---
+
 ```
 
-该文章仍然会被渲染，你自己可以直接访问链接进行查看。但不会被显示在展示的文章卡片中。
+::: tip
+
+如果你开启了站点地图，那它还会出现在 `sitemap.xml` 中，你还需要在 front matter 处设置 `sitemap: false` 来排除它。
+
+> [excluding-posts | hexo-generator-sitemap](https://github.com/hexojs/hexo-generator-sitemap#excluding-posts)
+
+如果你开启了本地搜索，那它还会出现在 `search.xml` 中，你还需要设置 `indexing: false` 来排除它。
+
+> [exclude-indexing | hexo-generator-search](https://github.com/wzpan/hexo-generator-search#exclude-indexing)
+
+:::
 
 > 题外话，这个功能是我当初应付备案临时加的。
 > 我更改备案信息时，客服通知我首页不能用跳转其他页面链接的内容（有一个和文章混在一起直接跳转 bilibili 的卡片），所以我就加了这个功能临时隐藏掉了。
 > 也许还挺实用的，你可以放一些只是自己看看，暂时还不打算发到主页显示的页面。
-
-注意：其他文章末尾上一篇或下一篇文章里还是会出现该文章的链接。
 
 ### 信息
 
@@ -719,7 +874,37 @@ post_meta:
 
 你只要遵循 [Markdown 语法](https://segmentfault.com/markdown)，就会自动生成目录！
 
-> 没什么人会要关这个功能的吧，hhh
+::: tip
+具有良好 SEO 的 HTML 页面，有且应当只有一个 `h1` 作为一级标题。
+本主题默认采用您设置的 `title` 作为一级标题。
+在接下来的文章内容中，您应当只从二级标题开始使用。
+
+```md
+---
+title: 一级标题
+---
+
+## 二级标题
+```
+
+:::
+
+> 没什么人会要关这个功能的吧，hhh（所以我根本没加关闭的功能）
+
+- `list_number`: 显示编号
+- `max_depth`: 生成 TOC 的最大深度
+- `min_depth`: 生成 TOC 的最小深度
+- `placeholder`: 当目录不存在时，显示的话。
+
+```yml
+toc:
+  list_number: true
+  max_depth: 6
+  min_depth: 1
+  placeholder: 很遗憾，咱没写啥目录
+```
+
+> [辅助函数 ｜ Hexo](https://hexo.io/zh-cn/docs/helpers#toc)
 
 ### 编辑链接
 
@@ -768,7 +953,7 @@ prism_plugin:
 
 ```yml
 highlight:
-  enable: true
+  enable: false
 ```
 
 > 建议关闭行号，[这里](https://highlightjs.readthedocs.io/en/latest/line-numbers.html)是 highlight 作者写的为什么 highlight 不支持行号。
@@ -866,12 +1051,16 @@ reward:
 ## 页脚
 
 ::: tip 注意
-以下配置均写在 `footer` 字段下。
+以下配置均写在 `footer` 字段下，请同时放到 `footer` 下。（只保留一个 `footer`。）
 如：
 
 ```yml
 footer:
   since: 1997
+  icon:
+    name: icon-cloud-line
+    animated: true
+    color: "#0078E7"
 ```
 
 :::
@@ -879,7 +1068,8 @@ footer:
 ### 起始年份
 
 ```yml
-since: 2016
+footer:
+  since: 2016
 ```
 
 ### 图标
@@ -891,17 +1081,18 @@ since: 2016
 - `color`: 图标颜色
 
 ```yml
-icon:
-  name: icon-cloud-line
-  animated: true
-  color: "#0078E7"
+footer:
+  icon:
+    name: icon-cloud-line
+    animated: true
+    color: "#0078E7"
 ```
 
 ### 驱动
 
 自豪地显示当前使用的博客框架 Hexo 与主题 Yun 的名字及版本。
 
-如：`由 Hexo 驱动 v4.2.0 | 主题 - Yun v0.0.2`。
+如：`由 Hexo 驱动 v4.2.0 | 主题 - Yun v0.6.1`。
 
 让更多人知道 Hexo 与主题 Yun，这有利于开源社区进一步发展。
 
@@ -909,9 +1100,9 @@ icon:
 - `version`: 显示版本
 
 ```yml
-powered:
-  enable: true
-  version: true
+footer:
+  powered:
+    enable: true
 ```
 
 ### 备案
@@ -924,9 +1115,10 @@ powered:
 - `icp`: 备案号
 
 ```yml
-beian:
-  enable: true
-  icp: 苏ICP备xxxxxxxx号
+footer:
+  beian:
+    enable: true
+    icp: 苏ICP备xxxxxxxx号
 ```
 
 ### 运行时间
@@ -936,20 +1128,22 @@ beian:
 `本博客已萌萌哒地运行 442 天 19 小时 28 分 40 秒(●'◡'●)`
 
 ```yml
-live_time:
-  enable: false
-  prefix: 本博客已萌萌哒地运行
-  suffix: (●'◡'●)
-  start_time: "2019-04-12T00:00:00"
+footer:
+  live_time:
+    enable: false
+    prefix: 本博客已萌萌哒地运行
+    suffix: (●'◡'●)
+    start_time: "2019-04-12T00:00:00"
 ```
 
 ### 自定义文本
 
 `custom_text` 为自定义页脚，可以包含 HTML。
-譬如有时使用其他服务商进行托管页面。
+譬如有时使用其他服务商进行托管页面，或一些 ICP 之外的备案信息。
 
 ```yml
-custom_text: Hosted by <a href="https://pages.coding.me" rel="noopener" target="_blank">Coding Pages</a>
+footer:
+  custom_text: Hosted by <a href="https://pages.coding.me" rel="noopener" target="_blank">Coding Pages</a>
 ```
 
 ## Say

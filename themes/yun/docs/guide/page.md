@@ -1,8 +1,41 @@
-# 主题页面
+# 页面配置
 
 本主题默认支持并使用以下页面类型。
 
+> 你可能需要先了解 Hexo 的 [Front-matter](https://hexo.io/zh-cn/docs/front-matter.html)
+
+如果想要让扩展页面链接（如：Girls, 相册等）显示在侧边栏中，你还需要配置一下导航 [侧边栏 - 页面链接](/guide/config.html#页面链接)。
+
 ## 文章
+
+额外的头部字段
+
+- `author`: 设置作者则会显示
+- `email`: 自动根据邮箱获取 [Gravatar](https://en.gravatar.com/site/implement/images/) 头像
+
+```md {3,4}
+---
+title: xxx
+author: 云游君
+email: me@yunyoujun.cn
+---
+```
+
+- `description`: 描述（只出现在预览卡片上，不出现在正文中）（默认使用 `400` 字重以表强调，略细于加粗字体）
+- `excerpt`: 摘要（不需要在 `Front-matter` 中设置，通过 `<!-- more -->` 截断实现，预览卡片与正文中均出现）
+
+```md {3,8}
+---
+title: xxx
+description: xxxxxxx
+---
+
+这里是摘要
+
+<!-- more -->
+
+这里是更多内容
+```
 
 ### 图片注释
 
@@ -13,6 +46,28 @@
 ```
 
 ![img-caption-example.png](https://i.loli.net/2020/03/19/2bOIPC3Wv4Gxetm.png)
+
+## 页面
+
+通用页面的配置。
+
+- `title`: 设置页面标题（可以对默认标题进行覆盖）
+- `icon`: 页面标题前的图标
+
+> 标签、分类、相册等页面未设置标题时将默认使用语言包中的翻译（显示对应语言的 `标签`/`分类`/`相册` 等。）
+> 你可以通过设置 `title` 来覆盖这些页面的标题。
+
+譬如：
+
+```yml {3}
+---
+title: xxx
+icon: icon-women-line
+---
+
+```
+
+> 图标效果可见: [Lovely Girls](https://www.yunyoujun.cn/girls/)
 
 ## 标签 tags
 
@@ -26,9 +81,8 @@ hexo new page tags
 
 修改 `source/tags/index.md` 的 `Front Matter`
 
-```yml {5}
+```yml {4}
 ---
-title: 标签
 date: 2017-10-09 19:11:58
 comments: false
 type: tags
@@ -48,9 +102,8 @@ hexo new page categories
 
 修改 `source/categories/index.md` 的 `Front Matter`
 
-```yml {5}
+```yml {4}
 ---
-title: 分类
 date: 2017-10-12 10:47:16
 comments: false
 type: categories
@@ -61,6 +114,10 @@ type: categories
 ## 归档 archives
 
 Hexo 默认支持
+
+本主题采用时间轴的形式重写
+
+> 示例：<https://www.yunyoujun.cn/archives>
 
 ## 关于 About
 
@@ -88,7 +145,7 @@ hexo new page about
 
 你需要先新建 404 页面。可以直接在 `source` 目录下新建 `404.md`。
 
-```md
+```md {2}
 ---
 layout: 404
 title: 四大皆空
@@ -126,7 +183,7 @@ hexo new page links
 
 - `tip`: 友链未加载成功时的文字提示，加载完后会被移除。（仅当通过 JSON 加载友链时生效。）
 
-```yml
+```yml {2}
 ---
 layout: links
 title: 我的小伙伴们
@@ -161,7 +218,8 @@ tip: 友链加载中～如失败请刷新重试～
 
 - `random`: 随机友链顺序，默认未开启
 
-```yml
+```yml {8-9}
+---
 layout: links
 title: 我的小伙伴们
 date: 2019-06-21 13:06:06
@@ -170,6 +228,8 @@ description: 云游的小伙伴们
 comments: true
 links: https://cdn.jsdelivr.net/gh/YunYouJun/friends@gh-pages/links.json
 random: true
+---
+
 ```
 
 > 注意：你使用 jsdelivr 可能会因为 CDN 有所延迟。
@@ -196,7 +256,7 @@ hexo new page girls
 
 进入 `source/girls/index.md`
 
-```yml
+```yml {2}
 ---
 layout: girls
 title: 可爱的女孩子
@@ -211,6 +271,109 @@ girls:
 
 ```
 
+> 当你不输入 `url` 人物百科链接时，会自动将人物名与[萌娘百科](https://zh.moegirl.org/)前缀拼接以获得人物百科链接。
+
 可参考我的[配置](https://github.com/YunYouJun/yunyoujun.github.io/blob/hexo/source/girls/index.md)。
 
-> 如果想要让其显示在侧边栏中，你还需要配置一下导航 [侧边栏 - 页面链接](/guide/config.html#页面链接)
+如果想要让 Girls 显示在侧边栏中，你还需要配置一下导航 [侧边栏 - 页面链接](/guide/config.html#页面链接)。
+
+## 相册 albums
+
+存在一个相册主页，放置多个相册，点击进入相册查看更多照片。
+
+在 `yun.yml` 中开启相册功能。
+
+```yml
+albums:
+  enable: true
+```
+
+[相册示例](https://www.yunyoujun.cn/albums/)
+
+[配置示例](https://github.com/YunYouJun/yunyoujun.github.io/blob/hexo/source/albums/index.md)
+
+如果想要让相册显示在侧边栏中，你还需要配置一下导航 [侧边栏 - 页面链接](/guide/config.html#页面链接)。
+
+### 相册集
+
+相册集是相册的导航页面，你可以在此放置多个相册。
+
+新建相册集页面
+
+```sh
+hexo new page albums
+```
+
+进入 `source/albums/index.md`，设置 `type`，和添加相册链接、封面等。
+
+- `caption`: 相册标题
+- `url`: 相册链接
+- `cover`: 相册封面
+- `desc`: 相册描述
+
+```yml {2}
+---
+type: albums
+albums:
+  - caption: 夕阳西下
+    url: /albums/sunset.html
+    cover: https://interactive-examples.mdn.mozilla.net/media/examples/elephant-660-480.jpg
+    desc: 我想起那天夕阳下的奔跑
+---
+
+```
+
+### 相册页
+
+[相册页示例](https://www.yunyoujun.cn/albums/sunset.html)
+
+相册页，才是你真正存放照片的地方。
+
+> 使用 [lightgallery.js](https://github.com/sachinchoolur/lightgallery.js/) 实现，仅在相册页才会加载该类库。
+
+新建相册页面。
+
+你只需在上面新建好的 `albums` 文件夹中，继续创建 `md` 文件，譬如新建 `sunset.md`。
+
+或通过命令行新建：
+
+```sh
+hexo new page --path albums/sunset "夕阳"
+```
+
+进入 `sunset.md` 文件，进行修改。
+
+> 注意：这里是 `layout` 而不是 `type`。
+
+::: tip
+你还可以设置 `gallery_password` 来对相册进行加密。（记得将你的仓库设置为私有。）
+
+没有直接命名为 `password` 以防止与 [hexo-blog-encrypt](https://github.com/MikeCoder/hexo-blog-encrypt) 插件关键字 `password` 冲突。
+
+> 因为使用了 [crypto-js](https://github.com/brix/crypto-js)，所以你还需要 `npm install crypto-js`。
+
+测试页面：<https://www.yunyoujun.cn/albums/sunset.html>
+测试密码：test
+
+:::
+
+```yml {5}
+---
+title: 夕阳
+date: 2020-04-18 16:27:24
+updated: 2020-04-18 16:27:24
+layout: gallery
+password: test
+photos:
+  - caption: 我
+    src: https://interactive-examples.mdn.mozilla.net/media/examples/elephant-660-480.jpg
+    desc: 我想起那天夕阳下的奔跑
+  - caption: 想起
+    src: https://i.picsum.photos/id/198/510/300.jpg
+    desc: 那是我逝去的青春
+---
+
+```
+
+> 为什么使用相册集作为 `albums`，`gallery` 作为相册 ？
+> [What is the Difference Between Albums vs Galleries in WordPress](https://enviragallery.com/what-is-the-difference-between-albums-vs-galleries-in-wordpress/)

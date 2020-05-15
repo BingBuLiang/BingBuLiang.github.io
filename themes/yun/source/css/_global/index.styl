@@ -49,13 +49,37 @@ body {
     @keyframes bgFadeIn {
       from {
         opacity: 0;
-        filter: blur($bg-blur) grayscale(1);
       }
 
       to {
         opacity: $bg-opacity;
-        filter: blur($bg-blur);
       }
     }
+  }
+}
+
+if (hexo-config('cursor.enable')) {
+  $cursor-default = hexo-config('cursor.default');
+  $cursor-pointer = hexo-config('cursor.pointer');
+  $cursor-text = hexo-config('cursor.text');
+
+  body {
+    cursor: url($cursor-default), auto;
+  }
+
+  a {
+    cursor: url($cursor-pointer), auto;
+
+    &:hover {
+      cursor: url($cursor-pointer), auto;
+    }
+  }
+
+  .hty-icon-button {
+    cursor: url($cursor-pointer), auto;
+  }
+
+  input {
+    cursor: url($cursor-text), auto;
   }
 }
