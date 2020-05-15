@@ -71,7 +71,6 @@ language: zh-CN
 > [快速开始 - 获取 APP ID 和 APP Key](https://valine.js.org/quickstart.html#%E8%8E%B7%E5%8F%96APP-ID-%E5%92%8C-APP-Key)
 
 - `visitor`: 文章阅读量统计（请最好不要与 [不蒜子](#busuanzi) 同时启用）
-- `visitor_index`: 是否开启站点主页访问量统计（主题额外添加的配置项，默认关闭）
 
 > [更多配置项](https://valine.js.org/configuration.html)
 
@@ -105,6 +104,8 @@ valine:
 ```
 
 Valine 的扩展和增强功能可以参考 [Valine-Admin](https://github.com/DesertsP/Valine-Admin)，可以对具体的评论进行邮件提醒。
+
+> pjax: [请问如何在带有 pjax 的页面下使用 - Issue #138](https://github.com/xCss/Valine/issues/138)
 
 ### MiniValine
 

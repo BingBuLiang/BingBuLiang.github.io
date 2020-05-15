@@ -1,8 +1,8 @@
 # 主题颜色
 mode: auto # now only light
 
-# Theme color for customize
-# Notice: color value must in double quotes: "#000000"
+
+# 主题色
 colors:
   primary: "#6200ee"
   # bg: "#F5F5F5"
@@ -10,109 +10,8 @@ colors:
   # 标签云中标签的起始色和结束色
   # tag_start_color:
   # tag_end_color:
-   
-
-# 头
-head:
-  css:
-    # 引入字体
-    fonts: https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&display=swap
-    font:
-      cdn:
-        enable: true
-        lib:
-          - https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&family=Source+Code+Pro&display=swap
-      serif:
-        family: "'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif"
-        weight: 900
-      sans_serif:
-        family: "'PingFang SC', 'Microsoft YaHei', Roboto, Arial, sans-serif"
-        weight: 300
-      monospace:
-        family: "'Source Code Pro', 'Courier New', Courier, Consolas, Monaco, monospace"
-
-# 图片背景
-bg_image:
-  enable: true
-  #url: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg
-  url: /images/背景.jpg
-  # blur: 30px # 设置背景模糊程度
-  opacity: 0.8
-# 搜索背景
- 
-# 头像    
-avatar:
-  enable: true
-  url: /images/头像.jpg
-  rounded: true
-  opacity: 1
-  mickey_mouse: false
-
-reward_settings:
-  enable: true
-  comment: 我很可爱，请给我钱
-
-valine:
-  enable: true
-  appId: 4J2q14OebwHcyrf7Cl4vz9I9-gzGzoHsz # your leancloud application appid
-  appKey: i5EyTSTvpTrOhvAYtLSrdIHy # your leancloud application appkey
-  # https://github.com/DesertsP/Valine-Admin
-  # https://valine.yunyoujun.cn
-  placeholder: 大佬求指教&nbsp_(:з」∠)_ （填写邮箱可以收到回复通知～）
-  visitor: true
-  recordIP: true
-  enableQQ: true
-  visitor_index: false
-
-
-# 首页的名字展示
-banner:
-  enable: true
-  title: 冰不良の小站
-  src: /js/ui/banner.js
-  cloud: true
-  go_down:
-    enable: true
-    icon: icon-arrow-down-s-line
-# 公告 它将显示在所有文章卡片的最上方，标语的下方
-notice:
-  enable: true
-  content: 陌上人如玉,君子世无双.
-
-
-footer:
-  since: 2016
-  beian:
-    enable: true
-    icp: 苏ICP备17038157号阿斯达发
-  custom_text: <a style="display:inline-block" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="blank" title="又拍云"><img height="30" src="https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/logo/upyun-logo.png" alt="upyun"/></a>
-  # ...
-
-engine_search:
-  enable: false
-
-algolia_search:
-  enable: false
-  # ...
-
-google_adsense:
-  enable: true
-  client: ca-pub-2245427233262012
-
-google_analytics:
-  enable: true
-  id: UA-121354150-1
-
-post_edit:
-  enable: true
-  url: https://github.com/YunYouJun/yunyoujun.github.io/tree/hexo/source/
-
-albums:
-  enable: true
-
-girls:
-  enable: true
-
+  
+# tags
 tags:
   动画: crimson
   漫画: orange
@@ -128,49 +27,130 @@ tags:
   中传: "#ccb44b"
   部落: "#DD306A"
   科幻: midnightblue
-
-
-categories:
-  云游的小视频: "#FB7299"
   
+# 为分类指定色彩
+categories:
+  冰不良の视频: "#FB7299"
+  
+# head 头部资源
+    
+    
+# 网站的图标 favicon
 
-pages:
-  - name: 我的小伙伴们
-    url: /links/
-    icon: icon-genderless-line
-    color: dodgerblue
-  - name: 喜欢的女孩子
-    url: /girls/
-    icon: icon-women-line
-    color: hotpink
 
-dns_prefetch:
-  - https://cos.yunyoujun.cn
-# cdn:
-#   pre: https://cdn.jsdelivr.net/gh/YunYouJun/yunyoujun.github.io@latest
+# CDN
 
-menu:
-  home:
-    path: /
-    icon: icon-home-4-line
-  archives:
-    path: /archives
-    icon: icon-archive-line
-  tags:
-    path: /tags
-    icon: icon-price-tag-3-line
-  categories:
-    path: /categories
-    icon: icon-folder-2-line
-  custom:
-    title: 留言板
-    path: /about/#comment
-    icon: icon-clipboard-line
 
+
+# 社交图标
+social:
+  - name: RSS
+    link: /atom.xml # config.feed.path
+    icon: icon-rss-line
+    color: orange
+  - name: QQ
+    # https://isux.tencent.com/wp-content/uploads/2016/05/20160512101222609.pdf
+    link: https://wpa.qq.com/msgrd?v=3&uin=2330181012&site=qq&menu=yes
+    icon: icon-qq-line
+    color: "#12B7F5"
+  - name: GitHub
+    link: https://github.com/BingBuLiang
+    icon: icon-github-line
+    color: "#181717"
+  - name: E-Mail
+    link: mailto:hubing288@gmail.com
+    icon: icon-mail-line
+    color: "#8E71C1"
+  - name: 微博
+    link: https://weibo.com/
+    icon: icon-weibo-line
+    color: "#E6162D"
+  - name: 豆瓣
+    link: https://www.douban.com/
+    icon: icon-douban-line
+    color: "#007722"
+  - name: 网易云音乐
+    link: https://music.163.com/
+    icon: icon-netease-cloud-music-line
+    color: "#C10D0C"
+  - name: 知乎
+    link: https://www.zhihu.com/people/c29a928630113c035498a2f9bd25c17d
+    icon: icon-zhihu-line
+    color: "#0084FF"
+  - name: 哔哩哔哩动画
+    link: https://space.bilibili.com/
+    icon: icon-bilibili-line
+    color: "#FF8EB3"
+  - name: POPI
+    link: https://www.popiask.cn/
+    icon: icon-questionnaire-line
+    color: "#525252"
+  - name: 微信公众号
+    link:
+    icon: icon-wechat-2-line
+    color: "#1AAD19"
+  - name: Twitter
+    link: https://twitter.com/
+    icon: icon-twitter-line
+    color: "#1da1f2"
+  - name: Telegram
+    link: https://t.me/
+    icon: icon-telegram-line
+    color: "#0088CC"
+  - name: Telegram Channel
+    link: https://t.me/
+    icon: icon-telegram-fill
+    color: "#0088CC"
+  - name: Travelling
+    link: https://travellings.now.sh/
+    icon: icon-send-plane-2-line
+    color: black
+
+
+# ##
+# 首页
+
+banner:
+  enable: true
+  title: 冰不良の小站
+  src: /js/ui/banner.js
+  cloud: true
+  go_down:
+    enable: true
+    icon: icon-arrow-down-s-line
+
+    
+    
+# 背景图片
+bg_image:
+  enable: true
+  # url: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg
+  url: /images/背景.jpg
+  # blur: 30px # 设置背景模糊程度
+  opacity: 0.8
+# 头像    
+avatar:
+  enable: true
+  url: /images/头像.jpg
+  rounded: true
+  opacity: 1
+  mickey_mouse: false
+  
+  
+  
+# Cursor光标 
 cursor:
   enable: true
-
-baidu_push: true
+  default: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/pointer.cur
+  pointer: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/link.cur
+  text: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/text.cur  
+  
+# 侧边栏背景  
+sidebar:
+  bg_image: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-1.jpg
+  bg_position: bottom 3rem center  
+# ##
+# 额外依赖库支持
 
 
 # 版权
@@ -178,38 +158,6 @@ creative_commons:
   license: by-nc-sa
   post: true
   language: deed.zh
-  
-# 图片懒加载
-lazyload:
-  enable: true
-  
-# 打赏
-reward_settings:
-  enable: true
-  icon: icon-hand-coin-line
-  comment: I'm so cute. Please give me money.
-  # 你的打赏链接（当你开启打赏链接时，将自动跳转你的外部链接而不是展开二维码）
-  # url: https://github.com/YunYouJun/yunyoujun.github.io/issues/96
-  
-reward:
-  - name: 支付宝
-    # path: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/alipay-qrcode.jpg
-    color: "#00A3EE"
-    icon: icon-alipay-line
-  - name: QQ 支付
-    # path: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/qqpay-qrcode.png
-    color: "#12B7F5"
-    icon: icon-qq-line
-  - name: 微信
-    # path: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/wechatpay-qrcode.jpg
-    color: "#2DC100"
-    icon: icon-wechat-pay-line
-  # - name: paypal
-  #   link: https://paypal.com
-  #   path: https://www.paypalobjects.com/images/shared/paypal-logo-129x32.svg
-  #   color: "#2D70B5"
-  #   icon: icon-paypal-line
-  
   
   
 # 页脚
@@ -237,14 +185,76 @@ mourn:
   enable: true
   days:
     - "4-4"
-    
-    
-# 第三方支持    
-
-#评论    
-comment:
+  
+# 全局音乐
+aplayer:
+  global: true
+  meting: true
+  # https://github.com/metowolf/MetingJS/tree/v1.2#option
+  widget:
+    enable: true
+    option:
+      id: 308168565
+      server: netease
+      type: playlist
+      autoplay: false
+      # theme: "#2980b9"
+      loop: all
+      order: list
+      preload: auto
+      volume: 0.7
+      mutex: true
+      lrctype: 0
+      listfolded: false
+      listmaxheight: 340px
+      storagename: metingjs
+      
+      
+## 第三方支持
+github_issues:
   enable: true
-  tips:
-    - 若您无 GitHub 账号，可直接在下方匿名评论。
-    - 若您想及时得到回复提醒，建议跳转 GitHub Issues 评论。
-    - 若没有本文 Issue，您可以使用 Comment 模版新建。    
+  username: BingBuLiang
+  repository: BingBuLiang.github.io
+  filters: is:issue
+  
+  
+valine:
+  enable: false
+  appId: 4J2q14OebwHcyrf7Cl4vz9I9-gzGzoHsz # your leancloud application appid
+  appKey: i5EyTSTvpTrOhvAYtLSrdIHy # your leancloud application appkey
+  placeholder: 大佬求指教&nbsp_(:з」∠)_ （填写邮箱可以收到回复通知～） # comment box placeholder
+  avatar: # gravatar style
+  meta:
+    - nick
+    - mail
+    - link
+  pageSize: 10 # pagination size
+  # lang: zh-CN
+  # visitor: false
+  visitor_index: false
+  # highlight: true
+  # recordIP: false
+  # serverURLs:
+  # Emoji See: https://valine.js.org/emoji.html
+  # emojiCDN: //i0.hdslb.com/bfs/emote/
+  # emojiMaps:
+  #   tv_doge: 6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png
+  #   more...
+  # enableQQ: false
+  # requiredFields:
+  #   - nick
+  #   - mail
+
+# 引擎搜索
+engine_search:
+  enable: false
+  href: "https://www.google.com/search?q=site:"
+  # href: "https://www.baidu.com/s?wd=site:"
+  # href: "https://www.bing.com/search?q=site:"
+  domain: BingBuLiang.github.io
+
+google_analytics:
+  enable: true
+  id: UA-7FZJ6MEGB5-G
+
+
