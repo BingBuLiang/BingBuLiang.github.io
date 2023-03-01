@@ -6,6 +6,8 @@ then info=":pencil: update content"
 fi
 hexo clean # 清除缓存
 hexo d -g # 重新部署 Hexo
+git config --global http.sslVerify "false"
+
 git add -A
 git commit -m "$info"
 git push origin hexo

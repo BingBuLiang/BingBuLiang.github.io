@@ -33,7 +33,7 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: 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
+          github_token: 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 
           publish_dir: ./public
           publish_branch: master
           force_orphan: true
