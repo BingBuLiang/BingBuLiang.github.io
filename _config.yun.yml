@@ -1,0 +1,3 @@
+# 来使用彩色的词云替代原生的标签云
+wordcloud:
+  enable: true
