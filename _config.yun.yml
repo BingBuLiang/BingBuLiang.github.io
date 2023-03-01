@@ -1,3 +1,264 @@
+
+
+# 主题颜色
+mode: auto # now only light
+
+
+# 主题色
+colors:
+  primary: "#6200ee"
+  # bg: "#F5F5F5"
+  selection_bg: "#8e71c1" # 选取文字时的背景色
+  # 标签云中标签的起始色和结束色
+  # tag_start_color:
+  # tag_end_color:
+  
+# tags
+tags:
+  动画: crimson
+  漫画: orange
+  Parcel: "#21374b"
+  学习: saddlebrown
+  MAD: crimson
+  教程: royalblue
+  笔记: dimgray
+  分享: blue
+  随笔: mediumpurple
+  Blender: "#d04d2d"
+  Linux: "#2577b1"
+  中传: "#ccb44b"
+  部落: "#DD306A"
+  科幻: midnightblue
+  
+# 为分类指定色彩
+categories:
+  冰不良の视频: "#FB7299"
+  
+# head 头部资源
+    
+    
+# 网站的图标 favicon
+
+
+# CDN
+
+
+
+# 社交图标
+social:
+  - name: RSS
+    link: /atom.xml # config.feed.path
+    icon: icon-rss-line
+    color: orange
+  - name: QQ
+    # https://isux.tencent.com/wp-content/uploads/2016/05/20160512101222609.pdf
+    link: https://wpa.qq.com/msgrd?v=3&uin=2330181012&site=qq&menu=yes
+    icon: icon-qq-line
+    color: "#12B7F5"
+  - name: GitHub
+    link: https://github.com/BingBuLiang
+    icon: icon-github-line
+    color: "#181717"
+  - name: E-Mail
+    link: mailto:hubing288@gmail.com
+    icon: icon-mail-line
+    color: "#8E71C1"
+  - name: 微博
+    link: https://weibo.com/
+    icon: icon-weibo-line
+    color: "#E6162D"
+  - name: 豆瓣
+    link: https://www.douban.com/
+    icon: icon-douban-line
+    color: "#007722"
+  - name: 网易云音乐
+    link: https://music.163.com/
+    icon: icon-netease-cloud-music-line
+    color: "#C10D0C"
+  - name: 知乎
+    link: https://www.zhihu.com/people/c29a928630113c035498a2f9bd25c17d
+    icon: icon-zhihu-line
+    color: "#0084FF"
+  - name: 哔哩哔哩动画
+    link: https://space.bilibili.com/
+    icon: icon-bilibili-line
+    color: "#FF8EB3"
+  - name: POPI
+    link: https://www.popiask.cn/
+    icon: icon-questionnaire-line
+    color: "#525252"
+  - name: 微信公众号
+    link:
+    icon: icon-wechat-2-line
+    color: "#1AAD19"
+  - name: Twitter
+    link: https://twitter.com/
+    icon: icon-twitter-line
+    color: "#1da1f2"
+  - name: Telegram
+    link: https://t.me/
+    icon: icon-telegram-line
+    color: "#0088CC"
+  - name: Telegram Channel
+    link: https://t.me/
+    icon: icon-telegram-fill
+    color: "#0088CC"
+  - name: Travelling
+    link: https://travellings.now.sh/
+    icon: icon-send-plane-2-line
+    color: black
+
+
+# ##
+# 首页
+
+banner:
+  enable: true
+  title: 冰不良の小站
+  src: /js/ui/banner.js
+  cloud: true
+  go_down:
+    enable: true
+    icon: icon-arrow-down-s-line
+
+    
+    
+# 背景图片
+bg_image:
+  enable: true
+  # url: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg
+  url: /images/背景.jpg
+  # blur: 30px # 设置背景模糊程度
+  opacity: 0.8
+# 头像    
+avatar:
+  enable: true
+  url: /images/头像.jpg
+  rounded: true
+  opacity: 1
+  mickey_mouse: false
+  
+  
+  
+# Cursor光标 
+cursor:
+  enable: true
+  default: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/pointer.cur
+  pointer: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/link.cur
+  text: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/text.cur  
+  
+# 侧边栏背景  
+sidebar:
+  bg_image: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-1.jpg
+  bg_position: bottom 3rem center  
+# ##
+# 额外依赖库支持
+
+
+# 版权
+creative_commons:
+  license: by-nc-sa
+  post: true
+  language: deed.zh
+  
+  
+# 页脚
+footer:
+  since: 2020-02-02
+  icon:
+    name: icon-cloud-line
+    animated: true
+    color: "#0078E7"
+  powered:
+    enable: true
+  ## 备案
+  beian:
+    enable: true
+    icp: 
+  ## 运行时间
+  live_time:
+    enable: true
+    prefix: 本博客已萌萌哒地运行
+    suffix: (●'◡'●)
+    start_time: "2020-02-02T00:00:00"
+    
+# 默哀
+mourn:
+  enable: true
+  days:
+    - "4-4"
+  
+# 全局音乐
+aplayer:
+  global: true
+  meting: true
+  # https://github.com/metowolf/MetingJS/tree/v1.2#option
+  widget:
+    enable: true
+    option:
+      id: 308168565
+      server: netease
+      type: playlist
+      autoplay: false
+      # theme: "#2980b9"
+      loop: all
+      order: list
+      preload: auto
+      volume: 0.7
+      mutex: true
+      lrctype: 0
+      listfolded: false
+      listmaxheight: 340px
+      storagename: metingjs
+      
+      
+## 第三方支持
+github_issues:
+  enable: true
+  username: BingBuLiang
+  repository: BingBuLiang.github.io
+  filters: is:issue
+  
+  
+valine:
+  enable: false
+  appId: 4J2q14OebwHcyrf7Cl4vz9I9-gzGzoHsz # your leancloud application appid
+  appKey: i5EyTSTvpTrOhvAYtLSrdIHy # your leancloud application appkey
+  placeholder: 大佬求指教&nbsp_(:з」∠)_ （填写邮箱可以收到回复通知～） # comment box placeholder
+  avatar: # gravatar style
+  meta:
+    - nick
+    - mail
+    - link
+  pageSize: 10 # pagination size
+  # lang: zh-CN
+  # visitor: false
+  visitor_index: false
+  # highlight: true
+  # recordIP: false
+  # serverURLs:
+  # Emoji See: https://valine.js.org/emoji.html
+  # emojiCDN: //i0.hdslb.com/bfs/emote/
+  # emojiMaps:
+  #   tv_doge: 6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png
+  #   more...
+  # enableQQ: false
+  # requiredFields:
+  #   - nick
+  #   - mail
+
+# 引擎搜索
+engine_search:
+  enable: false
+  href: "https://www.google.com/search?q=site:"
+  # href: "https://www.baidu.com/s?wd=site:"
+  # href: "https://www.bing.com/search?q=site:"
+  domain: BingBuLiang.github.io
+
+google_analytics:
+  enable: true
+  id: UA-7FZJ6MEGB5-G
+
 # 来使用彩色的词云替代原生的标签云
 wordcloud:
   enable: true
