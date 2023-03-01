@@ -9,3 +9,5 @@ hexo d -g # 重新部署 Hexo
 git add -A
 git commit -m "$info"
 git push origin hexo
+
+git help

@@ -22,14 +22,18 @@ jobs:
 
       - name: Install
         run: pnpm install
-
+        
+      - name: algolia
+        env:
+          HEXO_ALGOLIA_INDEXING_KEY: 681883f5077820800e3efd88f6b71f79
+        run: npm run algolia --if-present
       - name: Build
         run: pnpm run build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: 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
           publish_dir: ./public
           publish_branch: master
           force_orphan: true
