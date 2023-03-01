@@ -99,7 +99,7 @@ theme: yun
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/BingBuLiang/BingBuLiang.github.io.git
+  repo: https://github.com/BingBuLiang/BingBuLiang.github.io
   branch: master
   message: Update Hexo Static Content 
   
