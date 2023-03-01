@@ -23,14 +23,13 @@ jobs:
       - name: Install
         run: pnpm install
 
-     
       - name: Build
         run: pnpm run build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: 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
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           publish_branch: master
           force_orphan: true

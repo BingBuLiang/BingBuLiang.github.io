@@ -110,3 +110,20 @@ prism_plugin:
   theme: default
   line_number: false # default false
   # custom_css: "path/to/your/custom.css" # optional
+  
+# 搜索插件
+algolia:
+  applicationID: '5WNMZVZKKS'
+  apiKey: 'b66222e466f2046a9accd67fc9fcbe08'
+  adminApiKey: '681883f5077820800e3efd88f6b71f79'
+  indexName: 'hexo' 
+  chunkSize: 5000
+  fields:
+    - excerpt
+    - excerpt:strip
+    - gallery
+    - permalink
+    - photos
+    - slug
+    - tags
+    - title
