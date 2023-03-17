@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="uni-app插件bing-math用来数学公式渲染"><meta name="keywords" content="uni-app,前端"><meta name="author" content="冰不良"><meta name="copyright" content="冰不良"><meta name="theme-color" content="#6200ee"><title>uni-app插件bing-math用来数学公式渲染 | 冰不良のblog</title><link rel="shortcut icon" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#6200ee"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script id="yun-config">
+    window.CONFIG = {"root":"/","title":"冰不良の小站","version":"0.7.1","anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"algolia":{"appID":"5WNMZVZKKS","apiKey":"b66222e466f2046a9accd67fc9fcbe08","indexName":"hexo","hits":{"per_page":8},"labels":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容: ${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" defer></script><script src="/js/load-aplayer.js" defer></script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="none" onload="this.media='all'"><script src="//at.alicdn.com/t/font_1140697_rtqh36oinzl.js" async></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><link rel="preconnect" href="https://stats.g.doubleclick.net" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=UA-7FZJ6MEGB5-G"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-7FZJ6MEGB5-G');</script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js" defer></script><script src="/js/pjax.js" defer></script><div class="js-Pjax"></div><meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><canvas id="trianglify"></canvas><script defer src="https://cdn.jsdelivr.net/npm/trianglify@latest/dist/trianglify.min.js"></script><script>document.addEventListener("DOMContentLoaded", () => {
+  const pattern = Trianglify({
+    width: 800,
+    height: 600,
+    cell_size: 75,
+    palette: ["YlGnBu", "GnBu", "Purples", "Blues"],
+  });
+  document.body.appendChild(pattern.canvas(trianglify));
+});</script><div class="container"><a class="sidebar-toggle sidebar-toggle-fixed hty-icon-button"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><aside class="sidebar"><script defer src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about" title="冰不良"><img width="96" loading="lazy" src="/images/%E5%A4%B4%E5%83%8F.jpg" alt="冰不良"></a><div class="site-author-name"><a href="/about/">冰不良</a></div><a class="site-name" href="/about/site.html">冰不良のblog</a><sub class="site-subtitle"></sub><div class="site-desciption">快来和我一起秃头吧！</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item site-state-posts"><a href="/archives" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">19</span></a></div><div class="site-state-item site-state-tags"><a href="/tags" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">16</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-clipboard-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://wpa.qq.com/msgrd?v=3&amp;uin=2330181012&amp;site=qq&amp;menu=yes" title="QQ" target="_blank" style="color:#12B7F5"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-qq-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/BingBuLiang" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:bingbuliang996@163.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://weibo.com/u/5648709252" title="微博" target="_blank" style="color:#E6162D"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-weibo-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/bing-bu-liang-xian-sen?utm_id=0" title="知乎" target="_blank" style="color:#0084FF"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-zhihu-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/470508529" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><i class="ri:genderless-line"></i></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#bing-countup"><span class="toc-number">1.</span> <span class="toc-text">bing-countup</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E5%88%AB%E8%AF%B4%E6%98%8E"><span class="toc-number">1.0.1.</span> <span class="toc-text">特别说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F"><span class="toc-number">1.0.2.</span> <span class="toc-text">安装方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.0.3.</span> <span class="toc-text">示例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E9%9C%80%E8%A6%81%E5%BC%95%E7%94%A8%EF%BC%8C%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E4%BB%A5%E4%B8%8B%E6%96%B9%E5%BC%8F"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">如果需要引用，可以使用以下方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#API"><span class="toc-number">1.1.</span> <span class="toc-text">API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bing-math-property"><span class="toc-number">1.1.1.</span> <span class="toc-text">bing-math @property</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0"><span class="toc-number">1.2.</span> <span class="toc-text">更新</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://bingbuliang.github.io/2023/03/16/uni-app_bing-math/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="冰不良"><meta itemprop="description" content="uni-app插件bing-math用来数学公式渲染"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="冰不良のblog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline" style="color: undefined">uni-app插件bing-math用来数学公式渲染</h1><div class="post-meta"><div class="post-time" style="display:inline-block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2023-03-16 13:14:43" itemprop="dateCreated datePublished" datetime="2023-03-16T13:14:43+08:00">2023-03-16</time></div><div class="post-classify"><span class="post-tag"><a class="tag" href="/tags/uni-app/"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">uni-app</span></a><a class="tag" href="/tags/%E5%89%8D%E7%AB%AF/"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">前端</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content post-markdown"><h1 id="bing-countup"><a href="#bing-countup" class="headerlink" title="bing-countup"></a>bing-countup</h1><p><a target="_blank" rel="noopener" href="https://github.com/BingBuLiang/bing-math">![github]</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://ext.dcloud.net.cn/plugin?id=11248">uni-app地址</a></p>
+<p>一个轻量级数学渲染 </p>
+<h3 id="特别说明"><a href="#特别说明" class="headerlink" title="特别说明"></a>特别说明</h3><p>出发点：找一个渲染数学公式的组件，虽然uni-app插件市场也有几个，但是不是很如意</p>
+<p>使用MathJax，链接： <a target="_blank" rel="noopener" href="https://www.mathjax.org/">MathJax | Beautiful math in all browsers.</a></p>
+<p>配置参考 <a target="_blank" rel="noopener" href="https://www.osgeo.cn/mathjax/options/menu.html#menu-options">https://www.osgeo.cn/mathjax/options/menu.html#menu-options</a></p>
+<p>使用uni-app的renderjs，对数学公式（LaTeX）渲染，注：自己写的公式测试时，注意转义符<code>\</code></p>
+<p><a target="_blank" rel="noopener" href="https://www.latexlive.com/">在线LaTeX公式编辑器-编辑器 (latexlive.com)</a></p>
+<blockquote>
+<p>注意: !!!!!!!</p>
+<p>在manifest.json选择vue版本，</p>
+<p>在<strong>vue2</strong>下，该组件可以在浏览器下<strong>正常显示</strong>，手机上也可以<strong>正常显示</strong><br>在<strong>vue3</strong>下，组件在浏览器<strong>显示不出来</strong>，手机上<strong>正常显示</strong></p>
+<p>原因：在vue3下，renderjs被初始化加载3次，而vue2下加载2次，</p>
+<p>秉着在手机下能用的态度，啊！啊！啊！目前是不修动了<br>或者你选择Vue2,都可以正常显示，<br>或者选择Vue3,但是在浏览器显示不出来</p>
+</blockquote>
+<blockquote>
+<p>注意2：</p>
+<p>在实例代码下，放了加载用到的js文件，如果想使用本地文件加载，根据注释修改 script.src 即可，<br>默认采用CDN  即：  script.src &#x3D; ‘<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js</a>‘ </p>
+</blockquote>
+<h3 id="安装方式"><a href="#安装方式" class="headerlink" title="安装方式"></a>安装方式</h3><p>本组件符合<a target="_blank" rel="noopener" href="https://uniapp.dcloud.io/collocation/pages?id=easycom">easycom</a>规范，<code>HBuilderX 2.5.5</code>起，只需将本组件导入项目，在页面<code>template</code>中即可直接使用，无需在页面中<code>import</code>和注册<code>components</code>。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>在 <code>template</code> 中使用组件</p>
+<pre class="language-vue" data-language="vue"><code class="language-vue">&lt;template&gt;
+	&lt;view class&#x3D;&quot;content&quot;&gt;
+       	&lt;!-- 表达式1 --&gt;
+		&lt;view class&#x3D;&quot;show1&quot;&gt;
+			&lt;bing-math :latex&#x3D;&quot;mathlab1&quot; &gt;&lt;&#x2F;bing-math&gt;
+		&lt;&#x2F;view&gt;
+        
+  		&lt;!-- 表达式2 --&gt;
+		&lt;view class&#x3D;&quot;show2&quot;&gt;
+			&lt;bing-math :latex&#x3D;&quot;mathlab2&quot;&gt;&lt;&#x2F;bing-math&gt;
+		&lt;&#x2F;view&gt;
+
+		&lt;view class&#x3D;&quot;btn&quot;&gt;
+			&lt;button @click&#x3D;&quot;update1&quot;&gt;修改表达式1&lt;&#x2F;button&gt;
+			&lt;button @click&#x3D;&quot;update2&quot;&gt;修改表达式2&lt;&#x2F;button&gt;
+			&lt;button @click&#x3D;&quot;update3&quot;&gt;全部修改&lt;&#x2F;button&gt;
+			&lt;button @click&#x3D;&quot;clear&quot;&gt;清空&lt;&#x2F;button&gt;
+		&lt;&#x2F;view&gt;
+	&lt;&#x2F;view&gt;
+&lt;&#x2F;template&gt;
+
+&lt;script&gt;
+	export default &#123;
+
+		data() &#123;
+			return &#123;
+				mathlab: &#39;设$f(u)$可导,$z&#x3D;xy f(&#123;y \\over x&#125;)$,若$x\\dfrac&#123;\\partial z&#125;&#123;\\partial x&#125;+y\\dfrac&#123;\\partial z&#125;&#123;\\partial y&#125;&#x3D;xy(lnx-lny)$,则( )&#39;,
+				mathlab1: &#39;$$x &#x3D; &#123;-b \\pm \\sqrt&#123;b^2-4ac&#125; \\over 2a \\in&#125; .$$&#39;,
+				mathlab2: &#39;$$x &#x3D; &#123;-b \\pm \\sqrt&#123;b^2-4ac&#125; \\over 2a \\in&#125; .$$&#39;,
+			&#125;
+		&#125;,
+		methods: &#123;
+			update1: function() &#123;
+				this.mathlab1 +&#x3D; &quot;$dt$&quot;
+			&#125;,
+			update2: function() &#123;
+				this.mathlab2 &#x3D; &quot;$\\Delta X$&quot;
+			&#125;,
+			
+			update3: function() &#123;
+				this.mathlab2 &#x3D; this.mathlab
+				this.mathlab1 &#x3D; this.mathlab
+			&#125;,
+			clear:function()&#123;
+				this.mathlab1&#x3D;&quot;&quot;
+				this.mathlab2&#x3D;&quot;&quot;
+			&#125;
+		&#125;
+	&#125;
+&lt;&#x2F;script&gt;
+
+&lt;style&gt;
+	
+&lt;&#x2F;style&gt;
+</code></pre>
+<h4 id="如果需要引用，可以使用以下方式"><a href="#如果需要引用，可以使用以下方式" class="headerlink" title="如果需要引用，可以使用以下方式"></a>如果需要引用，可以使用以下方式</h4><pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">&lt;</span>script<span class="token operator">></span>
+	<span class="token keyword">import</span> BingMath <span class="token keyword">from</span> <span class="token string">"@/components/bing-math/bing-math.vue"</span>
+	<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">&#123;</span>
+		<span class="token literal-property property">components</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+			<span class="token string-property property">'bing-math'</span><span class="token operator">:</span> BingMath
+		<span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></code></pre>
+<blockquote>
+<p><strong>注：</strong> 为确认是否启用bing-math组件及事件，默认有一些console.log()提示，如果不需要提示，可以打开bing-math.vue把所有的console.log()提示信息都删了。</p>
+</blockquote>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><h3 id="bing-math-property"><a href="#bing-math-property" class="headerlink" title="bing-math @property"></a>bing-math @property</h3><table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>latex</td>
+<td>String</td>
+<td>‘ ‘</td>
+<td>含有LaTeX的文本</td>
+</tr>
+</tbody></table>
+<p>​                                                      </p>
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><blockquote>
+<p>如果大家对兼容有好的方案，请不吝赐教，做好兼容问题</p>
+</blockquote>
+</div><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-hand-coin-line"></use></svg></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"></div><div style="display:inline-block"></div><div style="display:inline-block"></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>冰不良</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://bingbuliang.github.io/2023/03/16/uni-app_bing-math/" title="uni-app插件bing-math用来数学公式渲染">https://bingbuliang.github.io/2023/03/16/uni-app_bing-math/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2023/02/20/python-OA-execl/" rel="next" title="处理excel到docx"><span class="post-nav-text">处理excel到docx</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div id="comment"><div class="comment-tooltip text-center"><span>若您无 GitHub 账号，可直接在下方匿名评论。</span><br><span>若您想及时得到回复提醒，建议跳转 GitHub Issues 评论。</span><br><span>若没有本文 Issue，您可以使用 Comment 模版新建。</span><br><a class="hty-button hty-button--raised" id="github-issues" target="_blank" rel="noopener" href="https://github.com/BingBuLiang/BingBuLiang.github.io/issues?q=is:issue+uni-app插件bing-math用来数学公式渲染">GitHub Issues</a></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://www.beian.miit.gov.cn" target="_blank"></a></div><div class="copyright"><span>&copy; Sun Feb 02 2020 08:00:00 GMT+0800 (中国标准时间) – 2023 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> 冰不良</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v0.7.1</span></div><div class="live_time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(●'◡'●)</span><script>function blog_live_time() {
+  window.setTimeout(blog_live_time, 1000);
+  const start = new Date('2020-02-02T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = " " + passDay + " 天 " + passHour + " 小时 " + passMinute + " 分 " + passSecond + " 秒";
+}
+blog_live_time();
+</script></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#6200ee" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script defer src="/js/search/index.js"></script><script defer src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script><script defer src="https://cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script><script defer src="/js/search/algolia-search.js"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"></div><div class="algolia-results"><div id="algolia-stats"></div><div id="algolia-hits"></div><div class="algolia-pagination" id="algolia-pagination"></div></div></div><script>let date = new Date();
+let today = (date.getMonth() + 1) + "-" + date.getDate()
+if ("4-4".indexOf(today) !== -1) {
+  document.documentElement.style.filter = "grayscale(1)";
+}</script></div><script defer src="/js/hexo-theme-yun.js"></script></body></html>
