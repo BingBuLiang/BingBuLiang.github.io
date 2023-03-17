@@ -39,7 +39,7 @@
 }
 body {
   font-family: 'PingFang SC', 'Microsoft YaHei', Roboto, Arial, sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   margin: 0;
   padding: 0;
   line-height: 2;
@@ -70,23 +70,23 @@ h6 {
 }
 h1 {
   font-size: 2.5rem;
-  font-weight: 300;
+  font-weight: 400;
 }
 h2 {
   font-size: 2.2rem;
-  font-weight: 300;
+  font-weight: 400;
 }
 h3 {
   font-size: 1.9rem;
-  font-weight: 300;
+  font-weight: 400;
 }
 h4 {
   font-size: 1.6rem;
-  font-weight: 300;
+  font-weight: 400;
 }
 h5 {
   font-size: 1.3rem;
-  font-weight: 300;
+  font-weight: 400;
 }
 h6 {
   font-size: 1rem false;
@@ -755,7 +755,8 @@ input {
 }
 .pagination .prev.current,
 .pagination .next.current,
-.pagination .page-number.current {
+.pagination .page-number.current,
+.algolia-pagination .current .page-number {
   background: rgba(98,0,238,0.9);
   color: #fff;
   cursor: default;
@@ -992,6 +993,52 @@ input {
   top: 0;
   z-index: 11;
   pointer-events: none;
+}
+#trianglify {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  opacity: 0.5;
+  animation: triFadeIn 2s;
+}
+@-moz-keyframes triFadeIn {
+  from {
+    opacity: 0;
+    filter: grayscale(1);
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+@-webkit-keyframes triFadeIn {
+  from {
+    opacity: 0;
+    filter: grayscale(1);
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+@-o-keyframes triFadeIn {
+  from {
+    opacity: 0;
+    filter: grayscale(1);
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+@keyframes triFadeIn {
+  from {
+    opacity: 0;
+    filter: grayscale(1);
+  }
+  to {
+    opacity: 0.5;
+  }
 }
 .post-card {
   position: relative;
@@ -1875,6 +1922,143 @@ td {
 .progress-circle-container {
   position: absolute;
 }
+.ais-SearchBox {
+  margin: 0 auto;
+  width: 100% !important;
+  max-width: 100% !important;
+  position: static !important;
+}
+.ais-SearchBox-input {
+  padding: 0.2rem;
+  outline: none;
+  font-size: 1.2rem;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding-left: 0px;
+  line-height: 1;
+}
+.algolia-powered {
+  float: right;
+}
+.algolia-powered img {
+  display: inline-block;
+  height: 1.2rem;
+  vertical-align: middle;
+}
+.algolia-results {
+  position: relative;
+  overflow: auto;
+  padding: 10px 30px;
+  height: calc(100% - 50px);
+}
+.algolia-results hr {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+#algolia-hits {
+  background-color: rgba(255,255,255,0.5);
+}
+.algolia-hit-item {
+  display: flex;
+  justify-content: center;
+}
+.algolia-hit-item-link {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  border-bottom: 1px dashed #ccc;
+  font-family: 'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+  max-width: 800px;
+  transition-property: all;
+  transition-duration: 0.2s;
+  transition-delay: 0s;
+}
+.algolia-hit-item-link mark {
+  color: #db2828;
+  font-family: 900;
+  background-color: transparent;
+  text-decoration: underline;
+}
+.algolia-pagination .ais-Pagination-list {
+  padding-inline-start: 0;
+}
+.algolia-pagination .pagination-item {
+  display: inline-block;
+  list-style-type: none;
+}
+.algolia-pagination .page-number {
+  border-top: none;
+}
+.algolia-pagination .disabled-item {
+  display: none;
+}
+.ais-Hits-list {
+  margin: 0;
+  list-style-type: none;
+  padding-inline-start: 0;
+}
+.search-popup {
+  background-image: url("https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  padding-top: 4.5rem;
+  margin: 0;
+  opacity: 0;
+  z-index: 30;
+  transition: 0.6s;
+  visibility: hidden;
+}
+.search-popup.show {
+  visibility: visible;
+  opacity: 1;
+}
+.search-header .close-icon {
+  position: fixed;
+  top: 0.6rem;
+  right: 0.8rem;
+}
+.search-input {
+  font-size: 1.5rem;
+  border-radius: 3rem;
+  padding: 1rem 1.5rem;
+  border: 1px solid #999;
+  box-sizing: border-box;
+  width: 90%;
+  max-width: 800px;
+  font-family: 'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif;
+  font-weight: 900;
+  text-align: center;
+}
+.popup .search-icon,
+.popup .close-icon {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.5rem;
+}
+.popup .search-icon .icon,
+.popup .close-icon .icon {
+  width: 2rem;
+  height: 2rem;
+}
+#search {
+  position: fixed;
+  top: 0.6rem;
+  right: 0.8rem;
+}
+#search .icon {
+  color: #6200ee;
+}
 #comment {
   margin: 0 1rem;
   padding: 1rem;
@@ -1907,4 +2091,110 @@ td {
 }
 #say #say-from {
   display: block;
+}
+.album-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.album-list-item {
+  display: inline-flex;
+}
+.album-list-item figure {
+  position: relative;
+  width: 15rem;
+  margin: 2rem;
+}
+.album-list-item figure::before {
+  content: '';
+  position: absolute;
+  top: 1%;
+  left: 0.5%;
+  width: 100%;
+  height: 96%;
+  border: 0.25rem solid #fff;
+  background-color: #666;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+  transform: rotate(-3deg);
+}
+.album-list-item figure img {
+  vertical-align: bottom;
+  display: inline-flex;
+  border: 0.25rem solid #fff;
+  box-shadow: 0 8px 10px rgba(0,0,0,0.3);
+  padding: 0;
+  transform: rotate(2deg);
+  width: 100%;
+  height: 10rem;
+  object-fit: cover;
+  background-color: #eee;
+}
+.album-list-item figure figcaption {
+  position: absolute;
+  bottom: -2.5rem;
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+.photo-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.photo-list-item {
+  display: inline-flex;
+  position: relative;
+  width: 15rem;
+  margin: 2rem;
+  cursor: url("https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/link.cur"), pointer;
+}
+.photo-list-item img {
+  box-sizing: border-box;
+  vertical-align: bottom;
+  display: inline-flex;
+  border: 0.25rem solid #fff;
+  box-shadow: 0 8px 10px rgba(0,0,0,0.1);
+  width: 100%;
+  height: 10rem;
+  object-fit: cover;
+  background-color: #eee;
+}
+.photo-list-item figcaption {
+  position: absolute;
+  bottom: -2rem;
+  display: block;
+  text-align: center;
+  width: 100%;
+  font-size: 0.9rem;
+}
+#decryptContainer {
+  display: flex;
+  height: 10rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+#decrypt-password {
+  outline: none;
+  font-size: 1.5rem;
+  border-radius: 3rem;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid #999;
+  box-sizing: border-box;
+  width: 90%;
+  max-width: 800px;
+  font-family: 'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif;
+  font-weight: 900;
+  text-align: center;
+}
+#decryptButton {
+  color: #6200ee;
+  background-color: rgba(98,0,238,0.08);
+}
+#decryptButton:active {
+  background-color: rgba(98,0,238,0.3);
+}
+#decryptButton .icon {
+  width: 1.5rem;
+  height: 1.5rem;
 }

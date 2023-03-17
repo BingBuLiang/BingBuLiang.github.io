@@ -1,0 +1,893 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="中间件——rabbitMQ"><meta name="keywords" content="java,中间件,rabbitMQ"><meta name="author" content="冰不良"><meta name="copyright" content="冰不良"><meta name="theme-color" content="#6200ee"><title>中间件——rabbitMQ | 冰不良のblog</title><link rel="shortcut icon" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#6200ee"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script id="yun-config">
+    window.CONFIG = {"root":"/","title":"冰不良の小站","version":"0.7.1","anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"algolia":{"appID":"5WNMZVZKKS","apiKey":"b66222e466f2046a9accd67fc9fcbe08","indexName":"hexo","hits":{"per_page":8},"labels":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容: ${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" defer></script><script src="/js/load-aplayer.js" defer></script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="none" onload="this.media='all'"><script src="//at.alicdn.com/t/font_1140697_rtqh36oinzl.js" async></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><link rel="preconnect" href="https://stats.g.doubleclick.net" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=UA-7FZJ6MEGB5-G"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-7FZJ6MEGB5-G');</script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js" defer></script><script src="/js/pjax.js" defer></script><div class="js-Pjax"></div><meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><canvas id="trianglify"></canvas><script defer src="https://cdn.jsdelivr.net/npm/trianglify@latest/dist/trianglify.min.js"></script><script>document.addEventListener("DOMContentLoaded", () => {
+  const pattern = Trianglify({
+    width: 800,
+    height: 600,
+    cell_size: 75,
+    palette: ["YlGnBu", "GnBu", "Purples", "Blues"],
+  });
+  document.body.appendChild(pattern.canvas(trianglify));
+});</script><div class="container"><a class="sidebar-toggle sidebar-toggle-fixed hty-icon-button"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><aside class="sidebar"><script defer src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about" title="冰不良"><img width="96" loading="lazy" src="/images/%E5%A4%B4%E5%83%8F.jpg" alt="冰不良"></a><div class="site-author-name"><a href="/about/">冰不良</a></div><a class="site-name" href="/about/site.html">冰不良のblog</a><sub class="site-subtitle"></sub><div class="site-desciption">快来和我一起秃头吧！</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item site-state-posts"><a href="/archives" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">17</span></a></div><div class="site-state-item site-state-tags"><a href="/tags" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">14</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-clipboard-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://wpa.qq.com/msgrd?v=3&amp;uin=2330181012&amp;site=qq&amp;menu=yes" title="QQ" target="_blank" style="color:#12B7F5"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-qq-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/BingBuLiang" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:bingbuliang996@163.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://weibo.com/u/5648709252" title="微博" target="_blank" style="color:#E6162D"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-weibo-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/bing-bu-liang-xian-sen?utm_id=0" title="知乎" target="_blank" style="color:#0084FF"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-zhihu-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/470508529" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><i class="ri:genderless-line"></i></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#rabbitmq"><span class="toc-number">1.</span> <span class="toc-text">rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#AMPQ%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.1.</span> <span class="toc-text">AMPQ协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rabbitmq%E5%AE%89%E8%A3%85%E4%BB%A5%E5%8F%8A%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text">Rabbitmq安装以及用户配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E4%BD%BF%E7%94%A8Rabbitmq"><span class="toc-number">1.3.</span> <span class="toc-text">Java使用Rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.3.1.</span> <span class="toc-text">代码示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POM"><span class="toc-number">1.3.2.</span> <span class="toc-text">POM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Common"><span class="toc-number">1.3.3.</span> <span class="toc-text">Common</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#entity"><span class="toc-number">1.3.4.</span> <span class="toc-text">entity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#util"><span class="toc-number">1.3.5.</span> <span class="toc-text">util</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#test"><span class="toc-number">1.3.6.</span> <span class="toc-text">test</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rabbitmq%E5%8F%91%E9%80%81%E4%B8%8E%E6%8E%A5%E6%94%B6%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">Rabbitmq发送与接收方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Send%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.1.</span> <span class="toc-text">Send方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#receive%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.2.</span> <span class="toc-text">receive方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reject"><span class="toc-number">1.4.3.</span> <span class="toc-text">reject</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#test-1"><span class="toc-number">1.4.4.</span> <span class="toc-text">test</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%96%AD%E5%BC%80%E4%BB%A5%E5%8F%8A%E6%B6%88%E6%81%AF%E5%9B%9E%E9%80%80%E7%9B%91%E5%90%AC%E5%99%A8"><span class="toc-number">1.5.</span> <span class="toc-text">连接断开以及消息回退监听器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81%E5%A4%B1%E8%B4%A5"><span class="toc-number">1.6.</span> <span class="toc-text">消息发送失败</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD%E4%BA%A4%E6%8D%A2%E5%99%A8"><span class="toc-number">1.6.1.</span> <span class="toc-text">备份交换器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mandatory-%E5%92%8Cimmedicate"><span class="toc-number">1.6.2.</span> <span class="toc-text">mandatory 和immedicate</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TTL%EF%BC%9A%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4"><span class="toc-number">1.7.</span> <span class="toc-text">TTL：过期时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%97%B6%E9%97%B4"><span class="toc-number">1.7.1.</span> <span class="toc-text">设置时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%B6%88%E6%81%AFTTL%E6%96%B9%E5%BC%8F"><span class="toc-number">1.7.2.</span> <span class="toc-text">设置消息TTL方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.7.2.1.</span> <span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E9%98%9F%E5%88%97%E7%9A%84TTL"><span class="toc-number">1.7.3.</span> <span class="toc-text">设置队列的TTL</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-1"><span class="toc-number">1.7.3.1.</span> <span class="toc-text">应用场景</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DLX%EF%BC%9A%E6%AD%BB%E4%BF%A1%E4%BA%A4%E6%8D%A2%E5%99%A8"><span class="toc-number">1.8.</span> <span class="toc-text">DLX：死信交换器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E4%BF%A1"><span class="toc-number">1.8.1.</span> <span class="toc-text">死信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E4%BF%A1%E4%BA%A4%E6%8D%A2%E5%99%A8"><span class="toc-number">1.8.2.</span> <span class="toc-text">死信交换器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E4%BF%A1%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.8.3.</span> <span class="toc-text">死信产生原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%AD%BB%E4%BF%A1%E4%BA%A4%E6%8D%A2%E5%99%A8%EF%BC%9ADLX"><span class="toc-number">1.8.4.</span> <span class="toc-text">配置死信交换器：DLX</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97"><span class="toc-number">1.9.</span> <span class="toc-text">延迟队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-2"><span class="toc-number">1.9.1.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">1.9.2.</span> <span class="toc-text">使用方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97"><span class="toc-number">1.10.</span> <span class="toc-text">优先级队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.10.1.</span> <span class="toc-text">优先级设置</span></a></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://bingbuliang.github.io/2022/01/01/rabbitmq/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="冰不良"><meta itemprop="description" content="中间件——rabbitMQ"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="冰不良のblog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline" style="color: undefined">中间件——rabbitMQ</h1><div class="post-meta"><div class="post-time" style="display:inline-block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2022-01-01 16:45:08" itemprop="dateCreated datePublished" datetime="2022-01-01T16:45:08+08:00">2022-01-01</time></div><div class="post-classify"><span class="post-tag"><a class="tag" href="/tags/java/" style="--text-color:#d04d2d"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">java</span></a><a class="tag" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">中间件</span></a><a class="tag" href="/tags/rabbitMQ/"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">rabbitMQ</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content post-markdown"><h1 id="rabbitmq"><a href="#rabbitmq" class="headerlink" title="rabbitmq"></a>rabbitmq</h1><h2 id="AMPQ协议"><a href="#AMPQ协议" class="headerlink" title="AMPQ协议"></a>AMPQ协议</h2><blockquote>
+</blockquote>
+<h2 id="Rabbitmq安装以及用户配置"><a href="#Rabbitmq安装以及用户配置" class="headerlink" title="Rabbitmq安装以及用户配置"></a>Rabbitmq安装以及用户配置</h2><pre class="language-bash" data-language="bash"><code class="language-bash"># 下载安装与配置
+echo 下载安装rabbitmq
+brew install rabbitmq
+echo 配置rabbitmq
+brew link rabbitmq --overwrite
+which rabbitmq-server
+
+# 配置远程访问用户
+echo 配置rabbitmq远程访问用户
+rabbitmqctl add_user xyzc 19990604
+# 远程访问用户赋权
+echo rabbitmq远程访问用户赋权
+rabbitmqctl  set_user_tags  xyzc  administrator
+# 查看远程访问用户
+echo rabbitmq查看远程访问用户
+rabbitmqctl list_users
+# 启动mq
+rabbitmq-server
+echo 你可以通过 http:&#x2F;&#x2F;127.0.0.1:15672 用户名和密码均为guest进行访问，guest只支持本地访问</code></pre>
+
+<h2 id="Java使用Rabbitmq"><a href="#Java使用Rabbitmq" class="headerlink" title="Java使用Rabbitmq"></a>Java使用Rabbitmq</h2><h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><blockquote>
+</blockquote>
+<h3 id="POM"><a href="#POM" class="headerlink" title="POM"></a>POM</h3><pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>project</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://maven.apache.org/POM/4.0.0<span class="token punctuation">"</span></span>
+         <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+         <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>parent</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>middleware<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>com.spring<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>1.0-SNAPSHOT<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>parent</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>modelVersion</span><span class="token punctuation">></span></span>4.0.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>modelVersion</span><span class="token punctuation">></span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>rabbitmq<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>properties</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maven.compiler.source</span><span class="token punctuation">></span></span>8<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maven.compiler.source</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maven.compiler.target</span><span class="token punctuation">></span></span>8<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maven.compiler.target</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>project.build.sourceEncoding</span><span class="token punctuation">></span></span>UTF-8<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>project.build.sourceEncoding</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>properties</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencies</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-amqp<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.slf4j<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jul-to-slf4j<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>1.7.30<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.projectlombok<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>lombok<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>project</span><span class="token punctuation">></span></span></code></pre>
+
+<h3 id="Common"><a href="#Common" class="headerlink" title="Common"></a>Common</h3><blockquote>
+<p><code>ConsumerProperties</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">package com.spring.common;
+
+public class ConsumerProperties &#123;
+    &#x2F;**
+     * IP地址
+     *&#x2F;
+    public static final String IP_ADDRESS &#x3D; &quot;127.0.0.1&quot;;
+    &#x2F;**
+     * rabbitmq客户端端口号：5672，服务端为：15672
+     *&#x2F;
+    public static final int PORT &#x3D; 5672;
+    &#x2F;**
+     * 用户名
+     *&#x2F;
+    public static final String USER_NAME &#x3D; &quot;xyzc&quot;;
+    &#x2F;**
+     * 用户密码
+     *&#x2F;
+    public static final String PASSWORD &#x3D; &quot;19990604&quot;;
+    &#x2F;**
+     * 队列名称
+     *&#x2F;
+    public static final String QUEUE_NAME &#x3D; &quot;queue_test&quot;;
+    &#x2F;**
+     * 客户最多接收未被ack的消息的个数
+     *&#x2F;
+    public static final Integer BASIC_QOS &#x3D; 64;
+&#125;</code></pre>
+
+<blockquote>
+<p><code>ProductProperties</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">package com.spring.common;
+
+public class ProductProperties &#123;
+    &#x2F;**
+     * IP地址
+     *&#x2F;
+    public static final String IP_ADDRESS &#x3D; &quot;127.0.0.1&quot;;
+    &#x2F;**
+     * rabbitmq客户端端口号：5672，服务端为：15672
+     *&#x2F;
+    public static final Integer PORT &#x3D; 5672;
+    &#x2F;**
+     * 用户名
+     *&#x2F;
+    public static final String USERNAME &#x3D; &quot;xyzc&quot;;
+    &#x2F;**
+     * 用户密码
+     *&#x2F;
+    public static final String PASSWORD &#x3D; &quot;19990604&quot;;
+    &#x2F;**
+     * 交换器名称
+     *&#x2F;
+    public static final String EXCHANGE_NAME &#x3D; &quot;exchange_test&quot;;
+    &#x2F;**
+     * 路由名称
+     *&#x2F;
+    public static final String ROUTING_KEY &#x3D; &quot;routingKey_test&quot;;
+    &#x2F;**
+     * 队列名称
+     *&#x2F;
+    public static final String QUEUE_NAME &#x3D; &quot;queue_test&quot;;
+&#125;</code></pre>
+
+<h3 id="entity"><a href="#entity" class="headerlink" title="entity"></a>entity</h3><blockquote>
+<p><code>RabbitConsumerInfo</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">package com.spring.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class RabbitConsumerInfo &#123;
+    &#x2F;**
+     * IP地址
+     *&#x2F;
+    private String ipAddress;
+    &#x2F;**
+     * rabbitmq客户端端口号：5672，服务端为：15672
+     *&#x2F;
+    private Integer port;
+    &#x2F;**
+     * 用户名
+     *&#x2F;
+    private String username;
+    &#x2F;**
+     * 用户密码
+     *&#x2F;
+    private String password;
+    &#x2F;**
+     * 队列名称
+     *&#x2F;
+    private String queueName;
+    &#x2F;**
+     * 客户最多接收未被ack的消息的个数
+     *&#x2F;
+    private Integer basicQos;
+&#125;</code></pre>
+
+<blockquote>
+<p><code>RabbitInfo</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">package com.spring.entity;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class RabbitInfo &#123;
+    &#x2F;**
+     * rabbitmq连接工厂
+     *&#x2F;
+    private ConnectionFactory factory;
+    &#x2F;**
+     * rabbitmq连接
+     *&#x2F;
+    private Connection connection;
+    &#x2F;**
+     * rabbitmq通道
+     *&#x2F;
+    private Channel channel;
+&#125;</code></pre>
+
+<blockquote>
+<p><code>RabbitProductInfo</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">package com.spring.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class RabbitProductInfo &#123;
+    &#x2F;**
+     * IP地址
+     *&#x2F;
+    private String ipAddress;
+    &#x2F;**
+     * rabbitmq客户端端口号：5672，服务端为：15672
+     *&#x2F;
+    private Integer port;
+    &#x2F;**
+     * 用户名
+     *&#x2F;
+    private String username;
+    &#x2F;**
+     * 用户密码
+     *&#x2F;
+    private String password;
+    &#x2F;**
+     * 交换器名称
+     *&#x2F;
+    private String exchangeName;
+    &#x2F;**
+     * 路由名称
+     *&#x2F;
+    private String routingKey;
+    &#x2F;**
+     * 队列名称
+     *&#x2F;
+    private String queueName;
+&#125;</code></pre>
+
+<h3 id="util"><a href="#util" class="headerlink" title="util"></a>util</h3><blockquote>
+<p><code>RabbitProducer</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">package com.spring.util;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.spring.common.ProductProperties;
+import com.spring.entity.RabbitInfo;
+import com.spring.entity.RabbitProductInfo;
+
+import java.io.IOException;
+import java.util.Optional;
+import java.util.concurrent.TimeoutException;
+
+public class RabbitProducer &#123;
+    &#x2F;**
+     * 使用默认的参数获取服务端连接信息
+     * @return 服务端连接信息
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public static RabbitInfo initRabbit() throws IOException, TimeoutException &#123;
+        ConnectionFactory factory &#x3D; new ConnectionFactory();
+        &#x2F;&#x2F; factory.setUri(&quot;amqp:&#x2F;&#x2F;&quot; + USERNAME + &quot;:&quot; + PASSWORD + &quot;@&quot; + IP_ADDRESS + &quot;:&quot; + PORT +&quot;virtualHost&quot; ); &#x2F;&#x2F; 与下一行代码作用相同
+        factory.setHost(ProductProperties.IP_ADDRESS);factory.setPort(ProductProperties.PORT);factory.setUsername(ProductProperties.USERNAME);factory.setPassword(ProductProperties.PASSWORD);
+        &#x2F;&#x2F; 创建连接
+        Connection connection &#x3D; factory.newConnection();
+        &#x2F;&#x2F; 创建信道：不要使用isOpen方法--&gt;会有锁资源竞争 ， 推荐使用异常捕获机制 --&gt; ShutdownSignalException
+        Channel channel &#x3D; connection.createChannel();
+        &#x2F;&#x2F; 创建一个type&#x3D;&quot;direct&quot; 、持久化的、非自动删除的队列
+        channel.exchangeDeclare(ProductProperties.EXCHANGE_NAME, &quot;direct&quot;, true, false, null);
+        &#x2F;&#x2F; 创建一个持久化、非排他的、非自动删除的交换器
+        &#x2F;&#x2F; 可以通过channel获取并设置队列：channel.queueDeclare().getQueue() --&gt; 同一Connection共用 ；也可以指定一个QUEUE_NAME --&gt; 应用共用
+        channel.queueDeclare(ProductProperties.QUEUE_NAME, true, false, false, null);
+        &#x2F;&#x2F; 将交换器和队列通过路由键绑定
+        channel.queueBind(ProductProperties.QUEUE_NAME, ProductProperties.EXCHANGE_NAME, ProductProperties.ROUTING_KEY);
+        return RabbitInfo.builder().factory(factory).connection(connection).channel(channel).build();
+    &#125;
+    &#x2F;**
+     * 使用指定的参数获取服务端连接信息
+     * @param productInfo 指定的参数，null为默认
+     * @return 服务端连接信息
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public static RabbitInfo initRabbit(RabbitProductInfo productInfo) throws IOException, TimeoutException &#123;
+        ConnectionFactory factory &#x3D; new ConnectionFactory();
+        &#x2F;&#x2F; factory.setUri(&quot;amqp:&#x2F;&#x2F;&quot; + USERNAME + &quot;:&quot; + PASSWORD + &quot;@&quot; + IP_ADDRESS + &quot;:&quot; + PORT +&quot;virtualHost&quot; ); &#x2F;&#x2F; 与下一行代码作用相同
+        factory.setHost(Optional.ofNullable(productInfo.getIpAddress()).orElse(ProductProperties.IP_ADDRESS));
+        factory.setPort(Optional.ofNullable(productInfo.getPort()).orElse(ProductProperties.PORT));
+        factory.setUsername(Optional.ofNullable(productInfo.getUsername()).orElse(ProductProperties.USERNAME));
+        factory.setPassword(Optional.ofNullable(productInfo.getPassword()).orElse(ProductProperties.PASSWORD));
+        &#x2F;&#x2F; 创建连接
+        Connection connection &#x3D; factory.newConnection();
+        &#x2F;&#x2F; 创建信道：不要使用isOpen方法--&gt;会有锁资源竞争 ， 推荐使用异常捕获机制 --&gt; ShutdownSignalException
+        Channel channel &#x3D; connection.createChannel();
+        &#x2F;&#x2F; 创建一个type&#x3D;&quot;direct&quot; 、持久化的、非自动删除的队列
+        channel.exchangeDeclare(Optional.ofNullable(productInfo.getExchangeName()).orElse(ProductProperties.EXCHANGE_NAME), &quot;direct&quot;, true, false, null);
+        &#x2F;&#x2F; 创建一个持久化、非排他的、非自动删除的交换器
+        &#x2F;&#x2F; 可以通过channel获取并设置队列：channel.queueDeclare().getQueue() --&gt; 同一Connection共用 ；也可以指定一个QUEUE_NAME --&gt; 应用共用
+        channel.queueDeclare(Optional.ofNullable(productInfo.getQueueName()).orElse(ProductProperties.QUEUE_NAME), true, false, false, null);
+        &#x2F;&#x2F; 将交换器和队列通过路由键绑定
+        channel.queueBind(Optional.ofNullable(productInfo.getQueueName()).orElse(ProductProperties.QUEUE_NAME), Optional.ofNullable(productInfo.getExchangeName()).orElse(ProductProperties.EXCHANGE_NAME), Optional.ofNullable(productInfo.getRoutingKey()).orElse(ProductProperties.ROUTING_KEY));
+        return RabbitInfo.builder().factory(factory).connection(connection).channel(channel).build();
+    &#125;
+
+    &#x2F;**
+     * 断开服务端连接信息
+     * @param rabbitInfo 服务端连接信息
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public static void closeRabbit(RabbitInfo rabbitInfo) throws IOException, TimeoutException &#123;
+        &#x2F;&#x2F; 关闭资源
+        rabbitInfo.getChannel().close();
+        rabbitInfo.getConnection().close();
+    &#125;
+&#125;</code></pre>
+
+<blockquote>
+<p><code>RabbitConsumer</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">package com.spring.util;
+
+import com.rabbitmq.client.Address;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.spring.common.ConsumerProperties;
+import com.spring.common.ProductProperties;
+import com.spring.entity.RabbitConsumerInfo;
+import com.spring.entity.RabbitInfo;
+
+import java.io.IOException;
+import java.util.Optional;
+import java.util.concurrent.TimeoutException;
+
+public class RabbitConsumer &#123;
+    &#x2F;**
+     * 使用默认的参数获取消费端连接信息
+     * @return 消费端连接信息
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public static RabbitInfo initRabbit() throws IOException, TimeoutException &#123;
+        Address[] addresses &#x3D; new Address[]&#123;new Address(ConsumerProperties.IP_ADDRESS, ConsumerProperties.PORT)&#125;;
+        ConnectionFactory factory &#x3D; new ConnectionFactory();
+        factory.setUsername(ConsumerProperties.USER_NAME);factory.setPassword(ConsumerProperties.PASSWORD);
+        &#x2F;&#x2F; 这里的连接方式与生产者方式略有不同，注意辨别区别
+        &#x2F;&#x2F; 创建连接
+        Connection connection &#x3D; factory.newConnection(addresses);
+        &#x2F;&#x2F; 创建信道
+        final Channel channel &#x3D; connection.createChannel();
+        &#x2F;&#x2F; 设置客户最多接收未被ack的消息的个数
+        channel.basicQos(64);
+        return RabbitInfo.builder().factory(factory).connection(connection).channel(channel).build();
+    &#125;
+
+    &#x2F;**
+     * 使用指定的参数获取消费端连接信息
+     * @param consumerInfo 指定的参数，null为默认
+     * @return 服务端连接信息
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public static RabbitInfo initRabbit(RabbitConsumerInfo consumerInfo) throws IOException, TimeoutException &#123;
+        Address[] addresses &#x3D; new Address[]&#123;new Address(Optional.ofNullable(consumerInfo.getIpAddress()).orElse(ConsumerProperties.IP_ADDRESS), Optional.ofNullable(consumerInfo.getPort()).orElse(ConsumerProperties.PORT))&#125;;
+        ConnectionFactory factory &#x3D; new ConnectionFactory();
+        factory.setUsername(Optional.ofNullable(consumerInfo.getIpAddress()).orElse(ConsumerProperties.USER_NAME));
+        factory.setPassword(Optional.ofNullable(consumerInfo.getIpAddress()).orElse(ConsumerProperties.PASSWORD));
+        &#x2F;&#x2F; 这里的连接方式与生产者方式略有不同，注意辨别区别
+        &#x2F;&#x2F; 创建连接
+        Connection connection &#x3D; factory.newConnection(addresses);
+        &#x2F;&#x2F; 创建信道
+        final Channel channel &#x3D; connection.createChannel();
+        &#x2F;&#x2F; 设置客户最多接收未被ack的消息的个数
+        channel.basicQos(Optional.ofNullable(consumerInfo.getBasicQos()).orElse(ConsumerProperties.BASIC_QOS));
+        return RabbitInfo.builder().factory(factory).connection(connection).channel(channel).build();
+    &#125;
+
+    &#x2F;**
+     * 断开消费端连接信息
+     * @param rabbitInfo 消费端连接信息
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public static void closeRabbit(RabbitInfo rabbitInfo) throws IOException, TimeoutException &#123;
+        &#x2F;&#x2F; 关闭资源
+        rabbitInfo.getChannel().close();
+        rabbitInfo.getConnection().close();
+    &#125;
+&#125;</code></pre>
+
+<h3 id="test"><a href="#test" class="headerlink" title="test"></a>test</h3><blockquote>
+<p><code>RabbitProducerTest</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">import com.rabbitmq.client.*;
+import com.spring.common.ProductProperties;
+import com.spring.entity.RabbitInfo;
+import com.spring.util.RabbitProducer;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeoutException;
+
+public class RabbitProducerTest &#123;
+    public static void main(String[] args) throws IOException, TimeoutException &#123;
+        RabbitInfo rabbitInfo &#x3D; RabbitProducer.initRabbit();
+        &#x2F;&#x2F; 发送一条持久化的消息： Hello World!
+        String message &#x3D; &quot;Hello World!&quot;;
+        rabbitInfo.getChannel().basicPublish(ProductProperties.EXCHANGE_NAME, ProductProperties.ROUTING_KEY, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes(StandardCharsets.UTF_8));
+        System.out.println(&quot;RabbitProducerTest send message: ：&quot; + message);
+        RabbitProducer.closeRabbit(rabbitInfo);
+    &#125;
+&#125;</code></pre>
+
+<blockquote>
+<p><code>RabbitConsumerTest</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">import com.rabbitmq.client.*;
+import com.spring.common.ConsumerProperties;
+import com.spring.entity.RabbitInfo;
+import com.spring.util.RabbitConsumer;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+public class RabbitConsumerTest &#123;
+    public static void main(String[] args) throws IOException, TimeoutException, InterruptedException &#123;
+        RabbitInfo rabbitInfo &#x3D; RabbitConsumer.initRabbit();
+        &#x2F;&#x2F; QueueingConsumer不推荐使用，因为被标记为@Deprecated
+        Consumer consumer &#x3D; new DefaultConsumer(rabbitInfo.getChannel())&#123;
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException &#123;
+                System.out.println(&quot;RabbitConsumerTest receive message: &quot; + new String(body));
+                try &#123;
+                    TimeUnit.SECONDS.sleep(1);
+                &#125; catch (InterruptedException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+                rabbitInfo.getChannel().basicAck(envelope.getDeliveryTag(), false);
+            &#125;
+        &#125;;
+        rabbitInfo.getChannel().basicConsume(ConsumerProperties.QUEUE_NAME, consumer);
+        &#x2F;&#x2F; 等待回调函数执行完毕后，关闭资源
+        TimeUnit.SECONDS.sleep(5);
+        RabbitConsumer.closeRabbit(rabbitInfo);
+    &#125;
+&#125;</code></pre>
+
+<h2 id="Rabbitmq发送与接收方式"><a href="#Rabbitmq发送与接收方式" class="headerlink" title="Rabbitmq发送与接收方式"></a>Rabbitmq发送与接收方式</h2><h3 id="Send方式"><a href="#Send方式" class="headerlink" title="Send方式"></a>Send方式</h3><blockquote>
+<p><code>RabbitSend</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">package com.spring.util;
+
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.MessageProperties;
+import com.spring.common.ProductProperties;
+import com.spring.entity.RabbitInfo;
+import com.spring.entity.RabbitProductInfo;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
+import java.util.concurrent.TimeoutException;
+public class RabbitSend&#123;
+    &#x2F;**
+     * 不携带参数的发送信息
+     * @param productInfo 指定的参数，null为默认
+     * @param message 消息
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public static void send(RabbitProductInfo productInfo, String message) throws IOException, TimeoutException &#123;
+        RabbitInfo rabbitInfo &#x3D; productInfo&#x3D;&#x3D; null? RabbitProducer.initRabbit():RabbitProducer.initRabbit(productInfo);
+        productInfo &#x3D; Optional.ofNullable(productInfo).orElse(RabbitProductInfo.builder().build());
+        rabbitInfo.getChannel().basicPublish(Optional.ofNullable(productInfo.getExchangeName()).orElse(ProductProperties.EXCHANGE_NAME), Optional.ofNullable(productInfo.getRoutingKey()).orElse(ProductProperties.ROUTING_KEY), MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes(StandardCharsets.UTF_8));
+        RabbitProducer.closeRabbit(rabbitInfo);
+    &#125;
+
+    &#x2F;**
+     * 含有路由失败消息处理方式的发送信息
+     * @param productInfo 指定的参数，null为默认
+     * @param mandatory 是否返回给生产者,否丢弃
+     * @param message 消息
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public static void sendWithMandatory(RabbitProductInfo productInfo, boolean mandatory, String message) throws IOException, TimeoutException &#123;
+        RabbitInfo rabbitInfo &#x3D; productInfo&#x3D;&#x3D; null? RabbitProducer.initRabbit():RabbitProducer.initRabbit(productInfo);
+        productInfo &#x3D; Optional.ofNullable(productInfo).orElse(RabbitProductInfo.builder().build());
+        rabbitInfo.getChannel().basicPublish(Optional.ofNullable(productInfo.getExchangeName()).orElse(ProductProperties.EXCHANGE_NAME), Optional.ofNullable(productInfo.getRoutingKey()).orElse(ProductProperties.ROUTING_KEY), mandatory, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes(StandardCharsets.UTF_8));
+        RabbitProducer.closeRabbit(rabbitInfo);
+    &#125;
+
+    &#x2F;**
+     * 携带参数的发送信息
+     * @param productInfo 指定的参数，null为默认
+     * @param props 参数
+     * @param message 消息
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public static void sendWithProps(RabbitProductInfo productInfo, AMQP.BasicProperties props, String message) throws IOException, TimeoutException &#123;
+        RabbitInfo rabbitInfo &#x3D; productInfo&#x3D;&#x3D; null? RabbitProducer.initRabbit():RabbitProducer.initRabbit(productInfo);
+        productInfo &#x3D; Optional.ofNullable(productInfo).orElse(RabbitProductInfo.builder().build());
+        rabbitInfo.getChannel().basicPublish(Optional.ofNullable(productInfo.getExchangeName()).orElse(ProductProperties.EXCHANGE_NAME), Optional.ofNullable(productInfo.getRoutingKey()).orElse(ProductProperties.ROUTING_KEY), props, message.getBytes(StandardCharsets.UTF_8));
+        RabbitProducer.closeRabbit(rabbitInfo);
+    &#125;
+
+    &#x2F;**
+     * 携带参数的、含有路由失败消息处理方式的发送信息
+     * @param productInfo 指定的参数，null为默认
+     * @param mandatory 是否返回给生产者,否丢弃
+     * @param props 参数
+     * @param message 消息
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public static void sendWithMandatoryAndProps(RabbitProductInfo productInfo, boolean mandatory, AMQP.BasicProperties props, String message) throws IOException, TimeoutException &#123;
+        RabbitInfo rabbitInfo &#x3D; productInfo&#x3D;&#x3D; null? RabbitProducer.initRabbit():RabbitProducer.initRabbit(productInfo);
+        productInfo &#x3D; Optional.ofNullable(productInfo).orElse(RabbitProductInfo.builder().build());
+        rabbitInfo.getChannel().basicPublish(Optional.ofNullable(productInfo.getExchangeName()).orElse(ProductProperties.EXCHANGE_NAME), Optional.ofNullable(productInfo.getRoutingKey()).orElse(ProductProperties.ROUTING_KEY), mandatory, props, message.getBytes(StandardCharsets.UTF_8));
+        RabbitProducer.closeRabbit(rabbitInfo);
+    &#125;
+&#125;</code></pre>
+
+<h3 id="receive方式"><a href="#receive方式" class="headerlink" title="receive方式"></a>receive方式</h3><blockquote>
+<p><code>RabbitReceive</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">package com.spring.util;
+
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
+import com.rabbitmq.client.GetResponse;
+import com.spring.common.ConsumerProperties;
+import com.spring.entity.RabbitConsumerInfo;
+import com.spring.entity.RabbitInfo;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.concurrent.TimeoutException;
+
+public class RabbitReceive &#123;
+    &#x2F;**
+     * 使用推送的方式获取信息
+     * @param consumerInfo 参数配置：建议配置队列名称
+     * @param autoAck 是否自动确认，确认后消息会消失
+     * @param consumerTag 消费者标签
+     * @return 信息
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public String receiveByPush(RabbitConsumerInfo consumerInfo, Boolean autoAck, String consumerTag) throws IOException, TimeoutException &#123;
+        RabbitInfo rabbitInfo &#x3D; consumerInfo &#x3D;&#x3D; null? RabbitConsumer.initRabbit() : RabbitConsumer.initRabbit(consumerInfo);
+        consumerInfo &#x3D; Optional.ofNullable(consumerInfo).orElse(RabbitConsumerInfo.builder().build());
+        String result &#x3D; rabbitInfo.getChannel().basicConsume(Optional.ofNullable(consumerInfo.getQueueName()).orElse(ConsumerProperties.QUEUE_NAME), autoAck, consumerTag, new DefaultConsumer(rabbitInfo.getChannel())&#123;
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException &#123;
+                String routingKey &#x3D; envelope.getRoutingKey();
+                String contentType &#x3D; properties.getContentType();
+                long deliverTag &#x3D; envelope.getDeliveryTag();
+                rabbitInfo.getChannel().basicAck(deliverTag, false);
+            &#125;
+        &#125;);
+        RabbitConsumer.closeRabbit(rabbitInfo);
+        return result;
+    &#125;
+
+    &#x2F;**
+     * 使用拉取的方式获取信息
+     * @param consumerInfo 参数配置：建议配置队列名称
+     * @param autoAck 是否自动确认，确认后消息会消失
+     * @return 信息
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public String receiveByPull(RabbitConsumerInfo consumerInfo, Boolean autoAck) throws IOException, TimeoutException &#123;
+        RabbitInfo rabbitInfo &#x3D; consumerInfo &#x3D;&#x3D; null? RabbitConsumer.initRabbit() : RabbitConsumer.initRabbit(consumerInfo);
+        consumerInfo &#x3D; Optional.ofNullable(consumerInfo).orElse(RabbitConsumerInfo.builder().build());
+        GetResponse response &#x3D; rabbitInfo.getChannel().basicGet(Optional.ofNullable(consumerInfo.getQueueName()).orElse(ConsumerProperties.QUEUE_NAME), autoAck);
+        rabbitInfo.getChannel().basicAck(response.getEnvelope().getDeliveryTag(), false);
+        RabbitConsumer.closeRabbit(rabbitInfo);
+        return Arrays.toString(response.getBody());
+    &#125;
+
+&#125;</code></pre>
+
+<h3 id="reject"><a href="#reject" class="headerlink" title="reject"></a>reject</h3><blockquote>
+<p><code>RabbitReject</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">package com.spring.util;
+
+import com.spring.entity.RabbitConsumerInfo;
+import com.spring.entity.RabbitInfo;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+public class RabbitReject &#123;
+    &#x2F;**
+     * 拒接信息
+     * @param consumerInfo 指定的参数，null为默认
+     * @param deliveryTag 消息的编号
+     * @param requeue 是否重新入队-&gt;能否发给新的消费者
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public void reject(RabbitConsumerInfo consumerInfo, long deliveryTag, Boolean requeue) throws IOException, TimeoutException &#123;
+        RabbitInfo rabbitInfo &#x3D; consumerInfo &#x3D;&#x3D; null? RabbitConsumer.initRabbit() : RabbitConsumer.initRabbit(consumerInfo);
+        rabbitInfo.getChannel().basicReject(deliveryTag, requeue);
+        RabbitConsumer.closeRabbit(rabbitInfo);
+    &#125;
+
+    &#x2F;**
+     * 批量拒接信息
+     * @param consumerInfo 指定的参数，null为默认
+     * @param deliveryTag 消息的编号
+     * @param multiple false: 拒绝编号为deliveryTag的消息；true: 拒绝编号为deliveryTag之前的所有未被当前消费者确认的消息
+     * @param requeue 是否重新入队-&gt;能否发给新的消费者
+     * @throws IOException IOException
+     * @throws TimeoutException TimeoutException
+     *&#x2F;
+    public void nack(RabbitConsumerInfo consumerInfo, long deliveryTag, Boolean multiple, Boolean requeue) throws IOException, TimeoutException &#123;
+        RabbitInfo rabbitInfo &#x3D; consumerInfo &#x3D;&#x3D; null? RabbitConsumer.initRabbit() : RabbitConsumer.initRabbit(consumerInfo);
+        rabbitInfo.getChannel().basicNack(deliveryTag, multiple, requeue);
+        RabbitConsumer.closeRabbit(rabbitInfo);
+    &#125;
+&#125;</code></pre>
+
+<h3 id="test-1"><a href="#test-1" class="headerlink" title="test"></a>test</h3><pre class="language-java" data-language="java"><code class="language-java">import com.rabbitmq.client.AMQP;
+import com.spring.util.RabbitSend;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeoutException;
+
+public class RabbitSendTest &#123;
+    public static void main(String[] args) throws IOException, TimeoutException &#123;
+        &#x2F;&#x2F; 发送一条普通消息：Hello World!
+        RabbitSend.send(null, &quot;Hello World!&quot;);
+        &#x2F;&#x2F; 发送一条投递模式为2(会被持久化)、优先级为1、用户信息为hidden的文本消息：Hello World!
+        RabbitSend.sendWithProps(null, new AMQP.BasicProperties.Builder().contentType(&quot;text&#x2F;plain&quot;).deliveryMode(2).priority(1).userId(&quot;xyzc&quot;).build(), &quot;Hello World!&quot;);
+        Map&lt;String, Object&gt; headers &#x3D; new HashMap&lt;&gt;();headers.put(&quot;location&quot;, &quot;here&quot;);headers.put(&quot;time&quot;, &quot;today&quot;);
+        &#x2F;&#x2F; 发送一条携带headers的消息：Hello World!
+        RabbitSend.sendWithProps(null, new AMQP.BasicProperties.Builder().headers(headers).build(), &quot;Hello World!&quot;);
+        &#x2F;&#x2F; 发送一条携带过期时间的消息：Hello World!
+        RabbitSend.sendWithProps(null,  new AMQP.BasicProperties.Builder().expiration(&quot;60000&quot;).build(), &quot;Hello World!&quot;);
+    &#125;
+&#125;</code></pre>
+
+<h2 id="连接断开以及消息回退监听器"><a href="#连接断开以及消息回退监听器" class="headerlink" title="连接断开以及消息回退监听器"></a>连接断开以及消息回退监听器</h2><blockquote>
+<p><code>ShutdownListener</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">package com.spring.listener;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.Method;
+import com.rabbitmq.client.ShutdownSignalException;
+import com.spring.entity.RabbitInfo;
+
+public class ShutdownListener &#123;
+    public static void addListener(RabbitInfo rabbitInfo)&#123;
+        rabbitInfo.getConnection().addShutdownListener(new com.rabbitmq.client.ShutdownListener() &#123;
+            @Override
+            public void shutdownCompleted(ShutdownSignalException cause) &#123;
+                if (cause.isHardError())&#123;
+                    Connection connection &#x3D; (Connection) cause.getReference();
+                    if (!cause.isInitiatedByApplication())&#123;
+                        Method reason &#x3D; cause.getReason();
+                    &#125;
+                &#125;else &#123;
+                    Channel channel &#x3D; (Channel) cause.getReference();
+                    if (!cause.isInitiatedByApplication())&#123;
+                        Method reason &#x3D; cause.getReason();
+                    &#125;
+                &#125;
+            &#125;
+        &#125;);
+    &#125;
+&#125;</code></pre>
+
+<blockquote>
+<p><code>ReturnListener</code></p>
+</blockquote>
+<pre class="language-java" data-language="java"><code class="language-java">package com.spring.listener;
+
+import com.rabbitmq.client.AMQP;
+import com.spring.entity.RabbitInfo;
+
+import java.io.IOException;
+import java.util.Arrays;
+
+public class ReturnListener &#123;
+    public static void addListener(RabbitInfo rabbitInfo)&#123;
+        rabbitInfo.getChannel().addReturnListener(new com.rabbitmq.client.ReturnListener() &#123;
+            @Override
+            public void handleReturn(int replyCode, String replyText, String exchange, String routingKey, AMQP.BasicProperties properties, byte[] body) throws IOException &#123;
+                System.out.println(Arrays.toString(body));
+            &#125;
+        &#125;);
+    &#125;
+&#125;</code></pre>
+
+<h2 id="消息发送失败"><a href="#消息发送失败" class="headerlink" title="消息发送失败"></a>消息发送失败</h2><h3 id="备份交换器"><a href="#备份交换器" class="headerlink" title="备份交换器"></a>备份交换器</h3><ul>
+<li><p>声明交换器添加<code>alternate-exchange</code>参数【优先级高】</p>
+<pre class="language-java" data-language="java"><code class="language-java">Map&lt;String, Object&gt; map &#x3D; new HashMap&lt;&gt;();
+map.put(&quot;alternate-exchange&quot;, &quot;AE&quot;);
+channel.exchangeDeclare(&quot;normalExchange&quot;, &quot;direct&quot;, true, false, map);
+channel.exchangeDeclare(&quot;AE&quot;, &quot;fanout&quot;, true, false, null);
+channel.queueDeclare(&quot;normalQueue&quot;, true, false, false, null);
+channel.queueDeclare(&quot;AE&quot;, true, false, false, null);
+channel.queueBind(&quot;normalQueue&quot;, &quot;normalExchange&quot;, &quot;normalKey&quot;);
+channel.queueBind(&quot;AE&quot;, &quot;AE&quot;, &quot;&quot;);</code></pre>
+</li>
+<li><p>配置Policy策略【优先级低】</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">rabbitmqctl set_policy AE &quot;^normalExchange$&quot; &#96;&#123;&quot;alternate-exchange&quot;: &quot;AE&quot;&#125;&#96;</code></pre></li>
+</ul>
+<h3 id="mandatory-和immedicate"><a href="#mandatory-和immedicate" class="headerlink" title="mandatory 和immedicate"></a><code>mandatory</code> 和<code>immedicate</code></h3><p>​		<code>mandatory</code> 和<code>immedicate</code>是<code>channel.basicPublish</code>方法中的两个参数，它们都有当消息传递过程中不可达目的地时将消息返回给生产者的功能。RabbitMQ提供的备用交换器(<code>Alternate Exchange</code>)可以将未能被交换器路由的消息【没有绑定队列或者没有匹配的绑定】存储起来，而不是返回给客户端。</p>
+<blockquote>
+<p><code>mandatory</code> 参数</p>
+</blockquote>
+<ol>
+<li><code>未配置备份交换器</code>：<ul>
+<li><code>未配置mandatory</code>或者为<code>false</code>：不匹配的默认丢弃;</li>
+<li><code>true</code> ：通过<code>Basic.Return</code>返回给给生产者;</li>
+</ul>
+</li>
+<li><code>配置备份交换器</code>：若是配置备份交换器，不匹配的消息返回给备份交换器，<code>mandatory</code> 参数无效。</li>
+</ol>
+<blockquote>
+<p><code>immedicate</code>参数: <strong>不推荐使用–&gt;使用会报异常并打印日志，推荐使用<code>TTL</code>与<code>DLX</code>。</strong></p>
+</blockquote>
+<ul>
+<li><code>true</code>:若交换器在将消息路由到队列时发现队列上并不存在任何消费者，那么这条消息不会入队</li>
+<li>当与所有的队列都不匹配消费者时，会通过<code>Basic.Return</code>返回给生产者</li>
+</ul>
+<h2 id="TTL：过期时间"><a href="#TTL：过期时间" class="headerlink" title="TTL：过期时间"></a>TTL：过期时间</h2><blockquote>
+<p><code>TTL</code>：<code>Time To Live</code>的简称，即过期时间</p>
+</blockquote>
+<h3 id="设置时间"><a href="#设置时间" class="headerlink" title="设置时间"></a>设置时间</h3><ul>
+<li>不设置<code>TTL</code>：消息不会过期。</li>
+<li><code>TTL</code>设置为0：除非此时可以直接将消息投递给消费者，否则该消息会被立即丢弃。<ul>
+<li>替代<code>RabbitMQ 3.0</code>版本之前的<code>immedicate</code>参数，之所以替代部分是因为<code>immedicate</code>参数在投递失败会用<code>Basic.Return</code>将消息返回【通过死信实现】</li>
+</ul>
+</li>
+<li><code>TTL</code>设置&gt;0 : <code>TTL</code>毫秒后消息过期</li>
+</ul>
+<h3 id="设置消息TTL方式"><a href="#设置消息TTL方式" class="headerlink" title="设置消息TTL方式"></a>设置消息<code>TTL</code>方式</h3><blockquote>
+<p>若是两种方式一起使用，则会都生效，即按照两者设置的较小的那个数值为准</p>
+</blockquote>
+<ul>
+<li><p>通过队列的属性设置<code>x-message-ttl</code>【单位：毫秒】，队列中所有的消息都有相同的过期时间，<strong>一旦过期，立即移除</strong>。</p>
+<ul>
+<li><p>声明队列</p>
+<pre class="language-java" data-language="java"><code class="language-java">Map&lt;String, Object&gt; map &#x3D; new HashMap&lt;&gt;();
+map.put(&quot;x-message-ttl&quot;, 6000);
+channel.queueDeclare(queueName, durable, exclusive, autoDelete, map);</code></pre>
+</li>
+<li><p>配置Policy策略</p>
+<pre class="language-none"><code class="language-none">rabbitmqctl set_policy TTL &quot;.*&quot; &#39;&#123;&quot;message-ttl&quot;: 6000&#125;&#39; --apply-to queues</code></pre>
+</li>
+<li><p>HTTP API</p>
+<pre class="language-http" data-language="http"><code class="language-http">curl -i -u xyzc:19990604 -H &quot;content-type:application&#x2F;json&quot; -X PUT -d &#39;&#123;&quot;auto_delete&quot;: false, &quot;durable&quot;: true, &quot;arguments&quot;: &#123;&quot;x-message-ttl&quot;: 6000&#125;&#125;&#39; http:&#x2F;&#x2F;localhost:15672&#x2F;api&#x2F;queues&#x2F;&#123;vhost&#125;&#x2F;&#123;queuename&#125;</code></pre></li>
+</ul>
+</li>
+<li><p>对消息本身设置单独过期时间，每条消息的<code>TTL</code>可以不同，<strong>判断时间是消费者获取消息过期时才移除</strong>。</p>
+<ul>
+<li><p>发送消息</p>
+<pre class="language-java" data-language="java"><code class="language-java">AMQP.BasicProperties.Builder builder &#x3D; new AMQP.BasicProperties.Builder();
+builder.deliveryMode(2);&#x2F;&#x2F; 持久化消息
+builder.expiration(&quot;6000&quot;);&#x2F;&#x2F; 设置TTL为6000ms
+AMQP.BasicProperties properties &#x3D; builder.build();
+channel.basicPublish(exchangeName, routingKey, mandatory, properties, &quot;Hello World!&quot;.getBytes());</code></pre>
+</li>
+<li><p>HTTP API</p>
+<pre class="language-http" data-language="http"><code class="language-http">curl -i -u xyzc:19990604 -H &quot;content-type:application&#x2F;json&quot; -X PUT -d &#39;&#123;&quot;properties&quot;:&#123;&quot;expiration&quot;: &quot;6000&quot;&#125;, &quot;routingkey&quot;: &quot;routingkey&quot;, &quot;payload&quot;: &quot;my body&quot;, &quot;playload_encoding&quot;: &quot;string&quot;&#125;&#39; http:&#x2F;&#x2F;localhost:15672&#x2F;api&#x2F;exchanges&#x2F;&#123;vhost&#125;&#x2F;&#123;exchangename&#125;&#x2F;publish</code></pre></li>
+</ul>
+</li>
+</ul>
+<h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><p>​		替代<code>immedicate</code>参数在投递失败会用<code>Basic.Return</code>将消息返回、延迟队列。</p>
+<h3 id="设置队列的TTL"><a href="#设置队列的TTL" class="headerlink" title="设置队列的TTL"></a>设置队列的<code>TTL</code></h3><p><code>x-expires</code>，自动删除前处于未使用状态的时间未使用指队列上没有任何消费者，队列也没有被重新声明，并且在过期时间段内也未调用过<code>Basic.Get</code>命令。</p>
+<ul>
+<li><p>通过队列的属性设置<code>x-expires</code>【单位：毫秒】，<strong>不能设置为0</strong></p>
+<pre class="language-java" data-language="java"><code class="language-java">Map&lt;String, Object&gt; map &#x3D; new HashMap&lt;&gt;();
+map.put(&quot;x-expires&quot;, 6000);
+channel.queueDeclare(queueName, durable, exclusive, autoDelete, map);</code></pre></li>
+</ul>
+<h4 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h4><p>​		类似RPC方式的回复队列，在RPC中，许多队列会被创建出来，但是却是未被使用的。</p>
+<h2 id="DLX：死信交换器"><a href="#DLX：死信交换器" class="headerlink" title="DLX：死信交换器"></a>DLX：死信交换器</h2><h3 id="死信"><a href="#死信" class="headerlink" title="死信"></a>死信</h3><p>​		消息在队列中的生存时间一旦超过设置的<code>TTL</code>值时，就会变成”死信”(Dead Message)，消费者将无法再收到该消息【除非配置<code>DLX</code>】。</p>
+<h3 id="死信交换器"><a href="#死信交换器" class="headerlink" title="死信交换器"></a>死信交换器</h3><p>​		<code>DLX</code>，全称为<code>Dead-Letter-Exchange</code>，可以称为<strong>死信交换器</strong>，也有人称为<strong>死信邮箱</strong>。当消息在一个队列中变为<strong>死信</strong>之后，它能被重新发送到另一个交换器中，这个交换器就是<code>DLX</code>，绑定<code>DLX</code>的队列就称之为<strong>死信队列</strong>。</p>
+<p>​		<code>DLX</code>也是一个正常的交换器，和一般的交换器没有区别，它能在任何的队列上被指定，实际上就是设置某个队列的属性。当这个队列中存在死信时，<code>RabbitMQ</code>就会自动地将这个消息重新发布到设置的<code>DLX</code>上去，进而被路由到另一个队列，即死信队列。可以监听这个队列中的消息以进行相应的处理，这个特性与将消息的TTL设置为0配合使用可以弥补<code>immediate</code>。</p>
+<h3 id="死信产生原因"><a href="#死信产生原因" class="headerlink" title="死信产生原因"></a>死信产生原因</h3><ul>
+<li>消息被拒绝【<code>Basic.Reject</code>&#x2F;<code>Basic.Nack</code>】，并且设置<code>requeue</code>参数为<code>false</code>。</li>
+<li>消息过期。</li>
+<li>队列达到最大长度。</li>
+</ul>
+<h3 id="配置死信交换器：DLX"><a href="#配置死信交换器：DLX" class="headerlink" title="配置死信交换器：DLX"></a>配置死信交换器：DLX</h3><ul>
+<li><p>声明死信队列和死信交换器</p>
+<pre class="language-java" data-language="java"><code class="language-java">channel.exchangeDeclare(&quot;exchange.normal&quot;, &quot;fanout&quot;, true);
+channel.exchangeDeclare(&quot;exchange.dlx&quot;, &quot;direct&quot;, true);&#x2F;&#x2F; 创建DLX -&gt; dlx_exchange
+Map&lt;String, Object&gt; map &#x3D; new HashMap&lt;&gt;();
+map.put(&quot;x-message-ttl&quot;, 10000);
+map.put(&quot;x-dead-letter-exchange&quot;, &quot;exchange.dlx&quot;);
+map.put(&quot;x-dead-letter-routingkey&quot;, &quot;routignkey&quot;);
+channel.queueDeclare(&quot;queue.normal&quot;, true, false, false, map);
+channel.queueDeclare(&quot;queue.dlx&quot;, true, false, false, null);
+channel.queueBind(&quot;queue.normal&quot;, &quot;exchange.normal&quot;, &quot;&quot;);
+channel.queueBind(&quot;queue.dlx&quot;, &quot;exchange.dlx&quot;, &quot;routingkey&quot;);
+channel.basicPublish(&quot;exchange.normal&quot;, &quot;rk&quot;, MessageProperties.PERSISTENT_TEXT_PLAIN, &quot;dlx&quot;.getBytes());</code></pre>
+</li>
+<li><p>设置策略</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">rabbitmqctl set_policy DLX &quot;.*&quot; &#39;&#123;&quot;dead-letter-exchange&quot;: &quot;dlx_exchange&quot;&#125;&#39; --apply-to queues</code></pre></li>
+</ul>
+<h2 id="延迟队列"><a href="#延迟队列" class="headerlink" title="延迟队列"></a>延迟队列</h2><p>​		延迟队列存储的对象就是对应的延迟信息，所谓”延迟消息”是指当消息被发送以后，并不想让消费者立即拿到消息，而是等待特定时间后，消费者才能拿到这个消息进行消费。</p>
+<h3 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a>应用场景</h3><ol>
+<li>支付保留：订单系统中一个用户下单之后通常有30分钟的时间进行支付，如果未支付，对其进行处理。</li>
+<li>定时：远程控制电子设备在指定的时间工作。</li>
+</ol>
+<h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><p>通过过期时间设置和死信交换器的配置以达到，在一段时间后过期进入死信队列并且进行死信队列处理。</p>
+<h2 id="优先级队列"><a href="#优先级队列" class="headerlink" title="优先级队列"></a>优先级队列</h2><blockquote>
+<p><strong>当消费者的消费速度大于生产者的速度且Broker中没有消息堆积的情况下，对发送的消息设置优先级将没有意义</strong>。</p>
+</blockquote>
+<p>​		具有高优先级的队列具有高的优先权，优先权高的消息具备优先被消费的特权。</p>
+<h3 id="优先级设置"><a href="#优先级设置" class="headerlink" title="优先级设置"></a>优先级设置</h3><ul>
+<li><p>队列的优先级设置</p>
+<pre class="language-java" data-language="java"><code class="language-java">Map&lt;String, Object&gt; map &#x3D; new HashMap&lt;&gt;();
+map.put(&quot;x-max-priority&quot;, 10);
+channel.queueDeclare(&quot;queue.priority&quot;, true, false, false, map);</code></pre>
+</li>
+<li><p>消息的优先级设置</p>
+<pre class="language-java" data-language="java"><code class="language-java">AMQP.BasicProperties.Builder builder &#x3D; new AMQP.BasicProperties.Builder();
+builder.priority(5);
+AMQP.BasicProperties properties &#x3D; builder.build();
+channel.basicPulish(&quot;exchange_priority&quot;, &quot;rk_priority&quot;, properties, &quot;messages&quot;.getBytes());</code></pre></li>
+</ul>
+<p>​		</p>
+</div><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-hand-coin-line"></use></svg></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"></div><div style="display:inline-block"></div><div style="display:inline-block"></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>冰不良</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://bingbuliang.github.io/2022/01/01/rabbitmq/" title="中间件——rabbitMQ">https://bingbuliang.github.io/2022/01/01/rabbitmq/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2022/03/16/python-OA-crack_zip/" rel="prev" title="暴力破解zip"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">暴力破解zip</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2021/10/04/python-spider-bilibili-srtp/" rel="next" title="抓取B站视频链接"><span class="post-nav-text">抓取B站视频链接</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div id="comment"><div class="comment-tooltip text-center"><span>若您无 GitHub 账号，可直接在下方匿名评论。</span><br><span>若您想及时得到回复提醒，建议跳转 GitHub Issues 评论。</span><br><span>若没有本文 Issue，您可以使用 Comment 模版新建。</span><br><a class="hty-button hty-button--raised" id="github-issues" target="_blank" rel="noopener" href="https://github.com/BingBuLiang/BingBuLiang.github.io/issues?q=is:issue+中间件——rabbitMQ">GitHub Issues</a></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://www.beian.miit.gov.cn" target="_blank"></a></div><div class="copyright"><span>&copy; Sun Feb 02 2020 08:00:00 GMT+0800 (中国标准时间) – 2023 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> 冰不良</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v0.7.1</span></div><div class="live_time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(●'◡'●)</span><script>function blog_live_time() {
+  window.setTimeout(blog_live_time, 1000);
+  const start = new Date('2020-02-02T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = " " + passDay + " 天 " + passHour + " 小时 " + passMinute + " 分 " + passSecond + " 秒";
+}
+blog_live_time();
+</script></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#6200ee" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script defer src="/js/search/index.js"></script><script defer src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script><script defer src="https://cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script><script defer src="/js/search/algolia-search.js"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"></div><div class="algolia-results"><div id="algolia-stats"></div><div id="algolia-hits"></div><div class="algolia-pagination" id="algolia-pagination"></div></div></div><script>let date = new Date();
+let today = (date.getMonth() + 1) + "-" + date.getDate()
+if ("4-4".indexOf(today) !== -1) {
+  document.documentElement.style.filter = "grayscale(1)";
+}</script></div><script defer src="/js/hexo-theme-yun.js"></script></body></html>

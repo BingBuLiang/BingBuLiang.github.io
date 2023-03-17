@@ -1,0 +1,473 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="搭建大数据集群"><meta name="keywords" content="大数据,高可用"><meta name="author" content="冰不良"><meta name="copyright" content="冰不良"><meta name="theme-color" content="#6200ee"><title>搭建大数据集群 | 冰不良のblog</title><link rel="shortcut icon" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#6200ee"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script id="yun-config">
+    window.CONFIG = {"root":"/","title":"冰不良の小站","version":"0.7.1","anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"algolia":{"appID":"5WNMZVZKKS","apiKey":"b66222e466f2046a9accd67fc9fcbe08","indexName":"hexo","hits":{"per_page":8},"labels":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容: ${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" defer></script><script src="/js/load-aplayer.js" defer></script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="none" onload="this.media='all'"><script src="//at.alicdn.com/t/font_1140697_rtqh36oinzl.js" async></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><link rel="preconnect" href="https://stats.g.doubleclick.net" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=UA-7FZJ6MEGB5-G"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-7FZJ6MEGB5-G');</script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js" defer></script><script src="/js/pjax.js" defer></script><div class="js-Pjax"></div><meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><canvas id="trianglify"></canvas><script defer src="https://cdn.jsdelivr.net/npm/trianglify@latest/dist/trianglify.min.js"></script><script>document.addEventListener("DOMContentLoaded", () => {
+  const pattern = Trianglify({
+    width: 800,
+    height: 600,
+    cell_size: 75,
+    palette: ["YlGnBu", "GnBu", "Purples", "Blues"],
+  });
+  document.body.appendChild(pattern.canvas(trianglify));
+});</script><div class="container"><a class="sidebar-toggle sidebar-toggle-fixed hty-icon-button"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><aside class="sidebar"><script defer src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about" title="冰不良"><img width="96" loading="lazy" src="/images/%E5%A4%B4%E5%83%8F.jpg" alt="冰不良"></a><div class="site-author-name"><a href="/about/">冰不良</a></div><a class="site-name" href="/about/site.html">冰不良のblog</a><sub class="site-subtitle"></sub><div class="site-desciption">快来和我一起秃头吧！</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item site-state-posts"><a href="/archives" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">17</span></a></div><div class="site-state-item site-state-tags"><a href="/tags" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">14</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-clipboard-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://wpa.qq.com/msgrd?v=3&amp;uin=2330181012&amp;site=qq&amp;menu=yes" title="QQ" target="_blank" style="color:#12B7F5"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-qq-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/BingBuLiang" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:bingbuliang996@163.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://weibo.com/u/5648709252" title="微博" target="_blank" style="color:#E6162D"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-weibo-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/bing-bu-liang-xian-sen?utm_id=0" title="知乎" target="_blank" style="color:#0084FF"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-zhihu-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/470508529" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><i class="ri:genderless-line"></i></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">1.</span> <span class="toc-text">目录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-hadoop%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.1.</span> <span class="toc-text">1.hadoop集群环境初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6-%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1 上传文件,解压文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-1%E6%9B%B4%E6%96%B0%E6%9C%AC%E5%9C%B0%E6%BA%90"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">1.1.1更新本地源</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E9%85%8D%E7%BD%AEhadoop%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2 配置hadoop运行环境</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">1.2.1关闭防火墙</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-2-hosts%E6%96%87%E4%BB%B6%E6%B7%BB%E5%8A%A0%E6%98%A0%E5%B0%84"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">1.2.2 hosts文件添加映射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-3-%E6%97%B6%E5%8C%BA%E6%9B%B4%E6%94%B9"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">1.2.3 时区更改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-4-%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AEntp"><span class="toc-number">1.1.2.4.</span> <span class="toc-text">1.2.4 安装和配置ntp</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-5-%E5%9C%A8%E6%8C%87%E5%AE%9A%E7%9A%84%E6%97%B6%E9%97%B4%E6%AE%B5%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4"><span class="toc-number">1.1.2.5.</span> <span class="toc-text">1.2.5 在指定的时间段同步时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-6-%E4%B8%BB%E8%8A%82%E7%82%B9%E7%94%9F%E6%88%90%E5%85%AC%E9%92%A5%E6%96%87%E4%BB%B6-%E5%90%8C%E6%97%B6%E5%B0%86%E5%86%85%E5%AE%B9%E6%B7%BB%E5%8A%A0%E8%87%B3%E6%8E%88%E6%9D%83%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.2.6.</span> <span class="toc-text">1.2.6 主节点生成公钥文件,同时将内容添加至授权文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-jdk%E3%80%81hadoop%E3%80%81zookeeper%E3%80%81hbase%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.</span> <span class="toc-text">2.jdk、hadoop、zookeeper、hbase的安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E5%AE%89%E8%A3%85jdk%E5%8F%8A%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1安装jdk及配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%AE%89%E8%A3%85hadoop%E5%8F%8A%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 安装hadoop及配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%AE%89%E8%A3%85zookpeeper%E5%8F%8A%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3 安装zookpeeper及配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E5%AE%89%E8%A3%85hbase%E5%8F%8A%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.4.</span> <span class="toc-text">2.4 安装hbase及配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%9E%84%E5%BB%BA%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93"><span class="toc-number">1.3.</span> <span class="toc-text">3.构建数据仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1%E5%AE%89%E8%A3%85mysql"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1安装mysql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2hive%E7%9A%84%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2hive的安装部署</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1%E9%85%8D%E7%BD%AE%E7%94%9F%E6%95%88%E5%AE%89%E8%A3%85"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">3.2.1配置生效安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">3.2.2 修改配置文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90"><span class="toc-number">1.4.</span> <span class="toc-text">4.数据分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.5.</span> <span class="toc-text">5.环境变量</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://bingbuliang.github.io/2020/07/16/bigdate-HA-1/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="冰不良"><meta itemprop="description" content="搭建大数据集群"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="冰不良のblog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline" style="color: undefined">搭建大数据集群</h1><div class="post-meta"><div class="post-time" style="display:inline-block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2020-07-16 12:38:43" itemprop="dateCreated datePublished" datetime="2020-07-16T12:38:43+08:00">2020-07-16</time></div><div class="post-classify"><span class="post-tag"><a class="tag" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="--text-color:midnightblue"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">大数据</span></a><a class="tag" href="/tags/%E9%AB%98%E5%8F%AF%E7%94%A8/"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">高可用</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content post-markdown"><p>参加大数据比赛搭建大数据集群部分操作如下</p>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><h2 id="1-hadoop集群环境初始化"><a href="#1-hadoop集群环境初始化" class="headerlink" title="1.hadoop集群环境初始化"></a>1.hadoop集群环境初始化</h2><h3 id="1-1-上传文件-解压文件"><a href="#1-1-上传文件-解压文件" class="headerlink" title="1.1 上传文件,解压文件"></a>1.1 上传文件,解压文件</h3><h4 id="1-1-1更新本地源"><a href="#1-1-1更新本地源" class="headerlink" title="1.1.1更新本地源"></a>1.1.1更新本地源</h4><pre class="language-linux" data-language="linux"><code class="language-linux">#三个节点都需要
+cd &#x2F;etc&#x2F;yum.repos.d&#x2F; #进入本地源存在文件夹
+wget -O &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;repo&#x2F;Centos-7.repo  #最后一个链接需要官方来提供 ,拉取新的仓库
+yum makecache #生成缓存
+yum -y update #更新系统
+cd xxx #进入指定文件之后下载文件
+wget http:&#x2F;&#x2F;xxxx&#x2F;hadoop-xxx.tar.gz #下载所需要的软件到指定的文件夹中
+tar -zxvf hadoop-xxx.tar.gz #解压等操作</code></pre>
+
+<h3 id="1-2-配置hadoop运行环境"><a href="#1-2-配置hadoop运行环境" class="headerlink" title="1.2 配置hadoop运行环境"></a>1.2 配置hadoop运行环境</h3><h4 id="1-2-1关闭防火墙"><a href="#1-2-1关闭防火墙" class="headerlink" title="1.2.1关闭防火墙"></a>1.2.1关闭防火墙</h4><pre class="language-linux" data-language="linux"><code class="language-linux">#三个节点都需要关闭
+systemctl stop firewalld #关闭防火墙
+systemctl status firewalld #查看状态</code></pre>
+
+<h4 id="1-2-2-hosts文件添加映射"><a href="#1-2-2-hosts文件添加映射" class="headerlink" title="1.2.2 hosts文件添加映射"></a>1.2.2 hosts文件添加映射</h4><pre class="language-linux" data-language="linux"><code class="language-linux">#三个节点都需要更改
+vi &#x2F;etc&#x2F;hosts  #修改hosts
+ip master 
+ip slave1
+ip slave2 </code></pre>
+
+<h4 id="1-2-3-时区更改"><a href="#1-2-3-时区更改" class="headerlink" title="1.2.3 时区更改"></a>1.2.3 时区更改</h4><pre class="language-linux" data-language="linux"><code class="language-linux">#在master节点中
+tzselect #选择时区
+5 #选择亚洲
+9 #选择china
+1 #北京时间
+1 #覆盖时间
+TZ&#x3D;&#39;Asia&#x2F;Shanghai&#39;;export TZ #设置TZ环境变量
+vi &#x2F;etc&#x2F;profile #修改&#x2F;etc&#x2F;profile将上面的TZ环境变量加入
+source &#x2F;etc&#x2F;profile #让时间永远生效</code></pre>
+
+<h4 id="1-2-4-安装和配置ntp"><a href="#1-2-4-安装和配置ntp" class="headerlink" title="1.2.4 安装和配置ntp"></a>1.2.4 安装和配置ntp</h4><pre class="language-linux" data-language="linux"><code class="language-linux">#三个节点都需要安装ntp
+yum install -y ntp #下载ntp 
+vi &#x2F;etc&#x2F;ntp.conf #修改master作为时钟源 
+server ip #localclock 本地服务作为一个时钟源
+fudge ip stratum 10 #设置时钟源一个层次 将上述两句话加入
+# service ntp start #在master中开启npt服务
+systemctl start  ntpd   
+systemctl enable  ntpd # centos7 在master中开启npt服务
+ntpdate master #在slave1和slave2中手动同步时间</code></pre>
+
+<h4 id="1-2-5-在指定的时间段同步时间"><a href="#1-2-5-在指定的时间段同步时间" class="headerlink" title="1.2.5 在指定的时间段同步时间"></a>1.2.5 在指定的时间段同步时间</h4><pre class="language-linux" data-language="linux"><code class="language-linux">#在master节点中
+crontab -h #列出定时任务的帮助命令
+crontab -e #写一个定时任务键入i进入编辑模式
+*&#x2F;10 * * * * usr&#x2F;sbin&#x2F;ntpdate master #每十分钟同步一次
+*&#x2F;30 8-17 * * * usr&#x2F;sbin&#x2F;ntpdate master #早上8点到下午5点每隔半小时同步一次
+corntab -l #查看定时任务</code></pre>
+
+<h4 id="1-2-6-主节点生成公钥文件-同时将内容添加至授权文件"><a href="#1-2-6-主节点生成公钥文件-同时将内容添加至授权文件" class="headerlink" title="1.2.6 主节点生成公钥文件,同时将内容添加至授权文件"></a>1.2.6 主节点生成公钥文件,同时将内容添加至授权文件</h4><pre class="language-none"><code class="language-none">#在master节点中
+ssh-keygen  -t  rsa #四个回车执行完这个命令会生成两个文件id_rsa（私钥）、id_rsa.pub（公钥）
+将公钥拷贝到要免密登陆的目标机器上
+ssh-copy-id master
+ssh-copy-id slave1
+ssh-copy-id slave2 #过程中要求输入密码
+
+ssh slave1&#x2F;slave2&#x2F;master #验证是否可以登录成功
+
+</code></pre>
+
+<h2 id="2-jdk、hadoop、zookeeper、hbase的安装"><a href="#2-jdk、hadoop、zookeeper、hbase的安装" class="headerlink" title="2.jdk、hadoop、zookeeper、hbase的安装"></a>2.jdk、hadoop、zookeeper、hbase的安装</h2><h3 id="2-1安装jdk及配置"><a href="#2-1安装jdk及配置" class="headerlink" title="2.1安装jdk及配置"></a>2.1安装jdk及配置</h3><pre class="language-none"><code class="language-none">#三个节点都需要
+mkdir -p &#x2F;usr&#x2F;java #创建工作目录
+wget http:&#x2F;&#x2F;xxxx&#x2F;jdk-8u171-linux-x64.tar.gz #下载软件
+tar -zxvf jdk-8u171-linux-x64.tar.gz -C &#x2F;usr&#x2F;java&#x2F;
+#解压
+rm -rf &#x2F;usr&#x2F;java&#x2F;jdk-8u171-linux-x64.tar.gz #删除软件包
+vi &#x2F;etc&#x2F;profile #配置环境变量
+export JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_171
+export PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin #加入进去
+source &#x2F;etc&#x2F;profile #生效
+java -version #检查是否安装成功
+</code></pre>
+
+<h3 id="2-2-安装hadoop及配置"><a href="#2-2-安装hadoop及配置" class="headerlink" title="2.2 安装hadoop及配置"></a>2.2 安装hadoop及配置</h3><pre class="language-none"><code class="language-none">#需要在master节点中执行
+mkdir -p &#x2F;software #创建工作目录
+wget http:&#x2F;&#x2F;xxxx&#x2F;hadoopxxx.tar.gz #下载软件
+tar -zxvf hadoopxxx.tar.gz -C &#x2F;software #解压
+rm -rf &#x2F;software&#x2F;hadoopxxx.tar.gz  #删除安装包
+vi &#x2F;etc&#x2F;profile #配置环境变量
+export HADOOP_HOME&#x3D;&#x2F;software&#x2F;hadoopxxx 
+PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin:$HADOOP_HOME&#x2F;bin:$HADOOP_HOME&#x2F;sbin
+source &#x2F;etc&#x2F;profile
+cd &#x2F;software
+cd hadoopxxx&#x2F;etc&#x2F;hadoop&#x2F;
+
+#第一步修改 hadoop-env.sh
+vi hadoop-env.sh
+export  JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_171 #27行
+
+#第二步修改 core-site.xml
+vi core-site.xml
+&lt;property&gt;
+&lt;name&gt;fs.defaultFS&lt;&#x2F;name&gt;
+&lt;value&gt;hdfs:&#x2F;&#x2F;master:9000&lt;&#x2F;value&gt;
+&lt;&#x2F;property&gt;
+&lt;!--  指定hadoop运行时产生文件的存储目录  --&gt;
+&lt;property&gt;
+&lt;name&gt;hadoop.tmp.dir&lt;&#x2F;name&gt;
+&lt;!--  填写对应路径hadoop的路径&#x2F;temp  --&gt;
+&lt;value&gt;&#x2F;software&#x2F;hadoopxxx&#x2F;temp&lt;&#x2F;value&gt;
+&lt;&#x2F;property&gt;
+
+#第三步修改 hdfs-site.xml 
+vi hdfs-site.xml 
+&lt;property&gt;
+&lt;name&gt;dfs.replication&lt;&#x2F;name&gt;
+&lt;value&gt;3&lt;&#x2F;value&gt;
+&lt;&#x2F;property&gt;
+&lt;property&gt;
+&lt;name&gt;dfs.namenode.secondary.http-address&lt;&#x2F;name&gt;
+&lt;value&gt;master:50090&lt;&#x2F;value&gt;
+&lt;&#x2F;property&gt;
+&lt;property&gt;
+&lt;name&gt;dfs.namenode.name.dir&lt;&#x2F;name&gt;
+&lt;!--  填写对应路径hadoop的路径&#x2F;tmp  --&gt;
+&lt;value&gt;file:&#x2F;software&#x2F;hadoopxxx&#x2F;data&#x2F;namenode&lt;&#x2F;value&gt;
+&lt;&#x2F;property&gt;
+&lt;property&gt;
+&lt;name&gt;dfs.datanode.data.dir&lt;&#x2F;name&gt;
+&lt;!--  填写对应路径hadoop的路径&#x2F;tmp  --&gt;
+&lt;value&gt;file:&#x2F;software&#x2F;hadoopxxx&#x2F;data&#x2F;datanode&lt;&#x2F;value&gt;
+&lt;&#x2F;property&gt;
+
+#第四步修改 mapred-site.xml
+cp  mapred-site.xml.template  mapred-site.xml
+
+vi  mapred-site.xml
+&lt;!--  指定mr运行在yarn上  --&gt;
+&lt;property&gt;
+&lt;name&gt;mapreduce.framework.name&lt;&#x2F;name&gt;
+&lt;value&gt;yarn&lt;&#x2F;value&gt;
+&lt;&#x2F;property&gt;
+# 第五步修改 yarn-site.xml
+vi  yarn-site.xml
+
+&lt;!--  指定YARN的老大（ResourceManager）的地址  --&gt;
+&lt;property&gt;
+&lt;name&gt;yarn.resourcemanager.hostname&lt;&#x2F;name&gt;
+&lt;value&gt;master&lt;&#x2F;value&gt;
+&lt;&#x2F;property&gt;
+&lt;!--  reducer获取数据的方式  --&gt;
+&lt;property&gt;
+&lt;name&gt;yarn.nodemanager.aux-services&lt;&#x2F;name&gt;
+&lt;value&gt;mapreduce_shuffle&lt;&#x2F;value&gt;
+&lt;&#x2F;property&gt;
+
+#第六步，如果配置分布式需要修改slaves文件(貌似只需要修改主节点)
+master
+slave1
+slave2
+#第七步分发 到slave1 ,slave2
+scp  -r  &#x2F;software&#x2F;hadoopxxx  slave1:&#x2F;software&#x2F;  
+scp  -r  &#x2F;software&#x2F;hadoopxxx  slave2:&#x2F;software&#x2F;  
+
+
+# 格式化namenode（是对namenode进行初始化）
+hdfs  namenode  -format  
+# 启动hadoop 先启动HDFS 再启动YARN
+cd  &#x2F;software&#x2F;hadoopxxx
+sbin&#x2F;start-dfs.sh
+sbin&#x2F;start-yarn.sh
+#验证是否启动成功
+jps
+</code></pre>
+
+
+
+<h3 id="2-3-安装zookpeeper及配置"><a href="#2-3-安装zookpeeper及配置" class="headerlink" title="2.3 安装zookpeeper及配置"></a>2.3 安装zookpeeper及配置</h3><pre class="language-none"><code class="language-none">#需要在master节点中执行
+cd &#x2F;software #进入software文件夹中
+wget http:&#x2F;&#x2F;xxxx&#x2F;zookeeperxxx.tar.gz #下载软件
+tar -zxvf zookeeperxxx.tar.gz -C &#x2F;software #解压
+rm -rf &#x2F;software&#x2F;zookeeperxxx.tar.gz  #删除安装包
+vi &#x2F;etc&#x2F;profile #配置环境变量
+export ZOOKEEPER_HOME&#x3D;&#x2F;software&#x2F;zookeeperxxx
+export PATH&#x3D;$PATH:$ZOOKEEPER_HOME&#x2F;bin #用:分割追加到后面
+source &#x2F;etc&#x2F;profile #生效
+cd &#x2F;software&#x2F;zookeeperxxx&#x2F;conf #切换到zookeeperxxx&#x2F;conf目录下
+#修改配置文件
+mv zoo_sample.cfg  zoo.cfg  
+vi zoo.cfg
+#更改节点id文件存储路径
+dataDir&#x3D;&#x2F;software&#x2F;data&#x2F;zookeeperdata
+#添加serverId
+server.1&#x3D;master:2888:3888
+server.2&#x3D;slave1:2888:3888
+server.3&#x3D;slave2:2888:3888
+
+#将配置好的zookeeper发送至另外两个节点
+scp -r &#x2F;software&#x2F;zookeeper-3.4.10 slave1:&#x2F;software&#x2F;
+scp -r &#x2F;software&#x2F;zookeeper-3.4.10 slave2:&#x2F;software&#x2F;
+
+#单独去修改各节点的profile文件，配置好zookeeper_home 变量即可
+source &#x2F;etc&#x2F;profile #生效
+#三台节点新建&#x2F;software&#x2F;data&#x2F;zookeeperdata并在该目录下新建myid文件
+#将master设置的节点id为1 ， slave1设置的节点id为2 ， slave2设置的节点id为3
+
+#myid配置有误，一般会出现这个错误
+#Caused by: java.lang.IllegalArgumentException: &#x2F;home&#x2F;hadoop&#x2F;data&#x2F;zookeeperdata&#x2F;myid file is missing
+#在master,slave1,slave2中启动zookeeper集群
+zkServer.sh start #启动命令 
+zkServer.sh status #查看集群状态</code></pre>
+
+<h3 id="2-4-安装hbase及配置"><a href="#2-4-安装hbase及配置" class="headerlink" title="2.4 安装hbase及配置"></a>2.4 安装hbase及配置</h3><pre class="language-none"><code class="language-none">#需要在master节点中执行
+cd &#x2F;software #进入software文件夹中
+wget http:&#x2F;&#x2F;xxxx&#x2F;hbasexxx.tar.gz #下载软件
+tar -zxvf hbasexxx.tar.gz -C &#x2F;software #解压
+rm -rf &#x2F;software&#x2F;hbasexxx.tar.gz  #删除安装包
+vi &#x2F;etc&#x2F;profile #配置环境变量
+export HBASE_HOME&#x3D;&#x2F;software&#x2F;hbase
+export PATH&#x3D;$PATH:$HBASE_HOME&#x2F;bin #用:分割追加到后面
+source &#x2F;etc&#x2F;profile #生效
+# 得进入hbase 的conf目录
+cd &#x2F;software&#x2F;hbasexxx&#x2F;conf
+#第一步修改vi hbase-env.sh
+vi hbase-site.xml
+export  JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_171 #表示修改为自己的 jdk 目录
+export HBASE_MANAGES_ZK&#x3D;false #表示不引用 hbase 自带的 zookeeper，用我们自己安装的保存退出  
+#第二步修改hbase-site.xml(自己进入配置该文件的文件夹)
+&lt;configuration&gt;         
+ 
+&lt;property&gt; 
+&lt;!-- 指定 hbase 在 HDFS 上存储的路径 --&gt;                 
+&lt;name&gt;hbase.rootdir&lt;&#x2F;name&gt;                 
+&lt;value&gt;hdfs:&#x2F;&#x2F;master:9000&#x2F;HbaseData&lt;&#x2F;value&gt;         
+&lt;&#x2F;property&gt;         
+&lt;property&gt; 
+&lt;!-- 指定 hbase 是分布式的 --&gt;                 
+&lt;name&gt;hbase.cluster.distributed&lt;&#x2F;name&gt;                 
+&lt;value&gt;true&lt;&#x2F;value&gt;         
+&lt;&#x2F;property&gt;         
+&lt;property&gt; 
+&lt;!-- 指定 zk 的地址，多个用“,”分割 --&gt;                 
+&lt;name&gt;hbase.zookeeper.quorum&lt;&#x2F;name&gt; 
+ &lt;value&gt;master:2181,slave1:2181,slave2:2181&lt;&#x2F;value&gt;         
+&lt;&#x2F;property&gt; 
+
+&lt;&#x2F;configuration&gt;
+#第三步
+vi regionservers #修改 regionservers
+master
+slave1
+slave2 #加入
+
+vi backup-masters 
+slave1 #这一步骤比赛时可有可无
+#第四步 最重要一步，要把 hadoop 的 hdfs-site.xml 和 core-site.xml 放到 hbase-xxx&#x2F;conf 下
+cp &#x2F;software&#x2F;hadoopxxx&#x2F;etc&#x2F;hadoop&#x2F;core-site.xml &#x2F;software&#x2F;hbasexxx&#x2F;conf&#x2F;
+cp &#x2F;software&#x2F;hadoopxxx&#x2F;etc&#x2F;hadoop&#x2F;hdfs-site.xml &#x2F;software&#x2F;hbasexxx&#x2F;conf&#x2F;  
+#第五部 分发安装到各节点
+
+scp -r &#x2F;software&#x2F;hbasexxx slave1:&#x2F;software&#x2F;
+scp -r &#x2F;software&#x2F;hbasexxx slave2:&#x2F;software&#x2F;
+#第六步 slave1 和slave2 hbase环境变量的配置
+vi &#x2F;etc&#x2F;profile vi
+source &#x2F;etc&#x2F;profile
+#先启动 zookeeper 集群 zkServer.sh start
+#启动 hdfs 集群 start-dfs.sh
+#启动 hbase 保证 ZooKeeper 集群和 HDFS 集群启动正常的情况下启动 HBase 集群 启动命令：start-hbase.sh  #主节点中
+start-hbase.sh 
+#查看启动是否正常，是否成功
+jps
+</code></pre>
+
+
+
+<h2 id="3-构建数据仓库"><a href="#3-构建数据仓库" class="headerlink" title="3.构建数据仓库"></a>3.构建数据仓库</h2><h3 id="3-1安装mysql"><a href="#3-1安装mysql" class="headerlink" title="3.1安装mysql"></a>3.1安装mysql</h3><pre class="language-linux" data-language="linux"><code class="language-linux">#安装mysql到slave2或者slave3(这是删掉slave2的时候使用slave3)
+#第一种安装方式
+mkdir -p &#x2F;software #创建工作目录
+wget http:&#x2F;&#x2F;xxxx&#x2F;mysqlxxx.tar #下载软件
+tar -xvf mysqlxxx.tar -C &#x2F;software #解压
+rm -rf &#x2F;software&#x2F;mysqlxxx.tar  #删除安装包
+rpm -ivh mysql-community-common-5.7.25-1.e17.x86_64.rpm #一些公共的文件
+rpm -ivh mysql-community-libs-5.7.25-1.e17.x86_64.rpm #一些什么库
+rpm -ivh mysql-community-libs-compat-5.7.25-1.e17.x86_64.rpm #一些什么库
+rpm -ivh mysql-community-client-5.7.25-1.e17.x86_64.rpm #客户端
+rpm -ivh mysql-community-server-5.7.25-1.e17.x86_64.rpm #服务器端
+
+&#x2F;usr&#x2F;sbin&#x2F;mysqld --initalize-insecure --suer&#x3D;mysql
+ #格式化
+&#x2F;usr&#x2F;sbin&#x2F;mysqld --user&#x3D;mysql &amp; #后端开启
+mysql -uroot #回车进入
+alter user &#39;root&#39;@&#39;localhost&#39; identified by&#39;123456&#39; #修改身份验证为123456
+mysql -uroot -p123456 #登录
+select user,host from user; #查看
+update user set host&#x3D;&#39;%&#39; where host&#x3D;&#39;localhost&#39;; #授权
+flush privileges;#刷新
+select user,host from user; #查看
+
+#(比赛可能会选择第二种)
+yum -y install mysql-community-server #安装mysql
+systemctl daemon-reload #重载所有修改过的配置文件
+systemctl start mysqld #开启服务
+systemctl enable mysqld #开机自启
+grep &#39;temporary password&#39; &#x2F;var&#x2F;log&#x2F;mysqld.log #获取初始密码
+mysql -uroot -p #输入实际生成的登录密码
+set global validate_password_policy&#x3D;0;#设置密码长度等级
+set global validate_password_length&#x3D;4; #设置密码长度
+alter user &#39;root&#39;@&#39;localhost&#39; identified by&#39;123456&#39; #修改密码长度
+mysql -uroot -p123456 #登录
+create user &#39;root&#39;@&#39;%&#39; identified by &#39;123456&#39;; #创建用户
+grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; with grant option; #运行远程连接
+create database hive;
+</code></pre>
+
+<h3 id="3-2hive的安装部署"><a href="#3-2hive的安装部署" class="headerlink" title="3.2hive的安装部署"></a>3.2hive的安装部署</h3><h4 id="3-2-1配置生效安装"><a href="#3-2-1配置生效安装" class="headerlink" title="3.2.1配置生效安装"></a>3.2.1配置生效安装</h4><pre class="language-linux" data-language="linux"><code class="language-linux">#master(客户端)访问metastore和slave1(服务器端) slave1访问slave2的mysql数据库
+#master和slvae1都需要安装hive
+mkdir -p &#x2F;usr&#x2F;hive  #创建对应的文件夹
+tar -zxvf hivexxx.tar.gz #解压
+vi &#x2F;etc&#x2F;profile #修改profile
+export HIVE_HOME&#x3D;&#x2F;usr&#x2F;hive&#x2F;apache-hive-2.3.4-bin 
+export PATH&#x3D;$PATH:$HIVE_HOME&#x2F;bin #加入以上配置
+source &#x2F;etc&#x2F;profile #设置生效
+hive --version #查看hive版本</code></pre>
+
+<h4 id="3-2-2-修改配置文件"><a href="#3-2-2-修改配置文件" class="headerlink" title="3.2.2 修改配置文件"></a>3.2.2 修改配置文件</h4><pre class="language-linux" data-language="linux"><code class="language-linux">cd &#x2F;usr&#x2F;hive&#x2F;apache-hive-2.3.4-bin #进入
+cd conf&#x2F; #进入
+# 01修改hive-env.sh
+vi hive-env.sh #修改hive-env.sh
+#配置HADoop安装路径
+HADOOP_HOME&#x3D;&#x2F;software&#x2F;hadoop-2.7.7
+#配置HIVE文件存放路径
+export HIVE_CONF_DIR&#x3D;&#x2F;usr&#x2F;hive&#x2F;apache-hive-2.3.4-bin&#x2F;conf 
+#配置HIVE_运行资源路径
+export HIVE_AUX_JARS_PATH&#x3D;&#x2F;usr&#x2F;hive&#x2F;apache-hive-2.3.4-bin&#x2F;lib
+
+
+#metastore(服务器端) 操作slave1
+wget -P $HIVE_HOME&#x2F;lib http:&#x2F;&#x2F;..&#x2F;mysql-connector-java-5.1.47-bin.jar  #下载驱动包(在本地源上)
+
+
+#02 服务器端配置 hive-site.xml
+
+&lt;configuration&gt;
+&lt;property&gt;
+&lt;name&gt;hive.metastore.warehouse.dir&lt;&#x2F;name&gt;
+&lt;value&gt;&#x2F;user&#x2F;hive_remote&#x2F;warehouse&lt;&#x2F;value&gt;
+&lt;&#x2F;property&gt;
+
+&lt;!--连接元数据库的链接信息 --&gt;
+&lt;property&gt;
+&lt;name&gt;javax.jdo.option.ConnectionURL&lt;&#x2F;name&gt;
+&lt;value&gt;jdbc:mysql:&#x2F;&#x2F;slave2:3306&#x2F;hivedb?createDatabaseIfNotExist&#x3D;true&amp;useSSL&#x3D;false&amp;useUnicode&#x3D;true&amp;characterEncoding&#x3D;UTF-8&lt;&#x2F;value&gt;
+&lt;description&gt;JDBC connect string for a JDBC metastore&lt;&#x2F;description&gt;
+&lt;&#x2F;property&gt;
+
+&lt;property&gt;
+&lt;!--连接数据库驱动 --&gt;
+&lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;&#x2F;name&gt;
+&lt;value&gt;com.mysql.jdbc.Driver&lt;&#x2F;value&gt;
+&lt;description&gt;Driver class name for a JDBC metastore&lt;&#x2F;description&gt;
+&lt;&#x2F;property&gt;
+
+&lt;!--链接数据库用户名称--&gt;
+&lt;property&gt;
+&lt;name&gt;javax.jdo.option.ConnectionUserName&lt;&#x2F;name&gt;
+&lt;value&gt;root&lt;&#x2F;value&gt;
+&lt;description&gt;username to use against metastore database&lt;&#x2F;description&gt;
+&lt;&#x2F;property&gt;
+
+&lt;!--链接数据库用户密码--&gt;
+&lt;property&gt;
+&lt;name&gt;javax.jdo.option.ConnectionPassword&lt;&#x2F;name&gt;
+&lt;value&gt;123456&lt;&#x2F;value&gt;
+&lt;description&gt;password to use against metastore database&lt;&#x2F;description&gt;
+&lt;&#x2F;property&gt;
+&lt;&#x2F;configuration&gt;
+
+cp $HIVE_HOME&#x2F;lib&#x2F;jline-2.12.jar $HADOOP_HOME&#x2F;share&#x2F;hadoop&#x2F;yarn&#x2F;lib&#x2F;
+
+rm-rf $HADOOP_HOME&#x2F;share&#x2F;hadoop&#x2F;yarn&#x2F;lib&#x2F;xx.x.jar
+
+# 03客户端配置hive-site.xml 在master中的配置
+&lt;configuration&gt;
+&lt;!--Hive产生的元数据存放位置--&gt;
+&lt;property&gt;
+&lt;name&gt;hive.metastore.warehouse.dir&lt;&#x2F;name&gt;
+&lt;value&gt;&#x2F;user&#x2F;hive_remote&#x2F;warehouse&lt;&#x2F;value&gt;
+&lt;&#x2F;property&gt;
+
+&lt;!--使用本地源链接hive，默认为true --&gt;
+&lt;property&gt;
+&lt;name&gt;hive.metastore.local&lt;&#x2F;name&gt;
+&lt;value&gt;false&lt;&#x2F;value&gt;
+&lt;&#x2F;property&gt;
+
+&lt;property&gt;
+&lt;!--链接服务器 --&gt;
+&lt;name&gt;hive.metastore.uris&lt;&#x2F;name&gt;
+&lt;value&gt;thrift:&#x2F;&#x2F;slave1:9083&lt;&#x2F;value&gt;
+&lt;&#x2F;property&gt;
+&lt;&#x2F;configuration&gt;
+
+
+#初始化数据库(在slave1中)
+schematool -dbType derby -initSchema  #格式化
+#启动hive server
+hive --service metastore &amp;
+create database hive;
+create database hive_db;
+
+#启动客户端(在master中)
+hive</code></pre>
+
+<h2 id="4-数据分析"><a href="#4-数据分析" class="headerlink" title="4.数据分析"></a>4.数据分析</h2><pre class="language-none"><code class="language-none">#将数据上传至hdfs指定路径 创建指定文件夹
+hadoop fs -mkdir -p &#x2F;college&#x2F;  
+hadoop fs -put &#x2F;root&#x2F;college&#x2F;loan.csv&#x2F;college&#x2F;
+hadoop fs -ls &#x2F;college&#x2F;
+#创建hive数据库,并将本地数据信息导入
+create database hive;
+
+#创建表获取指定格式,指定信息
+#create table loan() 
+#将本地数据导入至对应表中
+load data local in path &#39;&#x2F;root&#x2F;college&#x2F;loan.csv&#39; into table loan;
+
+#count等函数能够进行数据分析(在hive中运行该命令)
+insert overwrite local directory &#39;&#x2F;root&#x2F;college000&#x2F;01&#x2F;&#39; row format delimited fields terminated by &#39;\t&#39; select count(*)from loan;
+
+
+
+#数据可视化展示
+#使用到echarts 使用JSON.stringify()方法将javascript对象转换为字符串</code></pre>
+
+<h2 id="5-环境变量"><a href="#5-环境变量" class="headerlink" title="5.环境变量"></a>5.环境变量</h2><pre class="language-none"><code class="language-none">#三个节点都需要(一次就行,以后就都不需要了,步骤里面的可以直接跳过)
+vi &#x2F;etc&#x2F;profile
+export JAVA_HOME&#x3D;&#x2F;usr&#x2F;local&#x2F;java
+export HADOOP_HOME&#x3D;&#x2F;usr&#x2F;local&#x2F;hadoop
+export ZOOKEEPER_HOME&#x3D;&#x2F;usr&#x2F;local&#x2F;zookeeper
+export HIVE_HOME&#x3D;&#x2F;usr&#x2F;local&#x2F;hive
+export HBASE_HOME&#x3D;&#x2F;usr&#x2F;local&#x2F;hbase
+export PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin:$HADOOP_HOME&#x2F;bin:$HADOOP_HOME&#x2F;sbin:$HIVE_HOME&#x2F;bin:$ZOOKEEPER_HOME&#x2F;bin:$HBASE_HOME&#x2F;bin
+source &#x2F;etc&#x2F;profile</code></pre></div><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-hand-coin-line"></use></svg></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"></div><div style="display:inline-block"></div><div style="display:inline-block"></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>冰不良</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://bingbuliang.github.io/2020/07/16/bigdate-HA-1/" title="搭建大数据集群">https://bingbuliang.github.io/2020/07/16/bigdate-HA-1/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2021/01/16/autojs_zhidao/" rel="prev" title="写刷知到自动播放手机端脚本"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">写刷知到自动播放手机端脚本</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2020/06/18/shell_practice/" rel="next" title="练手shell题目"><span class="post-nav-text">练手shell题目</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div id="comment"><div class="comment-tooltip text-center"><span>若您无 GitHub 账号，可直接在下方匿名评论。</span><br><span>若您想及时得到回复提醒，建议跳转 GitHub Issues 评论。</span><br><span>若没有本文 Issue，您可以使用 Comment 模版新建。</span><br><a class="hty-button hty-button--raised" id="github-issues" target="_blank" rel="noopener" href="https://github.com/BingBuLiang/BingBuLiang.github.io/issues?q=is:issue+搭建大数据集群">GitHub Issues</a></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://www.beian.miit.gov.cn" target="_blank"></a></div><div class="copyright"><span>&copy; Sun Feb 02 2020 08:00:00 GMT+0800 (中国标准时间) – 2023 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> 冰不良</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v0.7.1</span></div><div class="live_time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(●'◡'●)</span><script>function blog_live_time() {
+  window.setTimeout(blog_live_time, 1000);
+  const start = new Date('2020-02-02T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = " " + passDay + " 天 " + passHour + " 小时 " + passMinute + " 分 " + passSecond + " 秒";
+}
+blog_live_time();
+</script></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#6200ee" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script defer src="/js/search/index.js"></script><script defer src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script><script defer src="https://cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script><script defer src="/js/search/algolia-search.js"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"></div><div class="algolia-results"><div id="algolia-stats"></div><div id="algolia-hits"></div><div class="algolia-pagination" id="algolia-pagination"></div></div></div><script>let date = new Date();
+let today = (date.getMonth() + 1) + "-" + date.getDate()
+if ("4-4".indexOf(today) !== -1) {
+  document.documentElement.style.filter = "grayscale(1)";
+}</script></div><script defer src="/js/hexo-theme-yun.js"></script></body></html>

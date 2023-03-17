@@ -1,0 +1,161 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="抓取学习**的题目"><meta name="keywords" content="python,爬虫"><meta name="author" content="冰不良"><meta name="copyright" content="冰不良"><meta name="theme-color" content="#6200ee"><title>抓取学习**的题目 | 冰不良のblog</title><link rel="shortcut icon" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#6200ee"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script id="yun-config">
+    window.CONFIG = {"root":"/","title":"冰不良の小站","version":"0.7.1","anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"algolia":{"appID":"5WNMZVZKKS","apiKey":"b66222e466f2046a9accd67fc9fcbe08","indexName":"hexo","hits":{"per_page":8},"labels":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容: ${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" defer></script><script src="/js/load-aplayer.js" defer></script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="none" onload="this.media='all'"><script src="//at.alicdn.com/t/font_1140697_rtqh36oinzl.js" async></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><link rel="preconnect" href="https://stats.g.doubleclick.net" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=UA-7FZJ6MEGB5-G"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-7FZJ6MEGB5-G');</script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js" defer></script><script src="/js/pjax.js" defer></script><div class="js-Pjax"></div><meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><canvas id="trianglify"></canvas><script defer src="https://cdn.jsdelivr.net/npm/trianglify@latest/dist/trianglify.min.js"></script><script>document.addEventListener("DOMContentLoaded", () => {
+  const pattern = Trianglify({
+    width: 800,
+    height: 600,
+    cell_size: 75,
+    palette: ["YlGnBu", "GnBu", "Purples", "Blues"],
+  });
+  document.body.appendChild(pattern.canvas(trianglify));
+});</script><div class="container"><a class="sidebar-toggle sidebar-toggle-fixed hty-icon-button"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><aside class="sidebar"><script defer src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button sidebar-nav-active" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel sidebar-panel-active" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about" title="冰不良"><img width="96" loading="lazy" src="/images/%E5%A4%B4%E5%83%8F.jpg" alt="冰不良"></a><div class="site-author-name"><a href="/about/">冰不良</a></div><a class="site-name" href="/about/site.html">冰不良のblog</a><sub class="site-subtitle"></sub><div class="site-desciption">快来和我一起秃头吧！</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item site-state-posts"><a href="/archives" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">17</span></a></div><div class="site-state-item site-state-tags"><a href="/tags" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">14</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-clipboard-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://wpa.qq.com/msgrd?v=3&amp;uin=2330181012&amp;site=qq&amp;menu=yes" title="QQ" target="_blank" style="color:#12B7F5"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-qq-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/BingBuLiang" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:bingbuliang996@163.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://weibo.com/u/5648709252" title="微博" target="_blank" style="color:#E6162D"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-weibo-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/bing-bu-liang-xian-sen?utm_id=0" title="知乎" target="_blank" style="color:#0084FF"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-zhihu-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/470508529" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><i class="ri:genderless-line"></i></a></div></div><div class="sidebar-panel" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content">此文章未包含目录</div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://bingbuliang.github.io/2021/03/13/python-spider-xuexi/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="冰不良"><meta itemprop="description" content="抓取学习**的题目"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="冰不良のblog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline" style="color: undefined">抓取学习**的题目</h1><div class="post-meta"><div class="post-time" style="display:inline-block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2021-03-13 12:21:43" itemprop="dateCreated datePublished" datetime="2021-03-13T12:21:43+08:00">2021-03-13</time></div><div class="post-classify"><span class="post-tag"><a class="tag" href="/tags/python/"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">python</span></a><a class="tag" href="/tags/%E7%88%AC%E8%99%AB/"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">爬虫</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content post-markdown"><p>项目开发是有盆友想抓取学习strong country的题目，项目采用selenium手动模拟，再用etree分析，抓取下来</p>
+<p>项目难点是更新 同一个selenium 访问不同的 url ，源码直接如下，</p>
+<pre class="language-python" data-language="python"><code class="language-python">
+from selenium import webdriver
+from time import sleep
+from lxml import etree
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
+&#39;&#39;&#39;
+https:&#x2F;&#x2F;blog.csdn.net&#x2F;sinat_42349312&#x2F;article&#x2F;details&#x2F;83653342
+&#39;&#39;&#39;
+
+Chrome_Options &#x3D; webdriver.ChromeOptions()
+Chrome_Options.add_argument(&quot;user-data-dir&#x3D;selenium&quot;)
+driver &#x3D; webdriver.Chrome(chrome_options&#x3D;Chrome_Options)
+
+&#39;&#39;&#39;
+思路：
+    判断是填空题还是选择题
+    1. 获得题目内容
+    2. 判断题型
+        2.1 如果是填空题 --&gt; 给填空一个答案
+        2.2 如果是选择题 --&gt; 默认选A  ——&gt;获得四个选项
+    3. 保存
+        3.1 如果是填空题 --&gt; 保存在 填空题文档
+        3.2 如果是选择题 --&gt; 保存在 选择题文档
+            3.2.1 如果是多选题  --&gt; 默认选A
+            3.2.2 如果是单选题  --&gt; 默认选A
+    4. 点击 下一个题目  sleep 如果没有点击下一页手动下一页
+
+
+更新 同一个selenium 访问不同的 url 
+&#39;&#39;&#39;
+
+
+def writeType(filename, questions, answers):
+    with open(filename, &#39;a&#39;, encoding&#x3D;&#39;utf-8&#39;) as f:
+        for question in questions:
+            f.write(question + &#39;\n&#39;)
+        for answer in answers:
+            f.write(answer + &#39;\n&#39;)
+        f.write(&quot;\n\n&quot;)
+
+
+def write_URL(url):
+    with open(&quot;填空.txt&quot;, &#39;a&#39;, encoding&#x3D;&#39;utf-8&#39;) as f:
+        f.write(url + &#39;\n&#39;)
+    f.close()
+    with open(&quot;多选题.txt&quot;, &#39;a&#39;, encoding&#x3D;&#39;utf-8&#39;) as f:
+        f.write(url + &#39;\n&#39;)
+    f.close()
+    with open(&quot;单选题.txt&quot;, &#39;a&#39;, encoding&#x3D;&#39;utf-8&#39;) as f:
+        f.write(url + &#39;\n&#39;)
+    f.close()
+
+
+
+url &#x3D; &#39;https:&#x2F;&#x2F;pc.xuexi.cn&#x2F;points&#x2F;exam-paper-detail.html?id&#x3D;299&#39;
+driver.get(url)
+sleep(7)
+
+# [345, 343, 342, 341, 340, 339, 338, 337, 300, 301, 302]
+
+html &#x3D; driver.page_source
+page &#x3D; 0
+locator &#x3D; (By.ID, &quot;app&quot;)
+# 不想写入文件是哪个链接下的题目 把这一行注释了
+print(&quot;url: &quot;, url)
+write_URL(url)
+while page &lt; 10:  # 共10页，这里是手工指定的
+    WebDriverWait(driver, 10, 0.5).until(
+        EC.presence_of_element_located(locator))
+    # 获取源代码
+    html &#x3D; driver.page_source
+    e &#x3D; etree.HTML(html)
+    # 题型
+    questionTypes &#x3D; e.xpath(&#39;&#x2F;&#x2F;div[@class&#x3D;&quot;question&quot;]&#x2F;div[@class&#x3D;&quot;q-header&quot;]&#x2F;text()&#39;)[0]
+    questionTypes &#x3D; str(questionTypes)
+    # print(type(questionTypes))
+    # print(&quot;题型：&quot;, questionTypes)
+    print(&quot;page :&quot;, page, &quot;题型：&quot;, questionTypes)
+    if &quot;填空&quot; in questionTypes:
+        # 填空题
+        gapFilling &#x3D; e.xpath(&#39;&#x2F;&#x2F;div[@class&#x3D;&quot;question&quot;]&#x2F;div[@class&#x3D;&quot;q-body&quot;]&#x2F;div&#x2F;span&#x2F;text()&#39;)
+        # print(&quot;填空题题目：&quot;, gapFilling)
+        with open(&#39;填空.txt&#39;, &#39;a&#39;, encoding&#x3D;&#39;utf-8&#39;) as f:
+            for data in gapFilling:
+                f.write(data + &#39;\n&#39;)
+            f.write(&quot;\n\n&quot;)
+        driver.find_element_by_xpath(&#39;&#x2F;&#x2F;input[@class&#x3D;&quot;blank&quot;]&#39;).send_keys(&quot;python&quot;)  # 填空写个东西
+        # elif &quot;选&quot; in questionTypes
+    else:
+        # 多选题选择
+        questions &#x3D; e.xpath(&#39;&#x2F;&#x2F;div[@class&#x3D;&quot;question&quot;]&#x2F;div[@class&#x3D;&quot;q-body&quot;]&#x2F;div&#x2F;text()&#39;)
+        # print(&quot;选择题题目：&quot;, questions)
+        answerS &#x3D; e.xpath(&#39;&#x2F;&#x2F;div[@class&#x3D;&quot;question&quot;]&#x2F;div[@class&#x3D;&quot;q-answers&quot;]&#x2F;div&#x2F;text()&#39;)  # 获取选择题的选项
+        if &quot;多选题&quot; in questionTypes:
+            writeType(&quot;多选题.txt&quot;, questions, answerS)
+        else:
+            writeType(&quot;单选题.txt&quot;, questions, answerS)
+        # 如果是选择题默认选A
+        driver.find_element_by_xpath(
+            &#39;&#x2F;&#x2F;div[@class&#x3D;&quot;question&quot;]&#x2F;div[@class&#x3D;&quot;q-answers&quot;]&#x2F;div[1]&#39;).click()
+
+    # 页面跳转
+    sleep(2)
+    driver.find_element_by_xpath(&#39;&#x2F;&#x2F;button[@class&#x3D;&quot;ant-btn next-btn ant-btn-primary&quot;]&#39;).click()
+    page &#x3D; page + 1
+    sleep(2)
+
+# 关闭页面
+driver.execute_script(&#39;window.close()&#39;)
+print(&quot;自动关闭&quot;)
+driver.quit()
+
+</code></pre></div><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-hand-coin-line"></use></svg></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"></div><div style="display:inline-block"></div><div style="display:inline-block"></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>冰不良</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://bingbuliang.github.io/2021/03/13/python-spider-xuexi/" title="抓取学习**的题目">https://bingbuliang.github.io/2021/03/13/python-spider-xuexi/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2021/04/01/java-designer-mode-1/" rel="prev" title="设计者模式——1 创建模型概述篇"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">设计者模式——1 创建模型概述篇</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2021/03/13/mySQL-lock/" rel="next" title="Mysql高级-锁问题"><span class="post-nav-text">Mysql高级-锁问题</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div id="comment"><div class="comment-tooltip text-center"><span>若您无 GitHub 账号，可直接在下方匿名评论。</span><br><span>若您想及时得到回复提醒，建议跳转 GitHub Issues 评论。</span><br><span>若没有本文 Issue，您可以使用 Comment 模版新建。</span><br><a class="hty-button hty-button--raised" id="github-issues" target="_blank" rel="noopener" href="https://github.com/BingBuLiang/BingBuLiang.github.io/issues?q=is:issue+抓取学习**的题目">GitHub Issues</a></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://www.beian.miit.gov.cn" target="_blank"></a></div><div class="copyright"><span>&copy; Sun Feb 02 2020 08:00:00 GMT+0800 (中国标准时间) – 2023 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> 冰不良</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v0.7.1</span></div><div class="live_time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(●'◡'●)</span><script>function blog_live_time() {
+  window.setTimeout(blog_live_time, 1000);
+  const start = new Date('2020-02-02T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = " " + passDay + " 天 " + passHour + " 小时 " + passMinute + " 分 " + passSecond + " 秒";
+}
+blog_live_time();
+</script></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#6200ee" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script defer src="/js/search/index.js"></script><script defer src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script><script defer src="https://cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script><script defer src="/js/search/algolia-search.js"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"></div><div class="algolia-results"><div id="algolia-stats"></div><div id="algolia-hits"></div><div class="algolia-pagination" id="algolia-pagination"></div></div></div><script>let date = new Date();
+let today = (date.getMonth() + 1) + "-" + date.getDate()
+if ("4-4".indexOf(today) !== -1) {
+  document.documentElement.style.filter = "grayscale(1)";
+}</script></div><script defer src="/js/hexo-theme-yun.js"></script></body></html>

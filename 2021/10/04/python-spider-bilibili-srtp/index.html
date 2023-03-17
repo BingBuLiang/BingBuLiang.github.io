@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="抓取B站视频链接"><meta name="keywords" content="python,爬虫"><meta name="author" content="冰不良"><meta name="copyright" content="冰不良"><meta name="theme-color" content="#6200ee"><title>抓取B站视频链接 | 冰不良のblog</title><link rel="shortcut icon" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#6200ee"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script id="yun-config">
+    window.CONFIG = {"root":"/","title":"冰不良の小站","version":"0.7.1","anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"algolia":{"appID":"5WNMZVZKKS","apiKey":"b66222e466f2046a9accd67fc9fcbe08","indexName":"hexo","hits":{"per_page":8},"labels":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容: ${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" defer></script><script src="/js/load-aplayer.js" defer></script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="none" onload="this.media='all'"><script src="//at.alicdn.com/t/font_1140697_rtqh36oinzl.js" async></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><link rel="preconnect" href="https://stats.g.doubleclick.net" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=UA-7FZJ6MEGB5-G"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-7FZJ6MEGB5-G');</script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js" defer></script><script src="/js/pjax.js" defer></script><div class="js-Pjax"></div><meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><canvas id="trianglify"></canvas><script defer src="https://cdn.jsdelivr.net/npm/trianglify@latest/dist/trianglify.min.js"></script><script>document.addEventListener("DOMContentLoaded", () => {
+  const pattern = Trianglify({
+    width: 800,
+    height: 600,
+    cell_size: 75,
+    palette: ["YlGnBu", "GnBu", "Purples", "Blues"],
+  });
+  document.body.appendChild(pattern.canvas(trianglify));
+});</script><div class="container"><a class="sidebar-toggle sidebar-toggle-fixed hty-icon-button"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><aside class="sidebar"><script defer src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button sidebar-nav-active" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel sidebar-panel-active" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about" title="冰不良"><img width="96" loading="lazy" src="/images/%E5%A4%B4%E5%83%8F.jpg" alt="冰不良"></a><div class="site-author-name"><a href="/about/">冰不良</a></div><a class="site-name" href="/about/site.html">冰不良のblog</a><sub class="site-subtitle"></sub><div class="site-desciption">快来和我一起秃头吧！</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="我的主页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item site-state-posts"><a href="/archives" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">17</span></a></div><div class="site-state-item site-state-tags"><a href="/tags" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">14</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-clipboard-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://wpa.qq.com/msgrd?v=3&amp;uin=2330181012&amp;site=qq&amp;menu=yes" title="QQ" target="_blank" style="color:#12B7F5"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-qq-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/BingBuLiang" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:bingbuliang996@163.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://weibo.com/u/5648709252" title="微博" target="_blank" style="color:#E6162D"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-weibo-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.zhihu.com/people/bing-bu-liang-xian-sen?utm_id=0" title="知乎" target="_blank" style="color:#0084FF"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-zhihu-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/470508529" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><i class="ri:genderless-line"></i></a></div></div><div class="sidebar-panel" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content">此文章未包含目录</div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://bingbuliang.github.io/2021/10/04/python-spider-bilibili-srtp/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="冰不良"><meta itemprop="description" content="抓取B站视频链接"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="冰不良のblog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline" style="color: undefined">抓取B站视频链接</h1><div class="post-meta"><div class="post-time" style="display:inline-block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2021-10-04 18:51:43" itemprop="dateCreated datePublished" datetime="2021-10-04T18:51:43+08:00">2021-10-04</time></div><div class="post-classify"><span class="post-tag"><a class="tag" href="/tags/python/"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">python</span></a><a class="tag" href="/tags/%E7%88%AC%E8%99%AB/"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">爬虫</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content post-markdown"><p>接受一个小项目，通过B站的搜索框，抓取对应内容的视频信息并保存下来，视频链接，视频封面链接，点赞量，播放量等,有注释</p>
+<pre class="language-python" data-language="python"><code class="language-python">from fake_useragent import UserAgent
+import requests
+from lxml import etree
+from time import sleep
+import random
+
+
+def get_html(url):
+    headers &#x3D; &#123;&quot;User-Agent&quot;: &quot;Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;94.0.4606.54 Safari&#x2F;537.36&quot;&#125;
+    resp &#x3D; requests.get(url, headers&#x3D;headers)
+    sleep(4)
+    if resp.status_code &#x3D;&#x3D; 200:
+        resp.encoding &#x3D; &#39;utf-8&#39;
+        return resp.text
+    else:
+        return None
+
+
+# 获取页面的所有课程信息
+def pares_list(html):
+    e &#x3D; etree.HTML(html)
+    # 名称 名字 --&gt;name
+    titles &#x3D; e.xpath(&#39;&#x2F;&#x2F;ul[@class&#x3D;&quot;video-list clearfix&quot;]&#x2F;li&#x2F;div&#x2F;div[1]&#x2F;a&#x2F;@title&#39;)
+    # 播放量   --&gt;count
+    watches &#x3D; format_data(e.xpath(&#39;&#x2F;&#x2F;span[@class&#x3D;&quot;so-icon watch-num&quot;]&#x2F;text()&#39;))
+    # 出版时间  --&gt;pubdate
+    pubdateS &#x3D; format_data(e.xpath(&#39;&#x2F;&#x2F;span[@class&#x3D;&quot;so-icon time&quot;]&#x2F;text()&#39;))
+    # 总播放时间长 --&gt;time
+    showTimes &#x3D; format_data(e.xpath(&#39;&#x2F;&#x2F;span[@class&#x3D;&quot;so-imgTag_rb&quot;]&#x2F;text()&#39;))
+    # 地址    --&gt;link
+    addressS &#x3D; [&quot;http:&#123;&#125;&quot;.format(url) for url in e.xpath(&#39;&#x2F;&#x2F;ul[@class&#x3D;&quot;video-list clearfix&quot;]&#x2F;li&#x2F;div&#x2F;div[1]&#x2F;a&#x2F;@href&#39;)]
+    # 封面照片  ———&gt;photo
+    photos &#x3D; [&quot;http:&#123;&#125;&quot;.format(url) for url in e.xpath(&#39;&#x2F;&#x2F;ul[@class&#x3D;&quot;video-list clearfix&quot;]&#x2F;li&#x2F;a&#x2F;div&#x2F;div[1]&#x2F;img&#x2F;@src&#39;)]
+    # 出版者
+    # authors &#x3D; e.xpath(&#39;&#x2F;&#x2F;span[@class&#x3D;&quot;so-icon&quot;]&#x2F;a&#x2F;text()&#39;)
+    # 这个干啥的也忘了
+    # list_data &#x3D; list()
+    id &#x3D; 6
+    dep_id &#x3D;&quot;1&quot;
+    with open(&#39;大数据哔哩哔哩1.txt&#39;, &#39;a&#39;, encoding&#x3D;&#39;utf-8&#39;) as  f:
+        for name, count, pubdate, time, link, photo in zip(titles, watches, pubdateS, showTimes, addressS, photos):
+            id &#x3D; id + 1
+            recindex &#x3D; random.uniform(3, 5)
+            start &#x3D; random.randint(1000, 1300)
+            idStr&#x3D;str(id)
+            recindexStr&#x3D;str(round(recindex,1))
+            startStr&#x3D;str(start)
+            f.write(
+                idStr + &quot;\t&quot; + name + &quot;\t&quot; + dep_id + &quot;\t哔哩哔哩&quot; + count + &quot;\t&quot; + pubdate + &quot;\t&quot; + time + &quot;\t&quot; + recindexStr + &quot;\t&quot; + startStr + &quot;\t&quot; + link + &quot;\t&quot; + photo + &quot;\n&quot;)
+
+
+def format_data(datas):
+    datas_set &#x3D; list()
+    for data in datas:
+        datas_set.append(str(data.strip()))  # strip() 去除空格
+    return datas_set
+
+
+def main():
+    for page in range(1, 2):
+        sleep(6)
+        url &#x3D; &#39;https:&#x2F;&#x2F;search.bilibili.com&#x2F;all?keyword&#x3D;%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B&amp;page&#x3D;&#123;&#125;&#39;.format(
+            page)
+        list_html &#x3D; get_html(url)
+        print(list_html)
+       # pares_list(list_html)
+
+
+if __name__ &#x3D;&#x3D; &#39;__main__&#39;:
+    main()
+</code></pre>
+
+</div><div id="reward-container"><span class="hty-icon-button button-glow" id="reward-button" title="打赏" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === &quot;none&quot;) ? &quot;block&quot; : &quot;none&quot;;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-hand-coin-line"></use></svg></span><div id="reward-comment">I'm so cute. Please give me money.</div><div id="qr" style="display:none;"><div style="display:inline-block"></div><div style="display:inline-block"></div><div style="display:inline-block"></div></div></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>冰不良</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://bingbuliang.github.io/2021/10/04/python-spider-bilibili-srtp/" title="抓取B站视频链接">https://bingbuliang.github.io/2021/10/04/python-spider-bilibili-srtp/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2022/01/01/rabbitmq/" rel="prev" title="中间件——rabbitMQ"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">中间件——rabbitMQ</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2021/06/11/NoSql-what-is/" rel="next" title="NoSql简介"><span class="post-nav-text">NoSql简介</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div id="comment"><div class="comment-tooltip text-center"><span>若您无 GitHub 账号，可直接在下方匿名评论。</span><br><span>若您想及时得到回复提醒，建议跳转 GitHub Issues 评论。</span><br><span>若没有本文 Issue，您可以使用 Comment 模版新建。</span><br><a class="hty-button hty-button--raised" id="github-issues" target="_blank" rel="noopener" href="https://github.com/BingBuLiang/BingBuLiang.github.io/issues?q=is:issue+抓取B站视频链接">GitHub Issues</a></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://www.beian.miit.gov.cn" target="_blank"></a></div><div class="copyright"><span>&copy; Sun Feb 02 2020 08:00:00 GMT+0800 (中国标准时间) – 2023 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> 冰不良</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v0.7.1</span></div><div class="live_time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(●'◡'●)</span><script>function blog_live_time() {
+  window.setTimeout(blog_live_time, 1000);
+  const start = new Date('2020-02-02T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = " " + passDay + " 天 " + passHour + " 小时 " + passMinute + " 分 " + passSecond + " 秒";
+}
+blog_live_time();
+</script></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#6200ee" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a><script defer src="/js/search/index.js"></script><script defer src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script><script defer src="https://cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script><script defer src="/js/search/algolia-search.js"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-close-line"></use></svg></span></div><div class="search-input-container"></div><div class="algolia-results"><div id="algolia-stats"></div><div id="algolia-hits"></div><div class="algolia-pagination" id="algolia-pagination"></div></div></div><script>let date = new Date();
+let today = (date.getMonth() + 1) + "-" + date.getDate()
+if ("4-4".indexOf(today) !== -1) {
+  document.documentElement.style.filter = "grayscale(1)";
+}</script></div><script defer src="/js/hexo-theme-yun.js"></script></body></html>
